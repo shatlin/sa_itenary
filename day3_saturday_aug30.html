@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>Day 3 - Saturday, August 30 | Kruger National Park</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .header h1 {
+            color: #764ba2;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        .header .date {
+            color: #666;
+            font-size: 1.2em;
+        }
+        .header .subtitle {
+            color: #888;
+            margin-top: 10px;
+            font-style: italic;
+        }
+        .navigation {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .nav-btn {
+            background: #764ba2;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: background 0.3s;
+        }
+        .nav-btn:hover {
+            background: #5a3a7e;
+        }
+        .content-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        #map {
+            height: 700px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .schedule {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            max-height: 700px;
+            overflow-y: auto;
+        }
+        .schedule h2 {
+            color: #764ba2;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+        .activity {
+            background: #f8f9fa;
+            border-left: 4px solid #764ba2;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .activity:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .activity.highlight {
+            border-left-color: #28a745;
+            background: #e7f5e7;
+        }
+        .activity-time {
+            color: #764ba2;
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 5px;
+        }
+        .activity.highlight .activity-time {
+            color: #28a745;
+        }
+        .activity-title {
+            font-weight: bold;
+            color: #333;
+            font-size: 1.2em;
+            margin-bottom: 5px;
+        }
+        .activity-location {
+            color: #666;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .activity-notes {
+            color: #888;
+            font-size: 0.9em;
+            font-style: italic;
+            margin-top: 5px;
+        }
+        .activity-wildlife {
+            background: #fff3cd;
+            padding: 5px 10px;
+            border-radius: 3px;
+            margin-top: 5px;
+            font-size: 0.9em;
+        }
+        .activity-road {
+            background: #e3f2fd;
+            padding: 5px 10px;
+            border-radius: 3px;
+            margin-top: 5px;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+        .highlight-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .highlight-card h2 {
+            color: #764ba2;
+            margin-bottom: 15px;
+        }
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        .tip {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 3px solid #667eea;
+        }
+        .tip-title {
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+        .legend {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .legend-title {
+            font-weight: bold;
+            color: #764ba2;
+            margin-bottom: 10px;
+        }
+        .legend-item {
+            display: inline-flex;
+            align-items: center;
+            margin-right: 20px;
+            margin-bottom: 5px;
+        }
+        .legend-marker {
+            width: 30px;
+            height: 30px;
+            margin-right: 8px;
+        }
+        .safari-alert {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .route-options {
+            background: #fff8e1;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .route-option {
+            margin-bottom: 15px;
+            padding: 15px;
+            background: white;
+            border-radius: 5px;
+        }
+        .route-option h4 {
+            color: #764ba2;
+            margin-bottom: 5px;
+        }
+        .wildlife-time-guide {
+            background: #f0f8ff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .time-slot {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .time-slot-time {
+            font-weight: bold;
+            color: #764ba2;
+            width: 120px;
+        }
+        .time-slot-activity {
+            flex: 1;
+        }
+        @media (max-width: 768px) {
+            .content-wrapper {
+                grid-template-columns: 1fr;
+            }
+            #map {
+                height: 350px;
+            }
+            .header h1 {
+                font-size: 1.8em;
+            }
+            .navigation {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .tips-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Day 3 - Kruger Safari Adventure 🦁</h1>
+            <div class="date">Saturday, August 30, 2025</div>
+            <div class="subtitle">Strategic Game Drive Routes for Maximum Wildlife Viewing</div>
+        </div>
+
+        <div class="navigation">
+            <a href="day2_friday_aug29.html" class="nav-btn">
+                <i class="fas fa-chevron-left"></i>
+                Previous Day
+            </a>
+            <a href="index.html" class="nav-btn">
+                <i class="fas fa-home"></i>
+                Overview
+            </a>
+            <a href="day4_sunday_aug31.html" class="nav-btn">
+                Next Day
+                <i class="fas fa-chevron-right"></i>
+            </a>
+        </div>
+
+        <div class="safari-alert">
+            <strong>⏰ Early Start Essential!</strong> Wake at 04:45. Coffee and rusks at lodge. Gates open at 06:00 sharp. Download "Latest Sightings" app before entering for real-time animal locations!
+        </div>
+
+        <div class="legend">
+            <div class="legend-title">Map Legend:</div>
+            <div class="legend-item">
+                <img class="legend-marker" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='10' fill='%23FFD700'/%3E%3Ctext x='12' y='16' text-anchor='middle' fill='black' font-size='12' font-weight='bold'%3EL%3C/text%3E%3C/svg%3E" alt="Lodge">
+                Lodge (Starting Point)
+            </div>
+            <div class="legend-item">
+                <img class="legend-marker" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='10' fill='%2328a745'/%3E%3Ctext x='12' y='16' text-anchor='middle' fill='white' font-size='12' font-weight='bold'%3EG%3C/text%3E%3C/svg%3E" alt="Gate">
+                Park Gates
+            </div>
+            <div class="legend-item">
+                <img class="legend-marker" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='10' fill='%23764ba2'/%3E%3Ctext x='12' y='16' text-anchor='middle' fill='white' font-size='12' font-weight='bold'%3E1%3C/text%3E%3C/svg%3E" alt="Stop">
+                Key Stops
+            </div>
+            <div class="legend-item">
+                <img class="legend-marker" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='10' fill='%23FF6B35'/%3E%3Ctext x='12' y='16' text-anchor='middle' fill='white' font-size='10' font-weight='bold'%3E🦁%3C/text%3E%3C/svg%3E" alt="Wildlife">
+                Prime Wildlife Spots
+            </div>
+        </div>
+
+        <div class="wildlife-time-guide">
+            <h3 style="color: #764ba2; margin-bottom: 15px;">🕐 Wildlife Activity by Time</h3>
+            <div class="time-slot">
+                <span class="time-slot-time">06:00 - 08:00</span>
+                <span class="time-slot-activity">🦁 Predators still active from night hunts - BEST TIME!</span>
+            </div>
+            <div class="time-slot">
+                <span class="time-slot-time">08:00 - 10:00</span>
+                <span class="time-slot-activity">🦒 General game most active - excellent visibility</span>
+            </div>
+            <div class="time-slot">
+                <span class="time-slot-time">10:00 - 14:00</span>
+                <span class="time-slot-activity">💧 Animals at water sources - check dams and rivers</span>
+            </div>
+            <div class="time-slot">
+                <span class="time-slot-time">14:00 - 17:00</span>
+                <span class="time-slot-activity">🐘 Animals become active again as temperature drops</span>
+            </div>
+        </div>
+
+        <div class="content-wrapper">
+            <div id="map"></div>
+            <div class="schedule">
+                <h2>🦒 Detailed Safari Route</h2>
+                
+                <div class="activity">
+                    <div class="activity-time">05:15 - 05:45</div>
+                    <div class="activity-title">Drive to Malelane Gate</div>
+                    <div class="activity-location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Lodge → Malelane Gate (~20 km)
+                    </div>
+                    <div class="activity-notes">Arrive early to be first in line at gate</div>
+                </div>
+
+                <div class="activity highlight">
+                    <div class="activity-time">06:00 - 08:30</div>
+                    <div class="activity-title">Prime Predator Time - S114 & S110</div>
+                    <div class="activity-location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Malelane to Afsaal via strategic routes
+                    </div>
+                    <div class="activity-road">Road S114: Malelane to Berg-en-Dal</div>
+                    <div class="activity-wildlife">🦏 Excellent for rhinos & elephants along riverbed</div>
+                    <div class="activity-road">Matjulu Loop (S110)</div>
+                    <div class="activity-wildlife">🦁 Prime lion territory - drive SLOWLY!</div>
+                    <div class="activity-road">Mathekenyane Viewpoint</div>
+                    <div class="activity-wildlife">🦛 Guaranteed hippos and crocodiles</div>
+                </div>
+
+                <div class="activity">
+                    <div class="activity-time">08:30 - 09:15</div>
+                    <div class="activity-title">Breakfast at Afsaal</div>
+                    <div class="activity-location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Afsaal Picnic Spot
+                    </div>
+                    <div class="activity-notes">Shop, restrooms, often elephants nearby</div>
+                    <div class="activity-wildlife">Check sightings board for recent activity!</div>
+                </div>
+
+                <div class="activity highlight">
+                    <div class="activity-time">09:30 - 11:00</div>
+                    <div class="activity-title">H3 Road - The Famous Cat Road</div>
+                    <div class="activity-location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Afsaal to Lower Sabie
+                    </div>
+                    <div class="activity-road">H3 Road (Main Route)</div>
+                    <div class="activity-wildlife">🐆 Famous for leopards and lions - scan trees!</div>
+                    <div class="activity-road">Sunset Dam Detour</div>
+                    <div class="activity-wildlife">🦛 Hippos, birds, often big cats drinking</div>
+                    <div class="activity-road">S28 Nhlanguleni Road</div>
+                    <div class="activity-wildlife">🐕 Less crowded, excellent for wild dogs</div>
+                </div>
+
+                <div class="activity">
+                    <div class="activity-time">11:30 - 13:00</div>
+                    <div class="activity-title">Lunch at Lower Sabie</div>
+                    <div class="activity-location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Lower Sabie Rest Camp
+                    </div>
+                    <div class="activity-notes">Better restaurant than Skukuza, great deck views</div>
+                    <div class="activity-road">Lower Sabie Bridge</div>
+                    <div class="activity-wildlife">🐊 Always has hippos, crocs, and birds</div>
+                    <div class="activity-notes">CHECK SIGHTINGS BOARD for afternoon route!</div>
+                </div>
+
+                <div class="activity highlight">
+                    <div class="activity-time">13:00 - 17:15</div>
+                    <div class="activity-title">Afternoon Strategic Routes</div>
+                    <div class="activity-location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Choose based on morning sightings
+                    </div>
+                    <div class="activity-notes">TWO OPTIONS - Choose based on what you haven't seen:</div>
+                </div>
+
+                <div class="activity">
+                    <div class="activity-time">Option A</div>
+                    <div class="activity-title">Big Cat Focus Route</div>
+                    <div class="activity-road">S28 to S29 Loop</div>
+                    <div class="activity-wildlife">🐆 Leopard hotspot - check all large trees</div>
+                    <div class="activity-road">Mlondozi Dam</div>
+                    <div class="activity-wildlife">🐘 Late afternoon elephant gathering spot</div>
+                    <div class="activity-road">Return via S25</div>
+                    <div class="activity-wildlife">🦁 Often lions in late afternoon</div>
+                </div>
+
+                <div class="activity">
+                    <div class="activity-time">Option B</div>
+                    <div class="activity-title">Diverse Wildlife Route</div>
+                    <div class="activity-road">H10 Road East</div>
+                    <div class="activity-wildlife">🦒 Good general game viewing</div>
+                    <div class="activity-road">Transport Dam (S126)</div>
+                    <div class="activity-wildlife">🦏 Quieter spot, often white rhinos</div>
+                    <div class="activity-road">Biyamiti Loop (S129)</div>
+                    <div class="activity-wildlife">⭐ If time permits - excellent for everything!</div>
+                </div>
+
+                <div class="activity">
+                    <div class="activity-time">17:15 - 18:00</div>
+                    <div class="activity-title">Exit Park & Return</div>
+                    <div class="activity-location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Malelane Gate → Lodge
+                    </div>
+                    <div class="activity-notes">MUST exit by 18:00 - fines for late exit!</div>
+                    <div class="activity-wildlife">Often see animals heading to water on exit drive</div>
+                </div>
+
+                <div class="activity">
+                    <div class="activity-time">19:00 - 20:30</div>
+                    <div class="activity-title">Dinner at Lodge</div>
+                    <div class="activity-location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Lodge Restaurant
+                    </div>
+                    <div class="activity-notes">Share safari stories, review photos</div>
+                    <div class="activity-wildlife">Book spa for tired muscles!</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="route-options">
+            <h3 style="color: #764ba2; margin-bottom: 15px;">🗺️ Pro Route Tips</h3>
+            <div class="route-option">
+                <h4>🌟 Must-Do Roads</h4>
+                <ul>
+                    <li><strong>S114:</strong> The rhino road - drive slowly along dry riverbed</li>
+                    <li><strong>H3:</strong> The legendary cat road - everyone sees something here</li>
+                    <li><strong>S28:</strong> Less busy but incredibly productive for rare sightings</li>
+                </ul>
+            </div>
+            <div class="route-option">
+                <h4>🔍 Secret Spots</h4>
+                <ul>
+                    <li><strong>Vurhami Loop:</strong> If you have 30 extra minutes - often cheetahs</li>
+                    <li><strong>Duke's Water Hole:</strong> Turn-off on S114 - usually quiet with good sightings</li>
+                    <li><strong>Nkumbe View Site:</strong> On H3 - panoramic views, often raptors</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="highlight-card">
+            <h2>🌟 Expert Safari Tips</h2>
+            <div class="tips-grid">
+                <div class="tip">
+                    <div class="tip-title">📱 Technology</div>
+                    <div>Download "Latest Sightings" app before entering. No signal in most of park. Take car charger.</div>
+                </div>
+                <div class="tip">
+                    <div class="tip-title">👀 Spotting Tricks</div>
+                    <div>Look for: Birds circling (kill), cars stopped (sighting), animals looking in one direction (predator nearby).</div>
+                </div>
+                <div class="tip">
+                    <div class="tip-title">🚗 Driving Strategy</div>
+                    <div>20-30 km/h on S roads for best sightings. Stop at every water source. Turn engine off at sightings.</div>
+                </div>
+                <div class="tip">
+                    <div class="tip-title">📸 Photography</div>
+                    <div>Bean bag for camera stability. Shoot from driver's side when alone. Binoculars essential!</div>
+                </div>
+                <div class="tip">
+                    <div class="tip-title">🦁 Big 5 Timing</div>
+                    <div>Lions: 06:00-08:00. Leopards: Check trees on H3. Elephants: Afternoon at water. Rhinos: S114 early. Buffalo: Anywhere!</div>
+                </div>
+                <div class="tip">
+                    <div class="tip-title">💡 Golden Rule</div>
+                    <div>First 2 hours = 50% of sightings. Be at gate at 06:00! Every minute after sunrise reduces cat sightings.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // Initialize the map centered on southern Kruger
+        const map = L.map('map').setView([-25.3, 31.5], 11);
+        
+        // Add tile layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Define detailed locations
+        const locations = [
+            {name: "Nkomazi Lodge", lat: -25.4731, lng: 31.2056, type: "lodge"},
+            {name: "1. Malelane Gate", lat: -25.4608, lng: 31.5450, type: "gate", time: "06:00"},
+            {name: "2. Matjulu Loop (S110)", lat: -25.4200, lng: 31.5200, type: "wildlife", highlight: "Lions"},
+            {name: "3. Mathekenyane Viewpoint", lat: -25.3900, lng: 31.4900, type: "wildlife", highlight: "Hippos"},
+            {name: "4. Afsaal Picnic Spot", lat: -25.3167, lng: 31.4333, type: "stop", time: "08:30"},
+            {name: "5. Sunset Dam", lat: -25.1500, lng: 31.6000, type: "wildlife", highlight: "Cats"},
+            {name: "6. Lower Sabie Camp", lat: -25.1200, lng: 31.9153, type: "stop", time: "11:30"},
+            {name: "7. S28 Road", lat: -25.2000, lng: 31.7500, type: "wildlife", highlight: "Leopards"},
+            {name: "8. Transport Dam", lat: -25.3500, lng: 31.6500, type: "wildlife", highlight: "Rhinos"},
+            {name: "9. Return to Malelane", lat: -25.4608, lng: 31.5450, type: "gate", time: "17:15"}
+        ];
+
+        // Custom icons
+        const lodgeIcon = L.divIcon({
+            html: '<div style="background-color: #FFD700; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 2px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.3);">L</div>',
+            iconSize: [30, 30],
+            iconAnchor: [15, 15]
+        });
+
+        const gateIcon = L.divIcon({
+            html: '<div style="background-color: #28a745; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; border: 2px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.3);">G</div>',
+            iconSize: [30, 30],
+            iconAnchor: [15, 15]
+        });
+
+        const wildlifeIcon = (emoji) => L.divIcon({
+            html: `<div style="background-color: #FF6B35; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; font-size: 16px; border: 2px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.3);">${emoji}</div>`,
+            iconSize: [30, 30],
+            iconAnchor: [15, 15]
+        });
+
+        // Wildlife emojis for different spots
+        const wildlifeEmojis = {
+            "Lions": "🦁",
+            "Hippos": "🦛", 
+            "Cats": "🐆",
+            "Leopards": "🐆",
+            "Rhinos": "🦏"
+        };
+
+        // Add markers
+        locations.forEach((loc, index) => {
+            let icon;
+            if (loc.type === "lodge") {
+                icon = lodgeIcon;
+            } else if (loc.type === "gate") {
+                icon = gateIcon;
+            } else if (loc.type === "wildlife") {
+                icon = wildlifeIcon(wildlifeEmojis[loc.highlight] || "🦒");
+            } else {
+                icon = L.divIcon({
+                    html: `<div style="background-color: #764ba2; color: white; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 2px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.3);">${index}</div>`,
+                    iconSize: [30, 30],
+                    iconAnchor: [15, 15]
+                });
+            }
+            
+            L.marker([loc.lat, loc.lng], {icon: icon})
+                .addTo(map)
+                .bindPopup(`<strong>${loc.name}</strong>${loc.time ? '<br>Time: ' + loc.time : ''}${loc.highlight ? '<br>Known for: ' + loc.highlight : ''}`);
+        });
+
+        // Draw main safari route
+        const safariRoute = [
+            [locations[0].lat, locations[0].lng], // Lodge
+            [locations[1].lat, locations[1].lng], // Malelane Gate
+            [locations[2].lat, locations[2].lng], // Matjulu Loop
+            [locations[3].lat, locations[3].lng], // Mathekenyane
+            [locations[4].lat, locations[4].lng], // Afsaal
+            [locations[5].lat, locations[5].lng], // Sunset Dam
+            [locations[6].lat, locations[6].lng], // Lower Sabie
+            [locations[7].lat, locations[7].lng], // S28 Road
+            [locations[8].lat, locations[8].lng], // Transport Dam
+            [locations[9].lat, locations[9].lng], // Back to Malelane
+            [locations[0].lat, locations[0].lng]  // Lodge
+        ];
+
+        // Main route line
+        L.polyline(safariRoute, {
+            color: '#FF6B35',
+            weight: 4,
+            opacity: 0.7,
+            dashArray: '10, 10',
+            smoothFactor: 1
+        }).addTo(map);
+
+        // Add specific road highlights
+        // S114 Road (Rhino Road)
+        L.polyline([[-25.4608, 31.5450], [-25.4000, 31.5000]], {
+            color: '#4CAF50',
+            weight: 6,
+            opacity: 0.4
+        }).addTo(map).bindPopup('S114 - Rhino Road');
+
+        // H3 Road (Cat Road)
+        L.polyline([[-25.3167, 31.4333], [-25.1200, 31.9153]], {
+            color: '#FFC107',
+            weight: 6,
+            opacity: 0.4
+        }).addTo(map).bindPopup('H3 - Famous Cat Road');
+
+        // Add Kruger boundary indication (simplified)
+        const krugerBoundary = [
+            [-25.5, 31.4],
+            [-24.9, 31.4],
+            [-24.9, 32.0],
+            [-25.5, 32.0],
+            [-25.5, 31.4]
+        ];
+
+        L.polygon(krugerBoundary, {
+            color: 'green',
+            weight: 2,
+            opacity: 0.5,
+            fillColor: '#90EE90',
+            fillOpacity: 0.1
+        }).addTo(map);
+
+        // Add water sources as blue circles
+        const waterSources = [
+            {name: "Sunset Dam", lat: -25.1500, lng: 31.6000},
+            {name: "Transport Dam", lat: -25.3500, lng: 31.6500},
+            {name: "Mlondozi Dam", lat: -25.2800, lng: 31.7200},
+            {name: "Duke's Water Hole", lat: -25.4300, lng: 31.5300}
+        ];
+
+        waterSources.forEach(water => {
+            L.circle([water.lat, water.lng], {
+                color: 'blue',
+                fillColor: '#30B0FF',
+                fillOpacity: 0.3,
+                radius: 500
+            }).addTo(map).bindPopup(water.name);
+        });
+
+        // Fit map to show all markers
+        const group = L.featureGroup(locations.map(loc => L.marker([loc.lat, loc.lng])));
+        map.fitBounds(group.getBounds().pad(0.1));
+    </script>
+</body>
+</html>

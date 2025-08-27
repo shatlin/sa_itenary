@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>Day 5 - Monday, September 1 | Lions & Leisure</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .header h1 {
+            color: #764ba2;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        .header .date {
+            color: #666;
+            font-size: 1.2em;
+        }
+        .header .subtitle {
+            color: #888;
+            margin-top: 10px;
+            font-style: italic;
+        }
+        .navigation {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .nav-btn {
+            background: #764ba2;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: background 0.3s;
+        }
+        .nav-btn:hover {
+            background: #5a3a7e;
+        }
+        .content-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        #map {
+            height: 600px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .schedule {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        .schedule h2 {
+            color: #764ba2;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+        .activity {
+            background: #f8f9fa;
+            border-left: 4px solid #764ba2;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .activity:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .activity.fixed-appointment {
+            border-left-color: #dc3545;
+            background: #ffe6e6;
+        }
+        .activity-time {
+            color: #764ba2;
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 5px;
+        }
+        .activity.fixed-appointment .activity-time {
+            color: #dc3545;
+        }
+        .activity-title {
+            font-weight: bold;
+            color: #333;
+            font-size: 1.2em;
+            margin-bottom: 5px;
+        }
+        .activity-location {
+            color: #666;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .activity-notes {
+            color: #888;
+            font-size: 0.9em;
+            font-style: italic;
+            margin-top: 5px;
+        }
+        .activity-alternative {
+            background: #fff3cd;
+            padding: 5px 10px;
+            border-radius: 3px;
+            margin-top: 5px;
+            font-size: 0.9em;
+        }
+        .highlight-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .highlight-card h2 {
+            color: #764ba2;
+            margin-bottom: 15px;
+        }
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        .tip {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 3px solid #667eea;
+        }
+        .tip-title {
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+        .legend {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .legend-title {
+            font-weight: bold;
+            color: #764ba2;
+            margin-bottom: 10px;
+        }
+        .legend-item {
+            display: inline-flex;
+            align-items: center;
+            margin-right: 20px;
+            margin-bottom: 5px;
+        }
+        .legend-marker {
+            width: 30px;
+            height: 30px;
+            margin-right: 8px;
+        }
+        .appointment-alert {
+            background: #ffe6e6;
+            border-left: 4px solid #dc3545;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        @media (max-width: 768px) {
+            .content-wrapper {
+                grid-template-columns: 1fr;
+            }
+            #map {
+                height: 350px;
+            }
+            .header h1 {
+                font-size: 1.8em;
+            }
+            .navigation {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Day 5 - Lion Park & City 🦁</h1>
+            <div class="date">Monday, September 1, 2025</div>
+            <div class="subtitle">Wildlife Experience & Physio Appointment</div>
+        </div>
+
+        <div class="navigation">
+            <a href="day4_sunday_aug31.html" class="nav-btn">
+                <i class="fas fa-chevron-left"></i>
+                Previous Day
+            </a>
+            <a href="index.html" class="nav-btn">
+                <i class="fas fa-home"></i>
+                Overview
+            </a>
+            <a href="day6_tuesday_sep02.html" class="nav-btn">
+                Next Day
+                <i class="fas fa-chevron-right"></i>
+            </a>
+        </div>
+
+        <div class="appointment-alert">
+            <strong>📍 Fixed Appointment!</strong> Physio session at 15:30 in Johannesburg. Plan your day around this appointment.
+        </div>
+
+        <div class="legend">
+            <div class="legend-title">Map Legend:</div>
+            <div class="legend-item">
+                <img class="legend-marker" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%2300FF00' d='M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z'/%3E%3Ctext x='12' y='12' text-anchor='middle' fill='black' font-size='10' font-weight='bold'%3EH%3C/text%3E%3C/svg%3E" alt="Home">
+                Home (Starting Point)
+            </div>
+            <div class="legend-item">
+                <img class="legend-marker" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='10' fill='%23764ba2'/%3E%3Ctext x='12' y='16' text-anchor='middle' fill='white' font-size='12' font-weight='bold'%3E1%3C/text%3E%3C/svg%3E" alt="Activity">
+                Activity Stops
+            </div>
+            <div class="legend-item">
+                <img class="legend-marker" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='10' fill='%23dc3545'/%3E%3Ctext x='12' y='16' text-anchor='middle' fill='white' font-size='12' font-weight='bold'%3EP%3C/text%3E%3C/svg%3E" alt="Physio">
+                Physio Appointment
+            </div>
+        </div>
+
+        <div class="content-wrapper">
+            <div id="map"></div>
+            <div class="schedule">
+                <h2>📅 Today's Schedule</h2>
+                
+                <div class="activity">
+                    <div class="activity-time">08:30 - 09:00</div>
+                    <div class="activity-title">Drive to Lion Park</div>
+                    <div class="activity-location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Morningside → Lanseria
+                    </div>
+                    <div class="activity-notes">Avoid peak Sandton traffic</div>
+                    <div class="activity-alternative">Alternative: Rhino & Lion Nature Reserve</div>
+                </div>
+
+                <div class="activity">
+                    <div class="activity-time">09:30 - 12:00</div>
+                    <div class="activity-title">Lion & Safari Park</div>
+                    <div class="activity-location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Lanseria
+                    </div>
+                    <div class="activity-notes">Self-drive or guided tour available</div>
+                    <div class="activity-alternative">Book 10:00 guided drive if preferred</div>
+                </div>
+
+                <div class="activity">
+                    <div class="activity-time">12:15 - 13:30</div>
+                    <div class="activity-title">Lunch</div>
+                    <div class="activity-location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Wetlands Restaurant (on-site)
+                    </div>
+                    <div class="activity-notes">Relaxed meal at the park</div>
+                    <div class="activity-alternative">Alternative: The Fat Olive nearby</div>
+                </div>
+
+                <div class="activity">
+                    <div class="activity-time">13:30 - 15:00</div>
+                    <div class="activity-title">Return to Sandton</div>
+                    <div class="activity-location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Drive back to Morningside
+                    </div>
+                    <div class="activity-notes">Buffer time before physio</div>
+                </div>
+
+                <div class="activity fixed-appointment">
+                    <div class="activity-time">15:30 - 16:30</div>
+                    <div class="activity-title">⚡ PHYSIO APPOINTMENT (Fixed)</div>
+                    <div class="activity-location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Johannesburg
+                    </div>
+                    <div class="activity-notes">Fixed appointment - don't be late!</div>
+                </div>
+
+                <div class="activity">
+                    <div class="activity-time">17:00 - 18:00</div>
+                    <div class="activity-title">Shopping & Coffee</div>
+                    <div class="activity-location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Sandton City or Rosebank Mall
+                    </div>
+                    <div class="activity-notes">Souvenirs & gifts shopping</div>
+                    <div class="activity-alternative">Quick snack break</div>
+                </div>
+
+                <div class="activity">
+                    <div class="activity-time">18:30 - 20:00</div>
+                    <div class="activity-title">Dinner</div>
+                    <div class="activity-location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        The Grillhouse, Sandton
+                    </div>
+                    <div class="activity-notes">Classic SA steakhouse experience</div>
+                    <div class="activity-alternative">Alternative: Mozambik, Mandela Square</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="highlight-card">
+            <h2>🦁 Lion Park Experience</h2>
+            <div class="tips-grid">
+                <div class="tip">
+                    <div class="tip-title">🚗 Self-Drive Safari</div>
+                    <div>4km self-drive route to see lions, wild dogs, and other predators up close.</div>
+                </div>
+                <div class="tip">
+                    <div class="tip-title">🦒 Animal Interactions</div>
+                    <div>Giraffe feeding, cub interactions (if available), and cheetah walks available.</div>
+                </div>
+                <div class="tip">
+                    <div class="tip-title">⏰ Best Times</div>
+                    <div>Feeding times: 10:00 and 14:00. Plan your visit around these for best viewing.</div>
+                </div>
+                <div class="tip">
+                    <div class="tip-title">💰 Entry Fees</div>
+                    <div>Adults ~R200, additional for guided tours and interactions.</div>
+                </div>
+                <div class="tip">
+                    <div class="tip-title">📍 Important</div>
+                    <div>Leave Lion Park by 13:30 to ensure you're back for physio at 15:30!</div>
+                </div>
+                <div class="tip">
+                    <div class="tip-title">🛍️ Shopping</div>
+                    <div>Sandton City and Rosebank have great African craft shops for souvenirs.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // Initialize the map
+        const map = L.map('map').setView([-26.05, 27.95], 10);
+        
+        // Add tile layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Define locations
+        const locations = [
+            {name: "Home - Morningside", lat: -26.0927, lng: 28.0568, type: "home"},
+            {name: "1. Lion & Safari Park", lat: -25.9900, lng: 27.9294, type: "activity", time: "09:30-12:00"},
+            {name: "2. Lunch at Park", lat: -25.9900, lng: 27.9294, type: "activity", time: "12:15"},
+            {name: "3. Physio Appointment", lat: -26.1075, lng: 28.0567, type: "physio", time: "15:30"},
+            {name: "4. Sandton City", lat: -26.1084, lng: 28.0540, type: "activity", time: "17:00"},
+            {name: "5. Dinner - The Grillhouse", lat: -26.1076, lng: 28.0556, type: "activity", time: "18:30"}
+        ];
+
+        // Custom icons
+        const homeIcon = L.divIcon({
+            html: '<div style="background-color: #00FF00; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 2px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.3);">H</div>',
+            iconSize: [30, 30],
+            iconAnchor: [15, 15]
+        });
+
+        const physioIcon = L.divIcon({
+            html: '<div style="background-color: #dc3545; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; border: 2px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.3);">P</div>',
+            iconSize: [30, 30],
+            iconAnchor: [15, 15]
+        });
+
+        // Add markers
+        locations.forEach((loc, index) => {
+            let icon;
+            if (loc.type === "home") {
+                icon = homeIcon;
+            } else if (loc.type === "physio") {
+                icon = physioIcon;
+            } else {
+                icon = L.divIcon({
+                    html: `<div style="background-color: #764ba2; color: white; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 2px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.3);">${index}</div>`,
+                    iconSize: [30, 30],
+                    iconAnchor: [15, 15]
+                });
+            }
+            
+            L.marker([loc.lat, loc.lng], {icon: icon})
+                .addTo(map)
+                .bindPopup(`<strong>${loc.name}</strong>${loc.time ? '<br>Time: ' + loc.time : ''}`);
+        });
+
+        // Draw route
+        const routeCoordinates = [
+            [locations[0].lat, locations[0].lng], // Home
+            [locations[1].lat, locations[1].lng], // Lion Park
+            [locations[0].lat, locations[0].lng], // Back home
+            [locations[3].lat, locations[3].lng], // Physio
+            [locations[4].lat, locations[4].lng], // Sandton City
+            [locations[5].lat, locations[5].lng], // Dinner
+            [locations[0].lat, locations[0].lng]  // Home
+        ];
+
+        L.polyline(routeCoordinates, {
+            color: '#FF0000',
+            weight: 3,
+            opacity: 0.7,
+            dashArray: '10, 10',
+            smoothFactor: 1
+        }).addTo(map);
+
+        // Fit map to show all markers
+        const group = L.featureGroup(locations.map(loc => L.marker([loc.lat, loc.lng])));
+        map.fitBounds(group.getBounds().pad(0.1));
+    </script>
+</body>
+</html>

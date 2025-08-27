@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>Day 4 - Sunday, August 31 | Panorama Route</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .header h1 {
+            color: #764ba2;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        .header .date {
+            color: #666;
+            font-size: 1.2em;
+        }
+        .header .subtitle {
+            color: #888;
+            margin-top: 10px;
+            font-style: italic;
+        }
+        .navigation {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .nav-btn {
+            background: #764ba2;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: background 0.3s;
+        }
+        .nav-btn:hover {
+            background: #5a3a7e;
+        }
+        .content-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        #map {
+            height: 600px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .schedule {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        .schedule h2 {
+            color: #764ba2;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+        .activity {
+            background: #f8f9fa;
+            border-left: 4px solid #764ba2;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .activity:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .activity-time {
+            color: #764ba2;
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 5px;
+        }
+        .activity-title {
+            font-weight: bold;
+            color: #333;
+            font-size: 1.2em;
+            margin-bottom: 5px;
+        }
+        .activity-location {
+            color: #666;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .activity-notes {
+            color: #888;
+            font-size: 0.9em;
+            font-style: italic;
+            margin-top: 5px;
+        }
+        .activity-alternative {
+            background: #fff3cd;
+            padding: 5px 10px;
+            border-radius: 3px;
+            margin-top: 5px;
+            font-size: 0.9em;
+        }
+        .highlight-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .highlight-card h2 {
+            color: #764ba2;
+            margin-bottom: 15px;
+        }
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        .tip {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 3px solid #667eea;
+        }
+        .tip-title {
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+        .legend {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .legend-title {
+            font-weight: bold;
+            color: #764ba2;
+            margin-bottom: 10px;
+        }
+        .legend-item {
+            display: inline-flex;
+            align-items: center;
+            margin-right: 20px;
+            margin-bottom: 5px;
+        }
+        .legend-marker {
+            width: 30px;
+            height: 30px;
+            margin-right: 8px;
+        }
+        .warning-alert {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        @media (max-width: 768px) {
+            .content-wrapper {
+                grid-template-columns: 1fr;
+            }
+            #map {
+                height: 350px;
+            }
+            .header h1 {
+                font-size: 1.8em;
+            }
+            .navigation {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Day 4 - Panorama Route & Return 🏔️</h1>
+            <div class="date">Sunday, August 31, 2025</div>
+            <div class="subtitle">Scenic Wonders & Journey Back to Johannesburg</div>
+        </div>
+
+        <div class="navigation">
+            <a href="day3_saturday_aug30.html" class="nav-btn">
+                <i class="fas fa-chevron-left"></i>
+                Previous Day
+            </a>
+            <a href="index.html" class="nav-btn">
+                <i class="fas fa-home"></i>
+                Overview
+            </a>
+            <a href="day5_monday_sep01.html" class="nav-btn">
+                Next Day
+                <i class="fas fa-chevron-right"></i>
+            </a>
+        </div>
+
+        <div class="warning-alert">
+            <strong>⚠️ Long Drive Day!</strong> ~380km return journey to Johannesburg. Early checkout at 06:30. Expect to arrive home around 20:30.
+        </div>
+
+        <div class="legend">
+            <div class="legend-title">Map Legend:</div>
+            <div class="legend-item">
+                <img class="legend-marker" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='10' fill='%23FFD700'/%3E%3Ctext x='12' y='16' text-anchor='middle' fill='black' font-size='12' font-weight='bold'%3EL%3C/text%3E%3C/svg%3E" alt="Lodge">
+                Lodge (Starting Point)
+            </div>
+            <div class="legend-item">
+                <img class="legend-marker" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='10' fill='%23764ba2'/%3E%3Ctext x='12' y='16' text-anchor='middle' fill='white' font-size='12' font-weight='bold'%3E1%3C/text%3E%3C/svg%3E" alt="Stop">
+                Panorama Stops
+            </div>
+            <div class="legend-item">
+                <img class="legend-marker" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%2300FF00' d='M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z'/%3E%3Ctext x='12' y='12' text-anchor='middle' fill='black' font-size='10' font-weight='bold'%3EH%3C/text%3E%3C/svg%3E" alt="Home">
+                Home (Destination)
+            </div>
+        </div>
+
+        <div class="content-wrapper">
+            <div id="map"></div>
+            <div class="schedule">
+                <h2>⛰️ Today's Journey</h2>
+                
+                <div class="activity">
+                    <div class="activity-time">06:30 - 07:00</div>
+                    <div class="activity-title">Check-out from Lodge</div>
+                    <div class="activity-location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Nkomazi Lodge
+                    </div>
+                    <div class="activity-notes">Early departure for full day</div>
+                </div>
+
+                <div class="activity">
+                    <div class="activity-time">07:00 - 09:30</div>
+                    <div class="activity-title">Drive to Graskop</div>
+                    <div class="activity-location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Malelane → Graskop
+                    </div>
+                    <div class="activity-notes">~2-2.5 hours scenic drive</div>
+                    <div class="activity-alternative">Coffee stop in White River</div>
+                </div>
+
+                <div class="activity">
+                    <div class="activity-time">09:30 - 11:00</div>
+                    <div class="activity-title">Graskop Gorge Lift Co</div>
+                    <div class="activity-location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Graskop
+                    </div>
+                    <div class="activity-notes">Walks & spectacular views</div>
+                    <div class="activity-alternative">Alternative: God's Window first if clear</div>
+                </div>
+
+                <div class="activity">
+                    <div class="activity-time">11:10 - 12:00</div>
+                    <div class="activity-title">God's Window</div>
+                    <div class="activity-location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Panorama Route
+                    </div>
+                    <div class="activity-notes">Short walk, weather dependent views</div>
+                    <div class="activity-alternative">Alternative: Wonder View</div>
+                </div>
+
+                <div class="activity">
+                    <div class="activity-time">12:10 - 13:10</div>
+                    <div class="activity-title">Lunch</div>
+                    <div class="activity-location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Harrie's Pancakes, Graskop
+                    </div>
+                    <div class="activity-notes">Famous local pancake house</div>
+                    <div class="activity-alternative">Alternative: The Glass House</div>
+                </div>
+
+                <div class="activity">
+                    <div class="activity-time">13:30 - 14:30</div>
+                    <div class="activity-title">Bourke's Luck Potholes</div>
+                    <div class="activity-location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Panorama Route
+                    </div>
+                    <div class="activity-notes">Walkways & bridges over potholes</div>
+                    <div class="activity-alternative">Alternative: Berlin Falls</div>
+                </div>
+
+                <div class="activity">
+                    <div class="activity-time">14:50 - 15:30</div>
+                    <div class="activity-title">Three Rondavels</div>
+                    <div class="activity-location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Blyde River Canyon
+                    </div>
+                    <div class="activity-notes">Iconic viewpoint - must see!</div>
+                    <div class="activity-alternative">Alternative: Lowveld View</div>
+                </div>
+
+                <div class="activity">
+                    <div class="activity-time">15:30 - 20:30</div>
+                    <div class="activity-title">Drive Back to JHB</div>
+                    <div class="activity-location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        ~380 km journey
+                    </div>
+                    <div class="activity-notes">~4.5-5h drive, arrive home ~20:30</div>
+                    <div class="activity-alternative">Dinner stop at Alzu Petroport</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="highlight-card">
+            <h2>🗺️ Panorama Route Highlights</h2>
+            <div class="tips-grid">
+                <div class="tip">
+                    <div class="tip-title">📸 Photo Stops</div>
+                    <div>God's Window and Three Rondavels are the most photogenic spots - don't rush!</div>
+                </div>
+                <div class="tip">
+                    <div class="tip-title">☁️ Weather</div>
+                    <div>Morning mist common at viewpoints. If cloudy, prioritize Bourke's Luck Potholes.</div>
+                </div>
+                <div class="tip">
+                    <div class="tip-title">💰 Entry Fees</div>
+                    <div>Small entry fees at each stop (R20-50). Keep cash handy.</div>
+                </div>
+                <div class="tip">
+                    <div class="tip-title">🚗 Long Return</div>
+                    <div>380km back to JHB. Consider dinner stop at Alzu Petroport to break journey.</div>
+                </div>
+                <div class="tip">
+                    <div class="tip-title">🥞 Must Try</div>
+                    <div>Harrie's Pancakes is a Graskop institution - try savory and sweet options!</div>
+                </div>
+                <div class="tip">
+                    <div class="tip-title">⏰ Time Management</div>
+                    <div>Don't linger too long - need to leave by 15:30 to reach home by 20:30.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // Initialize the map
+        const map = L.map('map').setView([-25.0, 30.5], 8);
+        
+        // Add tile layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Define locations
+        const locations = [
+            {name: "Nkomazi Lodge", lat: -25.4731, lng: 31.2056, type: "lodge"},
+            {name: "1. Graskop", lat: -24.9333, lng: 30.8417, type: "stop", time: "09:30"},
+            {name: "2. God's Window", lat: -24.8731, lng: 30.8944, type: "stop", time: "11:10"},
+            {name: "3. Bourke's Luck Potholes", lat: -24.6731, lng: 30.8122, type: "stop", time: "13:30"},
+            {name: "4. Three Rondavels", lat: -24.5486, lng: 30.8147, type: "stop", time: "14:50"},
+            {name: "5. Alzu Petroport", lat: -25.9167, lng: 28.7500, type: "stop", time: "~18:00"},
+            {name: "Home - Morningside", lat: -26.0927, lng: 28.0568, type: "home", time: "~20:30"}
+        ];
+
+        // Custom icons
+        const lodgeIcon = L.divIcon({
+            html: '<div style="background-color: #FFD700; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 2px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.3);">L</div>',
+            iconSize: [30, 30],
+            iconAnchor: [15, 15]
+        });
+
+        const homeIcon = L.divIcon({
+            html: '<div style="background-color: #00FF00; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 2px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.3);">H</div>',
+            iconSize: [30, 30],
+            iconAnchor: [15, 15]
+        });
+
+        // Add markers
+        locations.forEach((loc, index) => {
+            let icon;
+            if (loc.type === "lodge") {
+                icon = lodgeIcon;
+            } else if (loc.type === "home") {
+                icon = homeIcon;
+            } else {
+                icon = L.divIcon({
+                    html: `<div style="background-color: #764ba2; color: white; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 2px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.3);">${index}</div>`,
+                    iconSize: [30, 30],
+                    iconAnchor: [15, 15]
+                });
+            }
+            
+            L.marker([loc.lat, loc.lng], {icon: icon})
+                .addTo(map)
+                .bindPopup(`<strong>${loc.name}</strong>${loc.time ? '<br>Time: ' + loc.time : ''}`);
+        });
+
+        // Draw route
+        const routeCoordinates = locations.map(loc => [loc.lat, loc.lng]);
+        L.polyline(routeCoordinates, {
+            color: '#FF0000',
+            weight: 3,
+            opacity: 0.7,
+            dashArray: '10, 10',
+            smoothFactor: 1
+        }).addTo(map);
+
+        // Add direction lines
+        for (let i = 0; i < routeCoordinates.length - 1; i++) {
+            const start = routeCoordinates[i];
+            const end = routeCoordinates[i + 1];
+            
+            L.polyline([start, end], {
+                color: '#764ba2',
+                weight: 4,
+                opacity: 0.6
+            }).addTo(map);
+        }
+
+        // Fit map to show all markers
+        const group = L.featureGroup(locations.map(loc => L.marker([loc.lat, loc.lng])));
+        map.fitBounds(group.getBounds().pad(0.1));
+    </script>
+</body>
+</html>

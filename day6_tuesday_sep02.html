@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>Day 6 - Tuesday, September 2 | Culture & Farewell</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .header h1 {
+            color: #764ba2;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        .header .date {
+            color: #666;
+            font-size: 1.2em;
+        }
+        .header .subtitle {
+            color: #888;
+            margin-top: 10px;
+            font-style: italic;
+        }
+        .navigation {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .nav-btn {
+            background: #764ba2;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: background 0.3s;
+        }
+        .nav-btn:hover {
+            background: #5a3a7e;
+        }
+        .content-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        #map {
+            height: 600px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .schedule {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        .schedule h2 {
+            color: #764ba2;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+        .activity {
+            background: #f8f9fa;
+            border-left: 4px solid #764ba2;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .activity:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .activity.farewell {
+            border-left-color: #ffc107;
+            background: #fff8e1;
+        }
+        .activity-time {
+            color: #764ba2;
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 5px;
+        }
+        .activity.farewell .activity-time {
+            color: #ff9800;
+        }
+        .activity-title {
+            font-weight: bold;
+            color: #333;
+            font-size: 1.2em;
+            margin-bottom: 5px;
+        }
+        .activity-location {
+            color: #666;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .activity-notes {
+            color: #888;
+            font-size: 0.9em;
+            font-style: italic;
+            margin-top: 5px;
+        }
+        .activity-alternative {
+            background: #fff3cd;
+            padding: 5px 10px;
+            border-radius: 3px;
+            margin-top: 5px;
+            font-size: 0.9em;
+        }
+        .highlight-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .highlight-card h2 {
+            color: #764ba2;
+            margin-bottom: 15px;
+        }
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        .tip {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 3px solid #667eea;
+        }
+        .tip-title {
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+        .legend {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .legend-title {
+            font-weight: bold;
+            color: #764ba2;
+            margin-bottom: 10px;
+        }
+        .legend-item {
+            display: inline-flex;
+            align-items: center;
+            margin-right: 20px;
+            margin-bottom: 5px;
+        }
+        .legend-marker {
+            width: 30px;
+            height: 30px;
+            margin-right: 8px;
+        }
+        .farewell-alert {
+            background: #fff8e1;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        @media (max-width: 768px) {
+            .content-wrapper {
+                grid-template-columns: 1fr;
+            }
+            #map {
+                height: 350px;
+            }
+            .header h1 {
+                font-size: 1.8em;
+            }
+            .navigation {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Day 6 - Culture & Farewell 🍷</h1>
+            <div class="date">Tuesday, September 2, 2025</div>
+            <div class="subtitle">Constitution Hill, Shopping & Special Farewell Dinner</div>
+        </div>
+
+        <div class="navigation">
+            <a href="day5_monday_sep01.html" class="nav-btn">
+                <i class="fas fa-chevron-left"></i>
+                Previous Day
+            </a>
+            <a href="index.html" class="nav-btn">
+                <i class="fas fa-home"></i>
+                Overview
+            </a>
+            <a href="day7_wednesday_sep03.html" class="nav-btn">
+                Next Day
+                <i class="fas fa-chevron-right"></i>
+            </a>
+        </div>
+
+        <div class="farewell-alert">
+            <strong>🌟 Farewell Dinner Tonight!</strong> Special dinner at Marble Restaurant Rosebank at 19:00. Book a table with sunset views!
+        </div>
+
+        <div class="legend">
+            <div class="legend-title">Map Legend:</div>
+            <div class="legend-item">
+                <img class="legend-marker" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%2300FF00' d='M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z'/%3E%3Ctext x='12' y='12' text-anchor='middle' fill='black' font-size='10' font-weight='bold'%3EH%3C/text%3E%3C/svg%3E" alt="Home">
+                Home
+            </div>
+            <div class="legend-item">
+                <img class="legend-marker" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='10' fill='%23764ba2'/%3E%3Ctext x='12' y='16' text-anchor='middle' fill='white' font-size='12' font-weight='bold'%3E1%3C/text%3E%3C/svg%3E" alt="Activity">
+                Activities
+            </div>
+            <div class="legend-item">
+                <img class="legend-marker" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='10' fill='%23ffc107'/%3E%3Ctext x='12' y='16' text-anchor='middle' fill='black' font-size='12' font-weight='bold'%3ED%3C/text%3E%3C/svg%3E" alt="Dinner">
+                Farewell Dinner
+            </div>
+        </div>
+
+        <div class="content-wrapper">
+            <div id="map"></div>
+            <div class="schedule">
+                <h2>📅 Final Full Day</h2>
+                
+                <div class="activity">
+                    <div class="activity-time">09:30 - 10:00</div>
+                    <div class="activity-title">Drive to Braamfontein</div>
+                    <div class="activity-location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Morningside → Constitution Hill
+                    </div>
+                    <div class="activity-notes">~30 minutes drive</div>
+                    <div class="activity-alternative">Skip if preferring local markets</div>
+                </div>
+
+                <div class="activity">
+                    <div class="activity-time">10:00 - 12:00</div>
+                    <div class="activity-title">Constitution Hill Tour</div>
+                    <div class="activity-location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Braamfontein
+                    </div>
+                    <div class="activity-notes">Guided tour of historical site</div>
+                    <div class="activity-alternative">Alternative: Apartheid Museum</div>
+                </div>
+
+                <div class="activity">
+                    <div class="activity-time">12:15 - 13:30</div>
+                    <div class="activity-title">Lunch</div>
+                    <div class="activity-location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Rosebank - Tashas or The Grillhouse
+                    </div>
+                    <div class="activity-notes">Near the craft market</div>
+                    <div class="activity-alternative">Keyes Art Mile cafés</div>
+                </div>
+
+                <div class="activity">
+                    <div class="activity-time">13:30 - 15:00</div>
+                    <div class="activity-title">Rosebank Art & Craft Market</div>
+                    <div class="activity-location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Rosebank
+                    </div>
+                    <div class="activity-notes">Last chance for souvenirs & gifts!</div>
+                    <div class="activity-alternative">Alternative: Sandton City</div>
+                </div>
+
+                <div class="activity">
+                    <div class="activity-time">15:30 - 17:00</div>
+                    <div class="activity-title">Relax Time</div>
+                    <div class="activity-location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Home or Optional Spa
+                    </div>
+                    <div class="activity-notes">Rest before farewell dinner</div>
+                    <div class="activity-alternative">Optional spa treatment</div>
+                </div>
+
+                <div class="activity farewell">
+                    <div class="activity-time">19:00 - 21:00</div>
+                    <div class="activity-title">🌟 FAREWELL DINNER</div>
+                    <div class="activity-location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Marble Restaurant, Rosebank
+                    </div>
+                    <div class="activity-notes">Book table with sunset view - special occasion!</div>
+                    <div class="activity-alternative">Alternative: The Grillhouse Rosebank</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="highlight-card">
+            <h2>🎭 Culture & Shopping Guide</h2>
+            <div class="tips-grid">
+                <div class="tip">
+                    <div class="tip-title">🏛️ Constitution Hill</div>
+                    <div>Former prison complex, now Constitutional Court. Nelson Mandela was imprisoned here.</div>
+                </div>
+                <div class="tip">
+                    <div class="tip-title">🎨 Rosebank Market</div>
+                    <div>Best for authentic African crafts, art, and jewelry. Bargaining is expected!</div>
+                </div>
+                <div class="tip">
+                    <div class="tip-title">🍽️ Marble Restaurant</div>
+                    <div>Award-winning venue with live-fire cooking. Book the terrace for sunset views!</div>
+                </div>
+                <div class="tip">
+                    <div class="tip-title">🛍️ Last-Minute Gifts</div>
+                    <div>Rosebank has unique crafts. For branded items, head to Sandton City.</div>
+                </div>
+                <div class="tip">
+                    <div class="tip-title">💆 Spa Option</div>
+                    <div>If you need relaxation, many spas in Sandton offer 90-minute packages.</div>
+                </div>
+                <div class="tip">
+                    <div class="tip-title">📸 Photo Ops</div>
+                    <div>Constitutional Court has amazing architecture. Marble's rooftop is perfect for sunset shots.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // Initialize the map
+        const map = L.map('map').setView([-26.15, 28.04], 11);
+        
+        // Add tile layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Define locations
+        const locations = [
+            {name: "Home - Morningside", lat: -26.0927, lng: 28.0568, type: "home"},
+            {name: "1. Constitution Hill", lat: -26.1883, lng: 28.0417, type: "activity", time: "10:00"},
+            {name: "2. Lunch - Rosebank", lat: -26.1476, lng: 28.0370, type: "activity", time: "12:15"},
+            {name: "3. Rosebank Craft Market", lat: -26.1461, lng: 28.0378, type: "activity", time: "13:30"},
+            {name: "4. Farewell Dinner - Marble", lat: -26.1476, lng: 28.0370, type: "dinner", time: "19:00"}
+        ];
+
+        // Custom icons
+        const homeIcon = L.divIcon({
+            html: '<div style="background-color: #00FF00; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 2px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.3);">H</div>',
+            iconSize: [30, 30],
+            iconAnchor: [15, 15]
+        });
+
+        const dinnerIcon = L.divIcon({
+            html: '<div style="background-color: #ffc107; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 2px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.3);">D</div>',
+            iconSize: [30, 30],
+            iconAnchor: [15, 15]
+        });
+
+        // Add markers
+        locations.forEach((loc, index) => {
+            let icon;
+            if (loc.type === "home") {
+                icon = homeIcon;
+            } else if (loc.type === "dinner") {
+                icon = dinnerIcon;
+            } else {
+                icon = L.divIcon({
+                    html: `<div style="background-color: #764ba2; color: white; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 2px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.3);">${index}</div>`,
+                    iconSize: [30, 30],
+                    iconAnchor: [15, 15]
+                });
+            }
+            
+            L.marker([loc.lat, loc.lng], {icon: icon})
+                .addTo(map)
+                .bindPopup(`<strong>${loc.name}</strong>${loc.time ? '<br>Time: ' + loc.time : ''}`);
+        });
+
+        // Draw route
+        const routeCoordinates = [
+            [locations[0].lat, locations[0].lng], // Home
+            [locations[1].lat, locations[1].lng], // Constitution Hill
+            [locations[2].lat, locations[2].lng], // Lunch
+            [locations[3].lat, locations[3].lng], // Market
+            [locations[0].lat, locations[0].lng], // Home (rest)
+            [locations[4].lat, locations[4].lng], // Dinner
+            [locations[0].lat, locations[0].lng]  // Home
+        ];
+
+        L.polyline(routeCoordinates, {
+            color: '#FF0000',
+            weight: 3,
+            opacity: 0.7,
+            dashArray: '10, 10',
+            smoothFactor: 1
+        }).addTo(map);
+
+        // Add direction arrows
+        for (let i = 0; i < routeCoordinates.length - 1; i++) {
+            const start = routeCoordinates[i];
+            const end = routeCoordinates[i + 1];
+            
+            L.polyline([start, end], {
+                color: '#764ba2',
+                weight: 4,
+                opacity: 0.6
+            }).addTo(map);
+        }
+
+        // Fit map to show all markers
+        const group = L.featureGroup(locations.map(loc => L.marker([loc.lat, loc.lng])));
+        map.fitBounds(group.getBounds().pad(0.1));
+    </script>
+</body>
+</html>
