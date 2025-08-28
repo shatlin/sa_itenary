@@ -11,11 +11,6 @@
     <!-- Font Awesome Pro -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
-    <!-- AOS Animation -->
-    <link href="https://unpkg.com/aos@3.0.0-beta.6/dist/aos.css" rel="stylesheet">
-    
-    <!-- Swiper Carousel -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
     
     <!-- Leaflet Map -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
@@ -56,78 +51,9 @@
             line-height: 1.6;
         }
         
-        /* Particle Background */
-        #particles-js {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            z-index: 0;
-        }
-        
         .content-wrapper {
             position: relative;
-            z-index: 1;
-        }
-        
-        /* Modern Loader */
-        .loader-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #ffffff;
-            z-index: 9999;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: opacity 0.8s ease, visibility 0.8s ease;
-        }
-        
-        .loader-container.hidden {
-            opacity: 0;
-            visibility: hidden;
-        }
-        
-        .loader-modern {
-            position: relative;
-            width: 120px;
-            height: 120px;
-        }
-        
-        .loader-modern svg {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            animation: rotate 2s linear infinite;
-        }
-        
-        .loader-modern circle {
-            fill: none;
-            stroke-width: 3;
-            stroke-linecap: round;
-            animation: dash 1.5s ease-in-out infinite;
-        }
-        
-        @keyframes rotate {
-            100% { transform: rotate(360deg); }
-        }
-        
-        @keyframes dash {
-            0% {
-                stroke-dasharray: 1, 150;
-                stroke-dashoffset: 0;
-            }
-            50% {
-                stroke-dasharray: 90, 150;
-                stroke-dashoffset: -35;
-            }
-            100% {
-                stroke-dasharray: 90, 150;
-                stroke-dashoffset: -124;
-            }
+            padding-top: 80px;
         }
         
         /* Navigation */
@@ -653,28 +579,6 @@
     </style>
 </head>
 <body>
-    <!-- Modern Loader -->
-    <div class="loader-container" id="loader">
-        <div class="loader-modern">
-            <svg viewBox="0 0 100 100">
-                <circle cx="50" cy="50" r="45" stroke="url(#gradient1)"/>
-                <circle cx="50" cy="50" r="35" stroke="url(#gradient2)"/>
-                <defs>
-                    <linearGradient id="gradient1">
-                        <stop offset="0%" stop-color="#13B497"/>
-                        <stop offset="100%" stop-color="#0F8B71"/>
-                    </linearGradient>
-                    <linearGradient id="gradient2">
-                        <stop offset="0%" stop-color="#667eea"/>
-                        <stop offset="100%" stop-color="#764ba2"/>
-                    </linearGradient>
-                </defs>
-            </svg>
-        </div>
-    </div>
-
-    <!-- Particle Background -->
-    <div id="particles-js"></div>
 
     <!-- Navigation -->
     <nav class="navbar-modern">
@@ -699,13 +603,13 @@
         <!-- Hero Section -->
         <section class="hero-section">
             <div class="hero-content">
-                <h1 class="hero-title" data-aos="fade-up">
+                <h1 class="hero-title">
                     Day 3: Kruger Safari Adventure
                 </h1>
-                <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="200">
+                <p class="hero-subtitle">
                     Strategic Game Drive Routes for Maximum Wildlife Viewing
                 </p>
-                <div class="hero-date" data-aos="fade-up" data-aos-delay="400">
+                <div class="hero-date">
                     <i class="fas fa-calendar-day me-2"></i>
                     Saturday, August 30, 2025
                 </div>
@@ -714,7 +618,7 @@
 
         <div class="container">
             <!-- Navigation Buttons -->
-            <div class="nav-buttons" data-aos="fade-up">
+            <div class="nav-buttons">
                 <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
                     <a href="day2_friday_aug29.html" class="nav-btn">
                         <i class="fas fa-chevron-left"></i>
@@ -732,12 +636,12 @@
             </div>
 
             <!-- Early Start Alert -->
-            <div class="alert-card" data-aos="fade-up">
+            <div class="alert-card">
                 <strong>⏰ Early Start Essential!</strong> Wake at 04:45. Coffee and rusks at lodge. Gates open at 06:00 sharp. Download "Latest Sightings" app before entering for real-time animal locations!
             </div>
 
             <!-- Map Legend -->
-            <div class="legend" data-aos="fade-up">
+            <div class="legend">
                 <div class="legend-title">🗺️ Map Legend:</div>
                 <div class="d-flex flex-wrap">
                     <div class="legend-item">
@@ -760,7 +664,7 @@
             </div>
 
             <!-- Wildlife Activity Time Guide -->
-            <div class="wildlife-time-guide" data-aos="fade-up">
+            <div class="wildlife-time-guide">
                 <h3>🕐 Wildlife Activity by Time</h3>
                 <div class="time-slot">
                     <span class="time-slot-time">06:00 - 08:00</span>
@@ -783,14 +687,14 @@
             <!-- Map and Schedule Layout -->
             <div class="row g-4 mb-4">
                 <!-- Map -->
-                <div class="col-lg-6" data-aos="fade-right">
+                <div class="col-lg-6">
                     <div class="map-container">
                         <div id="map"></div>
                     </div>
                 </div>
                 
                 <!-- Schedule -->
-                <div class="col-lg-6" data-aos="fade-left">
+                <div class="col-lg-6">
                     <div class="schedule-container">
                         <h2>
                             <i class="fas fa-route me-2"></i>
@@ -799,7 +703,7 @@
                         
                         <div class="activity">
                             <div class="activity-time">05:15 - 05:45</div>
-                            <div class="activity-title">Drive to Malelane Gate</div>
+                            <div class="activity-title">Step 1: Drive to Malelane Gate</div>
                             <div class="activity-location">
                                 <i class="fas fa-map-marker-alt"></i>
                                 Lodge → Malelane Gate (~20 km)
@@ -809,7 +713,7 @@
 
                         <div class="activity highlight">
                             <div class="activity-time">06:00 - 08:30</div>
-                            <div class="activity-title">Prime Predator Time - S114 & S110</div>
+                            <div class="activity-title">Step 2: Prime Predator Time - S114 & S110</div>
                             <div class="activity-location">
                                 <i class="fas fa-map-marker-alt"></i>
                                 Malelane to Afsaal via strategic routes
@@ -824,7 +728,7 @@
 
                         <div class="activity">
                             <div class="activity-time">08:30 - 09:15</div>
-                            <div class="activity-title">Breakfast at Afsaal</div>
+                            <div class="activity-title">Step 3: Breakfast at Afsaal</div>
                             <div class="activity-location">
                                 <i class="fas fa-map-marker-alt"></i>
                                 Afsaal Picnic Spot
@@ -835,7 +739,7 @@
 
                         <div class="activity highlight">
                             <div class="activity-time">09:30 - 11:00</div>
-                            <div class="activity-title">H3 Road - The Famous Cat Road</div>
+                            <div class="activity-title">Step 4: H3 Road - The Famous Cat Road</div>
                             <div class="activity-location">
                                 <i class="fas fa-map-marker-alt"></i>
                                 Afsaal to Lower Sabie
@@ -850,7 +754,7 @@
 
                         <div class="activity">
                             <div class="activity-time">11:30 - 13:00</div>
-                            <div class="activity-title">Lunch at Lower Sabie</div>
+                            <div class="activity-title">Step 5: Lunch at Lower Sabie</div>
                             <div class="activity-location">
                                 <i class="fas fa-map-marker-alt"></i>
                                 Lower Sabie Rest Camp
@@ -863,7 +767,7 @@
 
                         <div class="activity highlight">
                             <div class="activity-time">13:00 - 17:15</div>
-                            <div class="activity-title">Afternoon Strategic Routes</div>
+                            <div class="activity-title">Step 6: Afternoon Strategic Routes</div>
                             <div class="activity-location">
                                 <i class="fas fa-map-marker-alt"></i>
                                 Choose based on morning sightings
@@ -873,7 +777,7 @@
 
                         <div class="activity">
                             <div class="activity-time">Option A</div>
-                            <div class="activity-title">Big Cat Focus Route</div>
+                            <div class="activity-title">Step 6a: Big Cat Focus Route</div>
                             <div class="activity-road">S28 to S29 Loop</div>
                             <div class="activity-wildlife">🐆 Leopard hotspot - check all large trees</div>
                             <div class="activity-road">Mlondozi Dam</div>
@@ -884,7 +788,7 @@
 
                         <div class="activity">
                             <div class="activity-time">Option B</div>
-                            <div class="activity-title">Diverse Wildlife Route</div>
+                            <div class="activity-title">Step 6b: Diverse Wildlife Route</div>
                             <div class="activity-road">H10 Road East</div>
                             <div class="activity-wildlife">🦒 Good general game viewing</div>
                             <div class="activity-road">Transport Dam (S126)</div>
@@ -895,7 +799,7 @@
 
                         <div class="activity">
                             <div class="activity-time">17:15 - 18:00</div>
-                            <div class="activity-title">Exit Park & Return</div>
+                            <div class="activity-title">Step 7: Exit Park & Return</div>
                             <div class="activity-location">
                                 <i class="fas fa-map-marker-alt"></i>
                                 Malelane Gate → Lodge
@@ -906,7 +810,7 @@
 
                         <div class="activity">
                             <div class="activity-time">19:00 - 20:30</div>
-                            <div class="activity-title">Dinner at Lodge</div>
+                            <div class="activity-title">Step 8: Dinner at Lodge</div>
                             <div class="activity-location">
                                 <i class="fas fa-map-marker-alt"></i>
                                 Lodge Restaurant
@@ -919,8 +823,8 @@
             </div>
 
             <!-- Route Options -->
-            <div class="route-options" data-aos="fade-up">
-                <h3 style="color: #fff; margin-bottom: 1.5rem; font-weight: 700;">
+            <div class="route-options">
+                <h3 style="color: #333; margin-bottom: 1.5rem; font-weight: 700;">
                     <i class="fas fa-route me-2"></i>Pro Route Tips
                 </h3>
                 <div class="row g-4">
@@ -948,7 +852,7 @@
             </div>
 
             <!-- Expert Safari Tips -->
-            <div class="glass-card" data-aos="fade-up">
+            <div class="glass-card">
                 <h2>
                     <i class="fas fa-lightbulb me-2"></i>
                     Expert Safari Tips
@@ -1003,98 +907,10 @@
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://unpkg.com/aos@3.0.0-beta.6/dist/aos.js"></script>
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/ScrollTrigger.min.js"></script>
 
     <script>
-        // Initialize AOS
-        AOS.init({
-            duration: 1000,
-            once: false,
-            mirror: true,
-            offset: 120
-        });
-
-        // Initialize Particles
-        particlesJS('particles-js', {
-            particles: {
-                number: {
-                    value: 60,
-                    density: {
-                        enable: true,
-                        value_area: 800
-                    }
-                },
-                color: {
-                    value: '#E0E0E0'
-                },
-                shape: {
-                    type: 'circle'
-                },
-                opacity: {
-                    value: 0.4,
-                    random: true,
-                    anim: {
-                        enable: true,
-                        speed: 1,
-                        opacity_min: 0.1,
-                        sync: false
-                    }
-                },
-                size: {
-                    value: 3,
-                    random: true
-                },
-                line_linked: {
-                    enable: true,
-                    distance: 150,
-                    color: '#E0E0E0',
-                    opacity: 0.1,
-                    width: 1
-                },
-                move: {
-                    enable: true,
-                    speed: 1.5,
-                    direction: 'none',
-                    random: false,
-                    straight: false,
-                    out_mode: 'out',
-                    bounce: false
-                }
-            },
-            interactivity: {
-                detect_on: 'canvas',
-                events: {
-                    onhover: {
-                        enable: true,
-                        mode: 'repulse'
-                    },
-                    onclick: {
-                        enable: true,
-                        mode: 'push'
-                    },
-                    resize: true
-                },
-                modes: {
-                    repulse: {
-                        distance: 80,
-                        duration: 0.4
-                    },
-                    push: {
-                        particles_nb: 3
-                    }
-                }
-            },
-            retina_detect: true
-        });
-
-        // GSAP Animations
-        gsap.registerPlugin(ScrollTrigger);
-
-        // Navbar scroll effect
+        // Simple navbar scroll effect
         window.addEventListener('scroll', () => {
             const navbar = document.querySelector('.navbar-modern');
             if (window.scrollY > 100) {
@@ -1104,73 +920,17 @@
             }
         });
 
-        // Hide loader
-        window.addEventListener('DOMContentLoaded', () => {
-            setTimeout(() => {
-setTimeout(function() { var l = document.getElementById('loader'); if(l) l.classList.add('hidden'); }, 3000);
-                document.getElementById('loader').classList.add('hidden');
-            }, 1200);
-        });
-
-        // GSAP Timeline animations
-        gsap.timeline()
-            .from('.hero-title', {
-                y: 50,
-                opacity: 0,
-                duration: 1,
-                delay: 0.5
-            })
-            .from('.hero-subtitle', {
-                y: 30,
-                opacity: 0,
-                duration: 0.8
-            }, '-=0.5')
-            .from('.hero-date', {
-                scale: 0,
-                opacity: 0,
-                duration: 0.6
-            }, '-=0.3');
-
-        // Parallax effect
-        gsap.to('#particles-js', {
-            scrollTrigger: {
-                trigger: 'body',
-                start: 'top top',
-                end: 'bottom bottom',
-                scrub: true
-            },
-            y: -150,
-            ease: 'none'
-        });
-
-        // Activity cards scroll animations
-        gsap.utils.toArray('.activity').forEach((card, i) => {
-            gsap.from(card, {
-                scrollTrigger: {
-                    trigger: card,
-                    start: 'top bottom-=100',
-                    end: 'bottom top+=100',
-                    toggleActions: 'play none none reverse'
-                },
-                x: -50,
-                opacity: 0,
-                duration: 0.6,
-                delay: i * 0.1
-            });
-        });
-
-        // Tips grid animations
-        gsap.utils.toArray('.tip').forEach((tip, i) => {
-            gsap.from(tip, {
-                scrollTrigger: {
-                    trigger: tip,
-                    start: 'top bottom-=100',
-                    toggleActions: 'play none none reverse'
-                },
-                y: 30,
-                opacity: 0,
-                duration: 0.5,
-                delay: i * 0.1
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
             });
         });
 

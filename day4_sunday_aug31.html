@@ -11,11 +11,6 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
-    <!-- AOS Animation -->
-    <link href="https://unpkg.com/aos@3.0.0-beta.6/dist/aos.css" rel="stylesheet">
-    
-    <!-- Swiper Carousel -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
     
     <!-- Leaflet Map -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
@@ -54,79 +49,9 @@
             line-height: 1.6;
         }
         
-        /* Particle Background */
-        #particles-js {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            z-index: 0;
-        }
-        
         .content-wrapper {
             position: relative;
-            z-index: 1;
-            padding: 2rem 0;
-        }
-
-        /* Modern Loader */
-        .loader-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #ffffff;
-            z-index: 9999;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: opacity 0.8s ease, visibility 0.8s ease;
-        }
-        
-        .loader-container.hidden {
-            opacity: 0;
-            visibility: hidden;
-        }
-        
-        .loader-modern {
-            position: relative;
-            width: 80px;
-            height: 80px;
-        }
-        
-        .loader-modern svg {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            animation: rotate 2s linear infinite;
-        }
-        
-        .loader-modern circle {
-            fill: none;
-            stroke-width: 3;
-            stroke-linecap: round;
-            animation: dash 1.5s ease-in-out infinite;
-        }
-        
-        @keyframes rotate {
-            100% { transform: rotate(360deg); }
-        }
-        
-        @keyframes dash {
-            0% {
-                stroke-dasharray: 1, 150;
-                stroke-dashoffset: 0;
-            }
-            50% {
-                stroke-dasharray: 90, 150;
-                stroke-dashoffset: -35;
-            }
-            100% {
-                stroke-dasharray: 90, 150;
-                stroke-dashoffset: -124;
-            }
+            padding: 100px 0 2rem 0;
         }
         
         /* Navigation */
@@ -510,28 +435,6 @@
     </style>
 </head>
 <body>
-    <!-- Modern Loader -->
-    <div class="loader-container" id="loader">
-        <div class="loader-modern">
-            <svg viewBox="0 0 100 100">
-                <circle cx="50" cy="50" r="45" stroke="url(#gradient1)"/>
-                <circle cx="50" cy="50" r="35" stroke="url(#gradient2)"/>
-                <defs>
-                    <linearGradient id="gradient1">
-                        <stop offset="0%" stop-color="#667eea"/>
-                        <stop offset="100%" stop-color="#764ba2"/>
-                    </linearGradient>
-                    <linearGradient id="gradient2">
-                        <stop offset="0%" stop-color="#f093fb"/>
-                        <stop offset="100%" stop-color="#f5576c"/>
-                    </linearGradient>
-                </defs>
-            </svg>
-        </div>
-    </div>
-
-    <!-- Particle Background -->
-    <div id="particles-js"></div>
 
     <!-- Navigation -->
     <nav class="navbar-modern">
@@ -549,13 +452,13 @@
 
     <!-- Content Wrapper -->
     <div class="content-wrapper">
-        <div class="header" data-aos="fade-up">
+        <div class="header">
             <h1>Day 4 - Panorama Route & Return 🏔️</h1>
             <div class="date">Sunday, August 31, 2025</div>
             <div class="subtitle">Scenic Wonders & Journey Back to Johannesburg</div>
         </div>
 
-        <div class="navigation" data-aos="fade-up" data-aos-delay="200">
+        <div class="navigation">
             <a href="day3_saturday_aug30.html" class="nav-btn">
                 <i class="fas fa-chevron-left"></i>
                 Previous Day
@@ -570,11 +473,11 @@
             </a>
         </div>
 
-        <div class="warning-alert" data-aos="fade-up" data-aos-delay="300">
+        <div class="warning-alert">
             <strong>⚠️ Long Drive Day!</strong> ~380km return journey to Johannesburg. Early checkout at 06:30. Expect to arrive home around 20:30.
         </div>
 
-        <div class="legend" data-aos="fade-up" data-aos-delay="400">
+        <div class="legend">
             <div class="legend-title">Map Legend:</div>
             <div class="legend-item">
                 <img class="legend-marker" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='10' fill='%23FFD700'/%3E%3Ctext x='12' y='16' text-anchor='middle' fill='black' font-size='12' font-weight='bold'%3EL%3C/text%3E%3C/svg%3E" alt="Lodge">
@@ -590,7 +493,7 @@
             </div>
         </div>
 
-        <div class="main-content" data-aos="fade-up" data-aos-delay="500">
+        <div class="main-content">
             <div class="map-container">
                 <div id="map"></div>
             </div>
@@ -599,7 +502,7 @@
                 
                 <div class="activity">
                     <div class="activity-time">06:30 - 07:00</div>
-                    <div class="activity-title">Check-out from Lodge</div>
+                    <div class="activity-title">Step 1: Check-out from Lodge</div>
                     <div class="activity-location">
                         <i class="fas fa-map-marker-alt"></i>
                         Nkomazi Lodge
@@ -609,7 +512,7 @@
 
                 <div class="activity">
                     <div class="activity-time">07:00 - 09:30</div>
-                    <div class="activity-title">Drive to Graskop</div>
+                    <div class="activity-title">Step 2: Drive to Graskop</div>
                     <div class="activity-location">
                         <i class="fas fa-map-marker-alt"></i>
                         Malelane → Graskop
@@ -620,7 +523,7 @@
 
                 <div class="activity">
                     <div class="activity-time">09:30 - 11:00</div>
-                    <div class="activity-title">Graskop Gorge Lift Co</div>
+                    <div class="activity-title">Step 3: Graskop Gorge Lift Co</div>
                     <div class="activity-location">
                         <i class="fas fa-map-marker-alt"></i>
                         Graskop
@@ -631,7 +534,7 @@
 
                 <div class="activity">
                     <div class="activity-time">11:10 - 12:00</div>
-                    <div class="activity-title">God's Window</div>
+                    <div class="activity-title">Step 4: God's Window</div>
                     <div class="activity-location">
                         <i class="fas fa-map-marker-alt"></i>
                         Panorama Route
@@ -642,7 +545,7 @@
 
                 <div class="activity">
                     <div class="activity-time">12:10 - 13:10</div>
-                    <div class="activity-title">Lunch</div>
+                    <div class="activity-title">Step 5: Lunch</div>
                     <div class="activity-location">
                         <i class="fas fa-map-marker-alt"></i>
                         Harrie's Pancakes, Graskop
@@ -653,7 +556,7 @@
 
                 <div class="activity">
                     <div class="activity-time">13:30 - 14:30</div>
-                    <div class="activity-title">Bourke's Luck Potholes</div>
+                    <div class="activity-title">Step 6: Bourke's Luck Potholes</div>
                     <div class="activity-location">
                         <i class="fas fa-map-marker-alt"></i>
                         Panorama Route
@@ -664,7 +567,7 @@
 
                 <div class="activity">
                     <div class="activity-time">14:50 - 15:30</div>
-                    <div class="activity-title">Three Rondavels</div>
+                    <div class="activity-title">Step 7: Three Rondavels</div>
                     <div class="activity-location">
                         <i class="fas fa-map-marker-alt"></i>
                         Blyde River Canyon
@@ -675,7 +578,7 @@
 
                 <div class="activity">
                     <div class="activity-time">15:30 - 20:30</div>
-                    <div class="activity-title">Drive Back to JHB</div>
+                    <div class="activity-title">Step 8: Drive Back to JHB</div>
                     <div class="activity-location">
                         <i class="fas fa-map-marker-alt"></i>
                         ~380 km journey
@@ -720,91 +623,31 @@
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://unpkg.com/aos@3.0.0-beta.6/dist/aos.js"></script>
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/ScrollTrigger.min.js"></script>
 
     <script>
-        // Initialize AOS
-        AOS.init({
-            duration: 1000,
-            once: false,
-            mirror: true
+        // Simple navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar-modern');
+            if (window.scrollY > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
         });
 
-        // Initialize Particles
-        particlesJS('particles-js', {
-            particles: {
-                number: {
-                    value: 60,
-                    density: {
-                        enable: true,
-                        value_area: 800
-                    }
-                },
-                color: {
-                    value: '#E0E0E0'
-                },
-                shape: {
-                    type: 'circle'
-                },
-                opacity: {
-                    value: 0.3,
-                    random: true,
-                    anim: {
-                        enable: true,
-                        speed: 1,
-                        opacity_min: 0.1,
-                        sync: false
-                    }
-                },
-                size: {
-                    value: 3,
-                    random: true
-                },
-                line_linked: {
-                    enable: true,
-                    distance: 150,
-                    color: '#E0E0E0',
-                    opacity: 0.1,
-                    width: 1
-                },
-                move: {
-                    enable: true,
-                    speed: 1,
-                    direction: 'none',
-                    random: false,
-                    straight: false,
-                    out_mode: 'out',
-                    bounce: false
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
                 }
-            },
-            interactivity: {
-                detect_on: 'canvas',
-                events: {
-                    onhover: {
-                        enable: true,
-                        mode: 'repulse'
-                    },
-                    onclick: {
-                        enable: true,
-                        mode: 'push'
-                    },
-                    resize: true
-                },
-                modes: {
-                    repulse: {
-                        distance: 100,
-                        duration: 0.4
-                    },
-                    push: {
-                        particles_nb: 4
-                    }
-                }
-            },
-            retina_detect: true
+            });
         });
 
         // Initialize the map
@@ -893,105 +736,6 @@
         const group = L.featureGroup(locations.map(loc => L.marker([loc.lat, loc.lng])));
         map.fitBounds(group.getBounds().pad(0.1));
 
-        // GSAP Animations
-        gsap.registerPlugin(ScrollTrigger);
-
-        // Navbar scroll effect
-        window.addEventListener('scroll', () => {
-            const navbar = document.querySelector('.navbar-modern');
-            if (window.scrollY > 100) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
-        });
-
-        // Hide loader
-        window.addEventListener('DOMContentLoaded', () => {
-            setTimeout(() => {
-setTimeout(function() { var l = document.getElementById('loader'); if(l) l.classList.add('hidden'); }, 3000);
-                document.getElementById('loader').classList.add('hidden');
-            }, 1000);
-        });
-
-        // Animate activity cards on hover
-        document.querySelectorAll('.activity').forEach(activity => {
-            activity.addEventListener('mouseenter', () => {
-                gsap.to(activity, {
-                    scale: 1.02,
-                    duration: 0.3,
-                    ease: "power2.out"
-                });
-            });
-
-            activity.addEventListener('mouseleave', () => {
-                gsap.to(activity, {
-                    scale: 1,
-                    duration: 0.3,
-                    ease: "power2.out"
-                });
-            });
-        });
-
-        // Parallax effect for particles
-        gsap.to('#particles-js', {
-            scrollTrigger: {
-                trigger: 'body',
-                start: 'top top',
-                end: 'bottom bottom',
-                scrub: true
-            },
-            y: -200,
-            ease: 'none'
-        });
-
-        // Stagger animation for activities
-        gsap.fromTo('.activity', 
-            {
-                opacity: 0,
-                x: -50
-            },
-            {
-                opacity: 1,
-                x: 0,
-                duration: 0.6,
-                stagger: 0.1,
-                scrollTrigger: {
-                    trigger: '.schedule',
-                    start: 'top 80%',
-                    end: 'bottom 20%',
-                    toggleActions: 'play none none reverse'
-                }
-            }
-        );
-
-        // Tips animation
-        gsap.fromTo('.tip', 
-            {
-                opacity: 0,
-                y: 30
-            },
-            {
-                opacity: 1,
-                y: 0,
-                duration: 0.6,
-                stagger: 0.1,
-                scrollTrigger: {
-                    trigger: '.tips-grid',
-                    start: 'top 80%',
-                    toggleActions: 'play none none reverse'
-                }
-            }
-        );
-
-        // Update navigation links to match modern theme
-        document.addEventListener('DOMContentLoaded', function() {
-            // Update index links to index.html if available
-            const indexLinks = document.querySelectorAll('a[href="index.html"]');
-            indexLinks.forEach(link => {
-                // Keep the current href for now, can be updated if index.html becomes the main index
-            });
-        });
     </script>
 </body>
 </html>
