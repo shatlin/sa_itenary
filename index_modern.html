@@ -30,15 +30,15 @@
             --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
             --success-gradient: linear-gradient(135deg, #13B497 0%, #0F8B71 100%);
-            --dark: #1a1a2e;
-            --light: #f8f9fa;
-            --glass: rgba(255, 255, 255, 0.1);
-            --glass-border: rgba(255, 255, 255, 0.2);
+            --dark: #333333;
+            --light: #ffffff;
+            --glass: rgba(255, 255, 255, 0.8);
+            --glass-border: rgba(0, 0, 0, 0.1);
             --shadow-sm: 0 2px 4px rgba(0,0,0,0.08);
             --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
-            --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
-            --shadow-xl: 0 20px 25px rgba(0,0,0,0.1);
-            --shadow-2xl: 0 25px 50px rgba(0,0,0,0.15);
+            --shadow-lg: 0 10px 15px rgba(0,0,0,0.15);
+            --shadow-xl: 0 20px 25px rgba(0,0,0,0.2);
+            --shadow-2xl: 0 25px 50px rgba(0,0,0,0.25);
         }
         
         * {
@@ -50,8 +50,8 @@
         body {
             font-family: 'Inter', sans-serif;
             overflow-x: hidden;
-            background: #0f0f1e;
-            color: #fff;
+            background: linear-gradient(135deg, #f8f9ff 0%, #e6edff 100%);
+            color: #333333;
         }
         
         /* Particle Background */
@@ -76,7 +76,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: #0f0f1e;
+            background: #ffffff;
             z-index: 9999;
             display: flex;
             justify-content: center;
@@ -135,7 +135,7 @@
             align-items: center;
             justify-content: center;
             position: relative;
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
         }
         
         .hero-content {
@@ -158,7 +158,7 @@
         
         .hero-subtitle {
             font-size: clamp(1.2rem, 3vw, 1.8rem);
-            color: rgba(255,255,255,0.8);
+            color: rgba(51, 51, 51, 0.7);
             margin-bottom: 1rem;
             font-weight: 300;
         }
@@ -171,8 +171,9 @@
             border: 1px solid var(--glass-border);
             border-radius: 50px;
             font-size: 1.1rem;
-            color: rgba(255,255,255,0.9);
+            color: rgba(51, 51, 51, 0.9);
             margin-bottom: 3rem;
+            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.1);
         }
         
         .hero-cta {
@@ -202,14 +203,15 @@
             right: 0;
             z-index: 1000;
             padding: 1rem 0;
-            background: rgba(15, 15, 30, 0.8);
+            background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(20px);
             transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
         }
         
         .navbar-modern.scrolled {
-            background: rgba(15, 15, 30, 0.95);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
         
         /* Glass Cards */
@@ -220,18 +222,19 @@
             border-radius: 20px;
             padding: 2rem;
             transition: all 0.3s ease;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         }
         
         .glass-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.2);
-            border-color: rgba(102, 126, 234, 0.5);
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.15);
+            border-color: rgba(102, 126, 234, 0.3);
         }
         
         /* Stats Section */
         .stats-section {
             padding: 100px 0;
-            background: linear-gradient(180deg, transparent, rgba(102, 126, 234, 0.05));
+            background: linear-gradient(180deg, transparent, rgba(102, 126, 234, 0.03));
         }
         
         .stat-card {
@@ -242,11 +245,13 @@
             border-radius: 20px;
             border: 1px solid var(--glass-border);
             transition: all 0.3s ease;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
         }
         
         .stat-card:hover {
             transform: translateY(-10px);
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.15);
         }
         
         .stat-icon {
@@ -260,12 +265,12 @@
         .stat-number {
             font-size: 2.5rem;
             font-weight: 700;
-            color: #fff;
+            color: #333333;
             margin-bottom: 0.5rem;
         }
         
         .stat-label {
-            color: rgba(255,255,255,0.7);
+            color: rgba(51, 51, 51, 0.7);
             font-size: 1rem;
         }
         
@@ -327,11 +332,12 @@
             border-radius: 20px;
             border: 1px solid var(--glass-border);
             transition: all 0.3s ease;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         }
         
         .timeline-content:hover {
             transform: scale(1.05);
-            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.15);
         }
         
         .timeline-day {
@@ -364,12 +370,13 @@
             padding: 1.5rem;
             border-radius: 20px;
             border: 1px solid var(--glass-border);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
         }
         
         /* Day Cards Carousel */
         .day-carousel-container {
             padding: 100px 0;
-            background: linear-gradient(180deg, rgba(102, 126, 234, 0.05), transparent);
+            background: linear-gradient(180deg, rgba(102, 126, 234, 0.03), transparent);
         }
         
         .swiper {
@@ -384,11 +391,12 @@
             border: 1px solid var(--glass-border);
             transition: all 0.3s ease;
             height: 450px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         }
         
         .day-card-modern:hover {
             transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 30px 60px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 30px 60px rgba(102, 126, 234, 0.15);
         }
         
         .day-card-header {
@@ -431,7 +439,7 @@
             font-size: 1.5rem;
             font-weight: 700;
             margin-bottom: 1rem;
-            color: #fff;
+            color: #333333;
         }
         
         .day-activities {
@@ -441,7 +449,7 @@
         
         .day-activities li {
             padding: 0.75rem 0;
-            color: rgba(255,255,255,0.8);
+            color: rgba(51, 51, 51, 0.8);
             display: flex;
             align-items: center;
         }
@@ -458,7 +466,7 @@
         .cta-section {
             padding: 100px 0;
             text-align: center;
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(118, 75, 162, 0.05));
         }
         
         .cta-title {
@@ -517,9 +525,10 @@
         /* Footer */
         .footer-modern {
             padding: 50px 0;
-            background: rgba(15, 15, 30, 0.5);
+            background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(20px);
             text-align: center;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
         }
         
         /* Animations */
@@ -580,7 +589,7 @@
         }
         
         ::-webkit-scrollbar-track {
-            background: rgba(15, 15, 30, 0.5);
+            background: rgba(0, 0, 0, 0.05);
         }
         
         ::-webkit-scrollbar-thumb {
@@ -708,12 +717,12 @@
                 <h2 class="display-4 fw-bold" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
                     Journey Overview
                 </h2>
-                <p class="text-muted fs-5">Track your complete adventure across South Africa</p>
+                <p class="fs-5" style="color: rgba(51, 51, 51, 0.6);">Track your complete adventure across South Africa</p>
             </div>
             <div class="map-container" data-aos="fade-up">
                 <div class="map-overlay">
-                    <h4 class="text-white mb-3">Key Highlights</h4>
-                    <ul class="list-unstyled text-white-50">
+                    <h4 class="text-dark mb-3">Key Highlights</h4>
+                    <ul class="list-unstyled" style="color: rgba(51, 51, 51, 0.7);">
                         <li><i class="fas fa-check-circle text-success me-2"></i>Kruger National Park</li>
                         <li><i class="fas fa-check-circle text-success me-2"></i>Panorama Route</li>
                         <li><i class="fas fa-check-circle text-success me-2"></i>Cultural Experiences</li>
@@ -730,7 +739,7 @@
                     <h2 class="display-4 fw-bold" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
                         Daily Adventures
                     </h2>
-                    <p class="text-muted fs-5">Swipe through your 7-day itinerary</p>
+                    <p class="fs-5" style="color: rgba(51, 51, 51, 0.6);">Swipe through your 7-day itinerary</p>
                 </div>
                 
                 <!-- Swiper -->
@@ -894,32 +903,32 @@
                     <div class="timeline-marker"></div>
                     <div class="timeline-content">
                         <span class="timeline-day">Day 1-2</span>
-                        <h4 class="text-white mt-3">Arrival & Journey East</h4>
-                        <p class="text-white-50">Start your adventure in Johannesburg, then journey to the beautiful Lowveld region.</p>
+                        <h4 class="text-dark mt-3">Arrival & Journey East</h4>
+                        <p style="color: rgba(51, 51, 51, 0.7);">Start your adventure in Johannesburg, then journey to the beautiful Lowveld region.</p>
                     </div>
                 </div>
                 <div class="timeline-item" data-aos="fade-left">
                     <div class="timeline-marker"></div>
                     <div class="timeline-content">
                         <span class="timeline-day">Day 3</span>
-                        <h4 class="text-white mt-3">Kruger Safari</h4>
-                        <p class="text-white-50">Experience the thrill of African wildlife in their natural habitat.</p>
+                        <h4 class="text-dark mt-3">Kruger Safari</h4>
+                        <p style="color: rgba(51, 51, 51, 0.7);">Experience the thrill of African wildlife in their natural habitat.</p>
                     </div>
                 </div>
                 <div class="timeline-item" data-aos="fade-right">
                     <div class="timeline-marker"></div>
                     <div class="timeline-content">
                         <span class="timeline-day">Day 4</span>
-                        <h4 class="text-white mt-3">Panorama Route</h4>
-                        <p class="text-white-50">Marvel at some of South Africa's most spectacular scenery.</p>
+                        <h4 class="text-dark mt-3">Panorama Route</h4>
+                        <p style="color: rgba(51, 51, 51, 0.7);">Marvel at some of South Africa's most spectacular scenery.</p>
                     </div>
                 </div>
                 <div class="timeline-item" data-aos="fade-left">
                     <div class="timeline-marker"></div>
                     <div class="timeline-content">
                         <span class="timeline-day">Day 5-7</span>
-                        <h4 class="text-white mt-3">City & Culture</h4>
-                        <p class="text-white-50">Explore Johannesburg's rich culture, history, and modern attractions.</p>
+                        <h4 class="text-dark mt-3">City & Culture</h4>
+                        <p style="color: rgba(51, 51, 51, 0.7);">Explore Johannesburg's rich culture, history, and modern attractions.</p>
                     </div>
                 </div>
             </div>
@@ -929,7 +938,7 @@
         <section class="cta-section">
             <div class="container">
                 <h2 class="cta-title" data-aos="fade-up">Ready for Your Adventure?</h2>
-                <p class="text-white-50 fs-5 mb-4" data-aos="fade-up" data-aos-delay="200">
+                <p class="fs-5 mb-4" style="color: rgba(51, 51, 51, 0.7);" data-aos="fade-up" data-aos-delay="200">
                     Download your complete itinerary and start planning your dream trip
                 </p>
                 <div class="cta-buttons" data-aos="fade-up" data-aos-delay="400">
@@ -946,8 +955,8 @@
         <!-- Footer -->
         <footer class="footer-modern">
             <div class="container">
-                <p class="mb-2">Have an amazing trip to South Africa! 🌍</p>
-                <p class="text-white-50">Remember to check weather forecasts and confirm all bookings</p>
+                <p class="mb-2" style="color: #333333;">Have an amazing trip to South Africa! 🌍</p>
+                <p style="color: rgba(51, 51, 51, 0.6);">Remember to check weather forecasts and confirm all bookings</p>
             </div>
         </footer>
     </div>
@@ -981,18 +990,18 @@
                     }
                 },
                 color: {
-                    value: '#667eea'
+                    value: '#c5d3f7'
                 },
                 shape: {
                     type: 'circle'
                 },
                 opacity: {
-                    value: 0.5,
+                    value: 0.3,
                     random: true,
                     anim: {
                         enable: true,
                         speed: 1,
-                        opacity_min: 0.1,
+                        opacity_min: 0.05,
                         sync: false
                     }
                 },
@@ -1003,8 +1012,8 @@
                 line_linked: {
                     enable: true,
                     distance: 150,
-                    color: '#667eea',
-                    opacity: 0.4,
+                    color: '#c5d3f7',
+                    opacity: 0.2,
                     width: 1
                 },
                 move: {
@@ -1120,8 +1129,8 @@
         document.addEventListener('DOMContentLoaded', function() {
             const map = L.map('modern-map').setView([-25.5, 29.5], 7);
             
-            L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-                attribution: '© OpenStreetMap contributors © CARTO'
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
             }).addTo(map);
 
             // Custom icon

@@ -31,8 +31,8 @@
             --success-gradient: linear-gradient(135deg, #13B497 0%, #0F8B71 100%);
             --dark: #1a1a2e;
             --light: #f8f9fa;
-            --glass: rgba(255, 255, 255, 0.1);
-            --glass-border: rgba(255, 255, 255, 0.2);
+            --glass: rgba(255, 255, 255, 0.9);
+            --glass-border: rgba(0, 0, 0, 0.1);
             --shadow-sm: 0 2px 4px rgba(0,0,0,0.08);
             --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
             --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
@@ -49,8 +49,8 @@
         body {
             font-family: 'Inter', sans-serif;
             overflow-x: hidden;
-            background: #0f0f1e;
-            color: #fff;
+            background: #ffffff;
+            color: #333;
             line-height: 1.6;
         }
         
@@ -77,7 +77,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: #0f0f1e;
+            background: #ffffff;
             z-index: 9999;
             display: flex;
             justify-content: center;
@@ -137,15 +137,15 @@
             right: 0;
             z-index: 1000;
             padding: 1rem 0;
-            background: rgba(15, 15, 30, 0.9);
+            background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(20px);
             transition: all 0.3s ease;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
         }
         
         .navbar-modern.scrolled {
-            background: rgba(15, 15, 30, 0.95);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
 
         /* Glass Cards */
@@ -180,9 +180,7 @@
         
         .header h1 {
             font-family: 'Playfair Display', serif;
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: #667eea;
             font-size: clamp(2.5rem, 5vw, 4rem);
             font-weight: 900;
             margin-bottom: 1rem;
@@ -190,13 +188,13 @@
         }
         
         .header .date {
-            color: rgba(255,255,255,0.8);
+            color: rgba(51, 51, 51, 0.8);
             font-size: 1.2rem;
             font-weight: 500;
         }
         
         .header .subtitle {
-            color: rgba(255,255,255,0.7);
+            color: rgba(51, 51, 51, 0.7);
             margin-top: 1rem;
             font-style: italic;
             font-size: 1.1rem;
@@ -265,7 +263,7 @@
         
         .legend-title {
             font-weight: 700;
-            color: #fff;
+            color: #333;
             margin-bottom: 1rem;
             font-size: 1.2rem;
         }
@@ -275,7 +273,7 @@
             align-items: center;
             margin-right: 2rem;
             margin-bottom: 0.5rem;
-            color: rgba(255,255,255,0.8);
+            color: rgba(51, 51, 51, 0.8);
         }
         
         .legend-marker {
@@ -323,7 +321,7 @@
         }
         
         .schedule h2 {
-            color: #fff;
+            color: #333;
             margin-bottom: 1.5rem;
             font-size: 1.8rem;
             font-weight: 700;
@@ -360,13 +358,13 @@
         
         .activity-title {
             font-weight: 700;
-            color: #fff;
+            color: #333;
             font-size: 1.3rem;
             margin-bottom: 0.5rem;
         }
         
         .activity-location {
-            color: rgba(255,255,255,0.8);
+            color: rgba(51, 51, 51, 0.8);
             margin-bottom: 0.5rem;
             display: flex;
             align-items: center;
@@ -374,7 +372,7 @@
         }
         
         .activity-notes {
-            color: rgba(255,255,255,0.7);
+            color: rgba(51, 51, 51, 0.7);
             font-size: 0.95rem;
             font-style: italic;
             margin-top: 0.5rem;
@@ -403,7 +401,7 @@
         }
         
         .highlight-card h2 {
-            color: #fff;
+            color: #333;
             margin-bottom: 2rem;
             font-size: 2rem;
             font-weight: 700;
@@ -443,7 +441,7 @@
         }
         
         .tip div {
-            color: rgba(255,255,255,0.8);
+            color: rgba(51, 51, 51, 0.8);
             line-height: 1.5;
         }
 
@@ -453,7 +451,7 @@
         }
         
         .schedule::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.05);
             border-radius: 10px;
         }
         
@@ -539,7 +537,7 @@
     <nav class="navbar-modern">
         <div class="container-fluid px-4">
             <div class="d-flex justify-content-between align-items-center w-100">
-                <h3 class="mb-0" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                <h3 class="mb-0" style="color: #667eea;">
                     SA Adventure
                 </h3>
                 <a href="index.html" class="btn btn-sm" style="background: var(--primary-gradient); color: white; border-radius: 50px; padding: 0.5rem 1.5rem; text-decoration: none;">
@@ -747,7 +745,7 @@
                     }
                 },
                 color: {
-                    value: '#667eea'
+                    value: '#E0E0E0'
                 },
                 shape: {
                     type: 'circle'
@@ -769,8 +767,8 @@
                 line_linked: {
                     enable: true,
                     distance: 150,
-                    color: '#667eea',
-                    opacity: 0.2,
+                    color: '#E0E0E0',
+                    opacity: 0.1,
                     width: 1
                 },
                 move: {
@@ -812,36 +810,33 @@
         // Initialize the map
         const map = L.map('map').setView([-25.0, 30.5], 8);
         
-        // Add dark tile layer
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-            attribution: '© OpenStreetMap contributors © CARTO'
+        // Add standard OpenStreetMap tile layer for light theme
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
         }).addTo(map);
 
-        // Define locations
+        // Define locations with numbered markers
         const locations = [
-            {name: "Nkomazi Lodge", lat: -25.4731, lng: 31.2056, type: "lodge"},
-            {name: "1. Graskop", lat: -24.9333, lng: 30.8417, type: "stop", time: "09:30"},
-            {name: "2. God's Window", lat: -24.8731, lng: 30.8944, type: "stop", time: "11:10"},
-            {name: "3. Bourke's Luck Potholes", lat: -24.6731, lng: 30.8122, type: "stop", time: "13:30"},
-            {name: "4. Three Rondavels", lat: -24.5486, lng: 30.8147, type: "stop", time: "14:50"},
-            {name: "5. Alzu Petroport", lat: -25.9167, lng: 28.7500, type: "stop", time: "~18:00"},
-            {name: "Home - Morningside", lat: -26.0927, lng: 28.0568, type: "home", time: "~20:30"}
+            {name: "Nkomazi Lodge", lat: -25.4731, lng: 31.2056, type: "lodge", marker: "L"},
+            {name: "Graskop", lat: -24.9333, lng: 30.8417, type: "stop", time: "09:30", marker: "1"},
+            {name: "God's Window", lat: -24.8731, lng: 30.8944, type: "stop", time: "11:10", marker: "2"},
+            {name: "Bourke's Luck Potholes", lat: -24.6731, lng: 30.8122, type: "stop", time: "13:30", marker: "3"},
+            {name: "Three Rondavels", lat: -24.5486, lng: 30.8147, type: "stop", time: "14:50", marker: "4"},
+            {name: "Alzu Petroport", lat: -25.9167, lng: 28.7500, type: "stop", time: "~18:00", marker: "5"},
+            {name: "Home - Morningside", lat: -26.0927, lng: 28.0568, type: "home", time: "~20:30", marker: "H"}
         ];
 
-        // Custom modern icons
-        const lodgeIcon = L.divIcon({
-            html: '<div style="background: linear-gradient(135deg, #FFD700, #FFA500); border-radius: 50%; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 3px solid white; box-shadow: 0 5px 15px rgba(0,0,0,0.3); color: black;">L</div>',
+        // Custom light theme icons
+        const createIcon = (color, text, textColor = 'white') => L.divIcon({
+            html: `<div style="background: ${color}; border-radius: 50%; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; font-weight: bold; color: ${textColor}; border: 2px solid #333; box-shadow: 0 2px 8px rgba(0,0,0,0.2); font-size: 14px;">${text}</div>`,
             iconSize: [35, 35],
             iconAnchor: [17.5, 17.5]
         });
 
-        const homeIcon = L.divIcon({
-            html: '<div style="background: linear-gradient(135deg, #13B497, #0F8B71); border-radius: 50%; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 3px solid white; box-shadow: 0 5px 15px rgba(0,0,0,0.3); color: white;">H</div>',
-            iconSize: [35, 35],
-            iconAnchor: [17.5, 17.5]
-        });
+        const lodgeIcon = createIcon('#FF6B35', 'L', 'white');
+        const homeIcon = createIcon('#28a745', 'H', 'white');
 
-        // Add markers
+        // Add numbered markers
         locations.forEach((loc, index) => {
             let icon;
             if (loc.type === "lodge") {
@@ -849,17 +844,13 @@
             } else if (loc.type === "home") {
                 icon = homeIcon;
             } else {
-                icon = L.divIcon({
-                    html: `<div style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; border-radius: 50%; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 3px solid white; box-shadow: 0 5px 15px rgba(0,0,0,0.3);">${index}</div>`,
-                    iconSize: [35, 35],
-                    iconAnchor: [17.5, 17.5]
-                });
+                icon = createIcon('#667eea', loc.marker, 'white');
             }
             
             const popup = `
-                <div style="background: #0f0f1e; color: white; padding: 1rem; border-radius: 10px; border: 1px solid rgba(102, 126, 234, 0.5);">
+                <div style="background: white; color: #333; padding: 12px; border-radius: 10px; border: 1px solid #ddd; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
                     <strong style="color: #667eea;">${loc.name}</strong>
-                    ${loc.time ? '<br><span style="color: rgba(255,255,255,0.8);">Time: ' + loc.time + '</span>' : ''}
+                    ${loc.time ? '<br><span style="color: #666;">Time: ' + loc.time + '</span>' : ''}
                 </div>
             `;
             
@@ -868,12 +859,12 @@
                 .bindPopup(popup);
         });
 
-        // Draw modern route
+        // Draw light theme route
         const routeCoordinates = locations.map(loc => [loc.lat, loc.lng]);
         L.polyline(routeCoordinates, {
             color: '#667eea',
             weight: 4,
-            opacity: 0.8,
+            opacity: 0.7,
             dashArray: '10, 10',
             smoothFactor: 1
         }).addTo(map);

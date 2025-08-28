@@ -33,8 +33,8 @@
             --danger-gradient: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
             --dark: #1a1a2e;
             --light: #f8f9fa;
-            --glass: rgba(255, 255, 255, 0.1);
-            --glass-border: rgba(255, 255, 255, 0.2);
+            --glass: rgba(255, 255, 255, 0.9);
+            --glass-border: rgba(0, 0, 0, 0.1);
             --shadow-sm: 0 2px 4px rgba(0,0,0,0.08);
             --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
             --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
@@ -51,8 +51,8 @@
         body {
             font-family: 'Inter', sans-serif;
             overflow-x: hidden;
-            background: #0f0f1e;
-            color: #fff;
+            background: #ffffff;
+            color: #333;
             min-height: 100vh;
         }
 
@@ -78,7 +78,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: #0f0f1e;
+            background: #ffffff;
             z-index: 9999;
             display: flex;
             justify-content: center;
@@ -142,8 +142,8 @@
 
         .glass-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.2);
-            border-color: rgba(102, 126, 234, 0.5);
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.1);
+            border-color: rgba(102, 126, 234, 0.3);
         }
 
         /* Header */
@@ -187,14 +187,14 @@
         }
 
         .header .date {
-            color: rgba(255,255,255,0.8);
+            color: #666;
             font-size: 1.5rem;
             font-weight: 300;
             margin-bottom: 0.5rem;
         }
 
         .header .subtitle {
-            color: rgba(255,255,255,0.6);
+            color: #666;
             font-size: 1.2rem;
             font-style: italic;
         }
@@ -294,7 +294,7 @@
         }
 
         .schedule::-webkit-scrollbar-track {
-            background: rgba(255,255,255,0.1);
+            background: rgba(248, 249, 250, 0.5);
             border-radius: 10px;
         }
 
@@ -305,8 +305,8 @@
 
         /* Activity Cards */
         .activity {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(248, 249, 250, 0.8);
+            border: 1px solid rgba(0, 0, 0, 0.1);
             border-left: 4px solid transparent;
             border-image: var(--primary-gradient) 1;
             padding: 1.5rem;
@@ -329,13 +329,13 @@
 
         .activity:hover {
             transform: translateX(10px);
-            background: rgba(255,255,255,0.1);
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
+            background: rgba(248, 249, 250, 0.95);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.1);
         }
 
         .activity.departure {
             border-image: var(--danger-gradient) 1;
-            background: rgba(255, 107, 107, 0.1);
+            background: rgba(255, 107, 107, 0.05);
         }
 
         .activity.departure::before {
@@ -343,8 +343,8 @@
         }
 
         .activity.departure:hover {
-            background: rgba(255, 107, 107, 0.15);
-            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.3);
+            background: rgba(255, 107, 107, 0.1);
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.15);
         }
 
         .activity-time {
@@ -360,13 +360,13 @@
 
         .activity-title {
             font-weight: 700;
-            color: #fff;
+            color: #333;
             font-size: 1.3rem;
             margin-bottom: 0.75rem;
         }
 
         .activity-location {
-            color: rgba(255,255,255,0.7);
+            color: #666;
             margin-bottom: 0.5rem;
             display: flex;
             align-items: center;
@@ -374,7 +374,7 @@
         }
 
         .activity-notes {
-            color: rgba(255,255,255,0.6);
+            color: #666;
             font-size: 0.9rem;
             font-style: italic;
             margin-top: 0.5rem;
@@ -403,7 +403,7 @@
 
         .highlight-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.2);
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.1);
         }
 
         .highlight-card h2 {
@@ -424,11 +424,11 @@
         }
 
         .tip {
-            background: rgba(255,255,255,0.05);
+            background: rgba(248, 249, 250, 0.8);
             backdrop-filter: blur(10px);
             padding: 1.5rem;
             border-radius: 15px;
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
@@ -446,8 +446,8 @@
 
         .tip:hover {
             transform: translateY(-5px);
-            background: rgba(255,255,255,0.1);
-            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.2);
+            background: rgba(248, 249, 250, 0.95);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.1);
         }
 
         .tip-title {
@@ -458,7 +458,7 @@
         }
 
         .tip div:last-child {
-            color: rgba(255,255,255,0.8);
+            color: #666;
             line-height: 1.6;
         }
 
@@ -484,7 +484,7 @@
             align-items: center;
             margin-right: 1.5rem;
             margin-bottom: 0.5rem;
-            color: rgba(255,255,255,0.8);
+            color: #666;
         }
 
         .legend-marker {
@@ -495,14 +495,14 @@
 
         /* Departure Alert */
         .departure-alert {
-            background: rgba(255, 107, 107, 0.15);
+            background: rgba(255, 107, 107, 0.05);
             border: 1px solid rgba(255, 107, 107, 0.3);
             border-left: 4px solid #ff6b6b;
             backdrop-filter: blur(10px);
             padding: 1.5rem;
             border-radius: 15px;
             margin-bottom: 2rem;
-            color: #fff;
+            color: #333;
             font-weight: 600;
         }
 
@@ -528,7 +528,7 @@
 
         .farewell-section p {
             font-size: 1.3rem;
-            color: rgba(255,255,255,0.8);
+            color: #666;
             line-height: 1.8;
             max-width: 800px;
             margin: 0 auto;
@@ -802,7 +802,7 @@
                     }
                 },
                 color: {
-                    value: '#ff6b6b'
+                    value: '#ffb3b3'
                 },
                 shape: {
                     type: 'circle'
@@ -824,8 +824,8 @@
                 line_linked: {
                     enable: true,
                     distance: 150,
-                    color: '#667eea',
-                    opacity: 0.3,
+                    color: '#b8c5ff',
+                    opacity: 0.4,
                     width: 1
                 },
                 move: {
@@ -868,9 +868,9 @@
         document.addEventListener('DOMContentLoaded', function() {
             const map = L.map('map').setView([-26.1, 28.15], 10);
             
-            // Dark tile layer
-            L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-                attribution: '© OpenStreetMap contributors © CARTO'
+            // Standard OpenStreetMap tile layer
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
             }).addTo(map);
 
             // Define locations

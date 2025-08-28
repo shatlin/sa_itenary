@@ -33,8 +33,8 @@
             --warning-gradient: linear-gradient(135deg, #FFB75E 0%, #ED8F03 100%);
             --dark: #1a1a2e;
             --light: #f8f9fa;
-            --glass: rgba(255, 255, 255, 0.1);
-            --glass-border: rgba(255, 255, 255, 0.2);
+            --glass: rgba(255, 255, 255, 0.9);
+            --glass-border: rgba(0, 0, 0, 0.1);
             --shadow-sm: 0 2px 4px rgba(0,0,0,0.08);
             --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
             --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
@@ -51,8 +51,8 @@
         body {
             font-family: 'Inter', sans-serif;
             overflow-x: hidden;
-            background: #0f0f1e;
-            color: #fff;
+            background: #ffffff;
+            color: #333;
             line-height: 1.6;
         }
         
@@ -78,7 +78,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: #0f0f1e;
+            background: #ffffff;
             z-index: 9999;
             display: flex;
             justify-content: center;
@@ -138,14 +138,15 @@
             right: 0;
             z-index: 1000;
             padding: 1rem 0;
-            background: rgba(15, 15, 30, 0.8);
+            background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
         }
         
         .navbar-modern.scrolled {
-            background: rgba(15, 15, 30, 0.95);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
         
         /* Hero Section */
@@ -179,7 +180,7 @@
         
         .hero-subtitle {
             font-size: clamp(1.1rem, 2.5vw, 1.5rem);
-            color: rgba(255,255,255,0.8);
+            color: rgba(51, 51, 51, 0.8);
             margin-bottom: 1rem;
             font-weight: 300;
         }
@@ -192,7 +193,7 @@
             border: 1px solid var(--glass-border);
             border-radius: 50px;
             font-size: 1.1rem;
-            color: rgba(255,255,255,0.9);
+            color: rgba(51, 51, 51, 0.9);
             margin-bottom: 2rem;
         }
         
@@ -214,7 +215,7 @@
         }
         
         .glass-card h2 {
-            color: #fff;
+            color: #333;
             margin-bottom: 1.5rem;
             font-weight: 700;
         }
@@ -293,7 +294,7 @@
         }
         
         .schedule-container h2 {
-            color: #fff;
+            color: #333;
             margin-bottom: 1.5rem;
             font-size: 1.8em;
             font-weight: 700;
@@ -346,13 +347,13 @@
         
         .activity-title {
             font-weight: 700;
-            color: #fff;
+            color: #333;
             font-size: 1.2em;
             margin-bottom: 8px;
         }
         
         .activity-location {
-            color: rgba(255,255,255,0.7);
+            color: rgba(51, 51, 51, 0.7);
             margin-bottom: 8px;
             display: flex;
             align-items: center;
@@ -360,7 +361,7 @@
         }
         
         .activity-notes {
-            color: rgba(255,255,255,0.6);
+            color: rgba(51, 51, 51, 0.6);
             font-size: 0.9em;
             font-style: italic;
             margin-top: 8px;
@@ -414,7 +415,7 @@
         
         .legend-title {
             font-weight: 700;
-            color: #fff;
+            color: #333;
             margin-bottom: 1rem;
         }
         
@@ -423,7 +424,7 @@
             align-items: center;
             margin-right: 20px;
             margin-bottom: 8px;
-            color: rgba(255,255,255,0.8);
+            color: rgba(51, 51, 51, 0.8);
         }
         
         .legend-marker {
@@ -469,7 +470,7 @@
         }
         
         .tip-content {
-            color: rgba(255,255,255,0.8);
+            color: rgba(51, 51, 51, 0.8);
             font-size: 0.9rem;
         }
         
@@ -498,9 +499,7 @@
         }
         
         .route-option h4 {
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: #333;
             margin-bottom: 10px;
             font-weight: 700;
         }
@@ -511,12 +510,12 @@
         }
         
         .route-option li {
-            color: rgba(255,255,255,0.8);
+            color: rgba(51, 51, 51, 0.8);
             margin-bottom: 8px;
         }
         
         .route-option li strong {
-            color: #fff;
+            color: #333;
         }
         
         /* Wildlife Time Guide */
@@ -530,7 +529,7 @@
         }
         
         .wildlife-time-guide h3 {
-            color: #fff;
+            color: #333;
             margin-bottom: 1.5rem;
             font-weight: 700;
             display: flex;
@@ -563,7 +562,7 @@
         }
         
         .time-slot-activity {
-            color: rgba(255,255,255,0.8);
+            color: rgba(51, 51, 51, 0.8);
             flex: 1;
         }
         
@@ -611,7 +610,7 @@
         }
         
         ::-webkit-scrollbar-track {
-            background: rgba(15, 15, 30, 0.5);
+            background: rgba(0, 0, 0, 0.05);
         }
         
         ::-webkit-scrollbar-thumb {
@@ -682,12 +681,12 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-6">
-                    <h4 class="mb-0" style="background: var(--success-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700;">
+                    <h4 class="mb-0" style="color: #667eea; font-weight: 700;">
                         <i class="fas fa-paw me-2"></i>Kruger Safari
                     </h4>
                 </div>
                 <div class="col-6 text-end">
-                    <a href="index_modern.html" class="btn btn-sm" style="background: var(--success-gradient); color: white; border-radius: 50px; padding: 0.5rem 1.5rem; text-decoration: none;">
+                    <a href="index_modern.html" class="btn btn-sm" style="background: var(--primary-gradient); color: white; border-radius: 50px; padding: 0.5rem 1.5rem; text-decoration: none;">
                         <i class="fas fa-home me-2"></i>Overview
                     </a>
                 </div>
@@ -1030,7 +1029,7 @@
                     }
                 },
                 color: {
-                    value: '#13B497'
+                    value: '#E0E0E0'
                 },
                 shape: {
                     type: 'circle'
@@ -1052,8 +1051,8 @@
                 line_linked: {
                     enable: true,
                     distance: 150,
-                    color: '#13B497',
-                    opacity: 0.3,
+                    color: '#E0E0E0',
+                    opacity: 0.1,
                     width: 1
                 },
                 move: {
@@ -1178,35 +1177,36 @@
         document.addEventListener('DOMContentLoaded', function() {
             const map = L.map('map').setView([-25.3, 31.5], 11);
             
-            // Dark tile layer for modern theme
-            L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-                attribution: '© OpenStreetMap contributors © CARTO'
+            // Standard OpenStreetMap tiles for light theme
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
             }).addTo(map);
 
-            // Define detailed locations
+            // Define detailed locations with numbered markers
             const locations = [
-                {name: "Nkomazi Lodge", lat: -25.4731, lng: 31.2056, type: "lodge"},
-                {name: "1. Malelane Gate", lat: -25.4608, lng: 31.5450, type: "gate", time: "06:00"},
-                {name: "2. Matjulu Loop (S110)", lat: -25.4200, lng: 31.5200, type: "wildlife", highlight: "Lions"},
-                {name: "3. Mathekenyane Viewpoint", lat: -25.3900, lng: 31.4900, type: "wildlife", highlight: "Hippos"},
-                {name: "4. Afsaal Picnic Spot", lat: -25.3167, lng: 31.4333, type: "stop", time: "08:30"},
-                {name: "5. Sunset Dam", lat: -25.1500, lng: 31.6000, type: "wildlife", highlight: "Cats"},
-                {name: "6. Lower Sabie Camp", lat: -25.1200, lng: 31.9153, type: "stop", time: "11:30"},
-                {name: "7. S28 Road", lat: -25.2000, lng: 31.7500, type: "wildlife", highlight: "Leopards"},
-                {name: "8. Transport Dam", lat: -25.3500, lng: 31.6500, type: "wildlife", highlight: "Rhinos"},
-                {name: "9. Return to Malelane", lat: -25.4608, lng: 31.5450, type: "gate", time: "17:15"}
+                {name: "Nkomazi Lodge", lat: -25.4731, lng: 31.2056, type: "lodge", marker: "L"},
+                {name: "Malelane Gate", lat: -25.4608, lng: 31.5450, type: "gate", time: "06:00", marker: "1"},
+                {name: "Matjulu Loop (S110)", lat: -25.4200, lng: 31.5200, type: "wildlife", highlight: "Lions", marker: "2"},
+                {name: "Mathekenyane Viewpoint", lat: -25.3900, lng: 31.4900, type: "wildlife", highlight: "Hippos", marker: "3"},
+                {name: "Afsaal Picnic Spot", lat: -25.3167, lng: 31.4333, type: "stop", time: "08:30", marker: "4"},
+                {name: "Sunset Dam", lat: -25.1500, lng: 31.6000, type: "wildlife", highlight: "Cats", marker: "5"},
+                {name: "Lower Sabie Camp", lat: -25.1200, lng: 31.9153, type: "stop", time: "11:30", marker: "6"},
+                {name: "S28 Road", lat: -25.2000, lng: 31.7500, type: "wildlife", highlight: "Leopards", marker: "7"},
+                {name: "Transport Dam", lat: -25.3500, lng: 31.6500, type: "wildlife", highlight: "Rhinos", marker: "8"},
+                {name: "Return to Malelane", lat: -25.4608, lng: 31.5450, type: "gate", time: "17:15", marker: "9"},
+                {name: "End at Lodge", lat: -25.4731, lng: 31.2056, type: "lodge", marker: "10"}
             ];
 
-            // Custom icons with modern styling
+            // Custom icons with light theme styling
             const createIcon = (color, text, textColor = 'white') => L.divIcon({
-                html: `<div style="background: ${color}; border-radius: 50%; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; font-weight: bold; color: ${textColor}; border: 3px solid white; box-shadow: 0 4px 15px rgba(0,0,0,0.3); font-size: ${text.length > 1 ? '10px' : '14px'};">${text}</div>`,
+                html: `<div style="background: ${color}; border-radius: 50%; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; font-weight: bold; color: ${textColor}; border: 2px solid #333; box-shadow: 0 2px 8px rgba(0,0,0,0.2); font-size: ${text.length > 1 ? '10px' : '14px'};">${text}</div>`,
                 iconSize: [35, 35],
                 iconAnchor: [17.5, 17.5]
             });
 
-            const lodgeIcon = createIcon('#FFD700', 'L', 'black');
-            const gateIcon = createIcon('#28a745', 'G');
-            const stopIcon = createIcon('linear-gradient(135deg, #667eea, #764ba2)', 'S');
+            const lodgeIcon = createIcon('#FF6B35', 'L', 'white');
+            const gateIcon = createIcon('#28a745', 'G', 'white');
+            const stopIcon = createIcon('#667eea', 'S', 'white');
 
             // Wildlife emojis for different spots
             const wildlifeEmojis = {
@@ -1217,26 +1217,26 @@
                 "Rhinos": "🦏"
             };
 
-            // Add markers
+            // Add numbered markers
             locations.forEach((loc, index) => {
                 let icon;
                 if (loc.type === "lodge") {
                     icon = lodgeIcon;
                 } else if (loc.type === "gate") {
-                    icon = gateIcon;
+                    icon = createIcon('#28a745', loc.marker, 'white');
                 } else if (loc.type === "wildlife") {
-                    icon = createIcon('#FF6B35', wildlifeEmojis[loc.highlight] || "🦒");
+                    icon = createIcon('#FF6B35', loc.marker, 'white');
                 } else {
-                    icon = createIcon('linear-gradient(135deg, #667eea, #764ba2)', index.toString());
+                    icon = createIcon('#667eea', loc.marker, 'white');
                 }
                 
                 const marker = L.marker([loc.lat, loc.lng], {icon: icon}).addTo(map);
                 
                 const popupContent = `
-                    <div style="background: rgba(15, 15, 30, 0.9); color: white; padding: 10px; border-radius: 8px; min-width: 200px;">
-                        <strong style="color: #13B497; font-size: 14px;">${loc.name}</strong>
-                        ${loc.time ? `<br><small style="color: #ccc;"><i class="fas fa-clock"></i> Time: ${loc.time}</small>` : ''}
-                        ${loc.highlight ? `<br><small style="color: #ffc107;"><i class="fas fa-star"></i> Known for: ${loc.highlight}</small>` : ''}
+                    <div style="background: white; color: #333; padding: 12px; border-radius: 8px; min-width: 200px; border: 1px solid #ddd; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                        <strong style="color: #667eea; font-size: 14px;">${loc.name}</strong>
+                        ${loc.time ? `<br><small style="color: #666;"><i class="fas fa-clock"></i> Time: ${loc.time}</small>` : ''}
+                        ${loc.highlight ? `<br><small style="color: #FF6B35;"><i class="fas fa-star"></i> Known for: ${loc.highlight}</small>` : ''}
                     </div>
                 `;
                 
@@ -1258,31 +1258,31 @@
                 [locations[0].lat, locations[0].lng]  // Lodge
             ];
 
-            // Main route line with modern styling
+            // Main route line with light theme styling
             L.polyline(safariRoute, {
-                color: '#13B497',
+                color: '#667eea',
                 weight: 4,
-                opacity: 0.8,
+                opacity: 0.7,
                 dashArray: '10, 15',
                 smoothFactor: 1
             }).addTo(map);
 
-            // Add specific road highlights with modern colors
+            // Add specific road highlights with light theme colors
             // S114 Road (Rhino Road)
             L.polyline([[-25.4608, 31.5450], [-25.4000, 31.5000]], {
                 color: '#4CAF50',
                 weight: 6,
                 opacity: 0.6
-            }).addTo(map).bindPopup('<div style="color: white; background: rgba(0,0,0,0.8); padding: 5px; border-radius: 5px;">S114 - Rhino Road</div>');
+            }).addTo(map).bindPopup('<div style="color: #333; background: white; padding: 8px; border-radius: 5px; border: 1px solid #ddd; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">S114 - Rhino Road</div>');
 
             // H3 Road (Cat Road)
             L.polyline([[-25.3167, 31.4333], [-25.1200, 31.9153]], {
                 color: '#FFC107',
                 weight: 6,
                 opacity: 0.6
-            }).addTo(map).bindPopup('<div style="color: white; background: rgba(0,0,0,0.8); padding: 5px; border-radius: 5px;">H3 - Famous Cat Road</div>');
+            }).addTo(map).bindPopup('<div style="color: #333; background: white; padding: 8px; border-radius: 5px; border: 1px solid #ddd; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">H3 - Famous Cat Road</div>');
 
-            // Add Kruger boundary indication with modern styling
+            // Add Kruger boundary indication with light theme styling
             const krugerBoundary = [
                 [-25.5, 31.4],
                 [-24.9, 31.4],
@@ -1292,11 +1292,11 @@
             ];
 
             L.polygon(krugerBoundary, {
-                color: '#13B497',
+                color: '#28a745',
                 weight: 2,
                 opacity: 0.7,
-                fillColor: '#13B497',
-                fillOpacity: 0.1
+                fillColor: '#28a745',
+                fillOpacity: 0.05
             }).addTo(map);
 
             // Add water sources as modern blue circles
@@ -1314,7 +1314,7 @@
                     fillOpacity: 0.3,
                     radius: 500,
                     weight: 2
-                }).addTo(map).bindPopup(`<div style="color: white; background: rgba(0,0,0,0.8); padding: 5px; border-radius: 5px;"><i class="fas fa-tint"></i> ${water.name}</div>`);
+                }).addTo(map).bindPopup(`<div style="color: #333; background: white; padding: 8px; border-radius: 5px; border: 1px solid #ddd; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"><i class="fas fa-tint"></i> ${water.name}</div>`);
             });
 
             // Fit map to show all markers with padding
