@@ -2,227 +2,562 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Day 4 - Sunday, August 31 | Panorama Route</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="anonymous" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@3.0.0-beta.6/dist/aos.css" rel="stylesheet">
+    
+    <!-- Swiper Carousel -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+    
+    <!-- Leaflet Map -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --success-gradient: linear-gradient(135deg, #13B497 0%, #0F8B71 100%);
+            --dark: #1a1a2e;
+            --light: #f8f9fa;
+            --glass: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.08);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+            --shadow-xl: 0 20px 25px rgba(0,0,0,0.1);
+            --shadow-2xl: 0 25px 50px rgba(0,0,0,0.15);
+        }
+        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+        
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            background: #0f0f1e;
+            color: #fff;
             line-height: 1.6;
-            color: #333;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
         }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
+        
+        /* Particle Background */
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
         }
+        
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
+            padding: 2rem 0;
+        }
+
+        /* Modern Loader */
+        .loader-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0f0f1e;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+        
+        .loader-container.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        .loader-modern {
+            position: relative;
+            width: 80px;
+            height: 80px;
+        }
+        
+        .loader-modern svg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            animation: rotate 2s linear infinite;
+        }
+        
+        .loader-modern circle {
+            fill: none;
+            stroke-width: 3;
+            stroke-linecap: round;
+            animation: dash 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes rotate {
+            100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes dash {
+            0% {
+                stroke-dasharray: 1, 150;
+                stroke-dashoffset: 0;
+            }
+            50% {
+                stroke-dasharray: 90, 150;
+                stroke-dashoffset: -35;
+            }
+            100% {
+                stroke-dasharray: 90, 150;
+                stroke-dashoffset: -124;
+            }
+        }
+        
+        /* Navigation */
+        .navbar-modern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1rem 0;
+            background: rgba(15, 15, 30, 0.9);
+            backdrop-filter: blur(20px);
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .navbar-modern.scrolled {
+            background: rgba(15, 15, 30, 0.95);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        /* Glass Cards */
+        .glass-card {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-xl);
+        }
+        
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.2);
+            border-color: rgba(102, 126, 234, 0.5);
+        }
+
+        /* Header */
         .header {
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 100px auto 2rem;
+            box-shadow: var(--shadow-2xl);
             text-align: center;
+            border: 1px solid var(--glass-border);
+            max-width: 1200px;
         }
+        
         .header h1 {
-            color: #764ba2;
-            font-size: 2.5em;
-            margin-bottom: 10px;
+            font-family: 'Playfair Display', serif;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 900;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease;
         }
+        
         .header .date {
-            color: #666;
-            font-size: 1.2em;
+            color: rgba(255,255,255,0.8);
+            font-size: 1.2rem;
+            font-weight: 500;
         }
+        
         .header .subtitle {
-            color: #888;
-            margin-top: 10px;
+            color: rgba(255,255,255,0.7);
+            margin-top: 1rem;
             font-style: italic;
+            font-size: 1.1rem;
         }
+
+        /* Navigation Buttons */
         .navigation {
-            background: white;
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 20px;
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 0 auto 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--glass-border);
+            max-width: 1200px;
         }
+        
         .nav-btn {
-            background: #764ba2;
+            background: var(--primary-gradient);
             color: white;
             border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
+            padding: 1rem 2rem;
+            border-radius: 50px;
             cursor: pointer;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
             gap: 10px;
-            transition: background 0.3s;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
         }
+        
         .nav-btn:hover {
-            background: #5a3a7e;
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.5);
+            color: white;
         }
-        .content-wrapper {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            margin-bottom: 30px;
-        }
-        #map {
-            height: 600px;
+
+        /* Warning Alert */
+        .warning-alert {
+            background: linear-gradient(135deg, rgba(255, 193, 7, 0.2), rgba(255, 152, 0, 0.2));
+            border-left: 4px solid #ffc107;
+            padding: 1.5rem;
             border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin: 0 auto 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 193, 7, 0.3);
+            max-width: 1200px;
         }
-        .schedule {
-            background: white;
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            max-height: 600px;
-            overflow-y: auto;
-        }
-        .schedule h2 {
-            color: #764ba2;
-            margin-bottom: 20px;
-            font-size: 1.8em;
-        }
-        .activity {
-            background: #f8f9fa;
-            border-left: 4px solid #764ba2;
-            padding: 15px;
-            margin-bottom: 15px;
-            border-radius: 5px;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        .activity:hover {
-            transform: translateX(5px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-        .activity-time {
-            color: #764ba2;
-            font-weight: bold;
-            font-size: 1.1em;
-            margin-bottom: 5px;
-        }
-        .activity-title {
-            font-weight: bold;
-            color: #333;
-            font-size: 1.2em;
-            margin-bottom: 5px;
-        }
-        .activity-location {
-            color: #666;
-            margin-bottom: 5px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        .activity-notes {
-            color: #888;
-            font-size: 0.9em;
-            font-style: italic;
-            margin-top: 5px;
-        }
-        .activity-alternative {
-            background: #fff3cd;
-            padding: 5px 10px;
-            border-radius: 3px;
-            margin-top: 5px;
-            font-size: 0.9em;
-        }
-        .highlight-card {
-            background: white;
-            border-radius: 15px;
-            padding: 25px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
-        .highlight-card h2 {
-            color: #764ba2;
-            margin-bottom: 15px;
-        }
-        .tips-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
-        }
-        .tip {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 8px;
-            border-left: 3px solid #667eea;
-        }
-        .tip-title {
-            font-weight: bold;
-            color: #667eea;
-            margin-bottom: 5px;
-        }
+
+        /* Legend */
         .legend {
-            background: white;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin: 0 auto 2rem;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--glass-border);
+            max-width: 1200px;
         }
+        
         .legend-title {
-            font-weight: bold;
-            color: #764ba2;
-            margin-bottom: 10px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
         }
+        
         .legend-item {
             display: inline-flex;
             align-items: center;
-            margin-right: 20px;
-            margin-bottom: 5px;
+            margin-right: 2rem;
+            margin-bottom: 0.5rem;
+            color: rgba(255,255,255,0.8);
         }
+        
         .legend-marker {
             width: 30px;
             height: 30px;
             margin-right: 8px;
         }
-        .warning-alert {
-            background: #fff3cd;
-            border-left: 4px solid #ffc107;
-            padding: 15px;
-            border-radius: 5px;
-            margin-bottom: 20px;
+
+        /* Content Grid */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 0 auto 2rem;
+            max-width: 1200px;
         }
+
+        /* Map Container */
+        .map-container {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-2xl);
+            border: 1px solid var(--glass-border);
+            height: fit-content;
+        }
+        
+        #map {
+            height: 600px;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        /* Schedule */
+        .schedule {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: var(--shadow-2xl);
+            border: 1px solid var(--glass-border);
+            max-height: 680px;
+            overflow-y: auto;
+        }
+        
+        .schedule h2 {
+            color: #fff;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Activities */
+        .activity {
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 4px solid #667eea;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .activity:hover {
+            transform: translateX(10px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(102, 126, 234, 0.5);
+        }
+        
+        .activity-time {
+            color: #667eea;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .activity-title {
+            font-weight: 700;
+            color: #fff;
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .activity-location {
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .activity-notes {
+            color: rgba(255,255,255,0.7);
+            font-size: 0.95rem;
+            font-style: italic;
+            margin-top: 0.5rem;
+        }
+        
+        .activity-alternative {
+            background: rgba(255, 193, 7, 0.2);
+            padding: 0.75rem 1rem;
+            border-radius: 10px;
+            margin-top: 0.75rem;
+            font-size: 0.9rem;
+            color: #ffc107;
+            border: 1px solid rgba(255, 193, 7, 0.3);
+        }
+
+        /* Highlights Card */
+        .highlight-card {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin: 2rem auto;
+            box-shadow: var(--shadow-2xl);
+            border: 1px solid var(--glass-border);
+            max-width: 1200px;
+        }
+        
+        .highlight-card h2 {
+            color: #fff;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Tips Grid */
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .tip {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1.5rem;
+            border-radius: 15px;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .tip:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 15px 30px rgba(102, 126, 234, 0.2);
+        }
+        
+        .tip-title {
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
+        }
+        
+        .tip div {
+            color: rgba(255,255,255,0.8);
+            line-height: 1.5;
+        }
+
+        /* Custom Scrollbar */
+        .schedule::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .schedule::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+        
+        .schedule::-webkit-scrollbar-thumb {
+            background: var(--primary-gradient);
+            border-radius: 10px;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
         @media (max-width: 768px) {
-            .content-wrapper {
+            .main-content {
                 grid-template-columns: 1fr;
+                gap: 1.5rem;
+                padding: 0 1rem;
             }
+            
+            .header, .navigation, .legend, .highlight-card, .warning-alert {
+                margin-left: 1rem;
+                margin-right: 1rem;
+            }
+            
             #map {
-                height: 350px;
+                height: 400px;
             }
+            
             .header h1 {
-                font-size: 1.8em;
+                font-size: 2rem;
             }
+            
             .navigation {
                 flex-direction: column;
-                gap: 10px;
+                gap: 1rem;
+            }
+            
+            .nav-btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .tips-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
+    <!-- Modern Loader -->
+    <div class="loader-container" id="loader">
+        <div class="loader-modern">
+            <svg viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="45" stroke="url(#gradient1)"/>
+                <circle cx="50" cy="50" r="35" stroke="url(#gradient2)"/>
+                <defs>
+                    <linearGradient id="gradient1">
+                        <stop offset="0%" stop-color="#667eea"/>
+                        <stop offset="100%" stop-color="#764ba2"/>
+                    </linearGradient>
+                    <linearGradient id="gradient2">
+                        <stop offset="0%" stop-color="#f093fb"/>
+                        <stop offset="100%" stop-color="#f5576c"/>
+                    </linearGradient>
+                </defs>
+            </svg>
+        </div>
+    </div>
+
+    <!-- Particle Background -->
+    <div id="particles-js"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar-modern">
+        <div class="container-fluid px-4">
+            <div class="d-flex justify-content-between align-items-center w-100">
+                <h3 class="mb-0" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                    SA Adventure
+                </h3>
+                <a href="index.html" class="btn btn-sm" style="background: var(--primary-gradient); color: white; border-radius: 50px; padding: 0.5rem 1.5rem; text-decoration: none;">
+                    <i class="fas fa-home me-2"></i>Overview
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Content Wrapper -->
+    <div class="content-wrapper">
+        <div class="header" data-aos="fade-up">
             <h1>Day 4 - Panorama Route & Return 🏔️</h1>
             <div class="date">Sunday, August 31, 2025</div>
             <div class="subtitle">Scenic Wonders & Journey Back to Johannesburg</div>
         </div>
 
-        <div class="navigation">
+        <div class="navigation" data-aos="fade-up" data-aos-delay="200">
             <a href="day3_saturday_aug30.html" class="nav-btn">
                 <i class="fas fa-chevron-left"></i>
                 Previous Day
@@ -237,11 +572,11 @@
             </a>
         </div>
 
-        <div class="warning-alert">
+        <div class="warning-alert" data-aos="fade-up" data-aos-delay="300">
             <strong>⚠️ Long Drive Day!</strong> ~380km return journey to Johannesburg. Early checkout at 06:30. Expect to arrive home around 20:30.
         </div>
 
-        <div class="legend">
+        <div class="legend" data-aos="fade-up" data-aos-delay="400">
             <div class="legend-title">Map Legend:</div>
             <div class="legend-item">
                 <img class="legend-marker" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='10' fill='%23FFD700'/%3E%3Ctext x='12' y='16' text-anchor='middle' fill='black' font-size='12' font-weight='bold'%3EL%3C/text%3E%3C/svg%3E" alt="Lodge">
@@ -257,8 +592,10 @@
             </div>
         </div>
 
-        <div class="content-wrapper">
-            <div id="map"></div>
+        <div class="main-content" data-aos="fade-up" data-aos-delay="500">
+            <div class="map-container">
+                <div id="map"></div>
+            </div>
             <div class="schedule">
                 <h2>⛰️ Today's Journey</h2>
                 
@@ -379,17 +716,105 @@
                     <div>Don't linger too long - need to leave by 15:30 to reach home by 20:30.</div>
                 </div>
             </div>
+            </div>
         </div>
     </div>
 
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@3.0.0-beta.6/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/ScrollTrigger.min.js"></script>
+
     <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 1000,
+            once: false,
+            mirror: true
+        });
+
+        // Initialize Particles
+        particlesJS('particles-js', {
+            particles: {
+                number: {
+                    value: 60,
+                    density: {
+                        enable: true,
+                        value_area: 800
+                    }
+                },
+                color: {
+                    value: '#667eea'
+                },
+                shape: {
+                    type: 'circle'
+                },
+                opacity: {
+                    value: 0.3,
+                    random: true,
+                    anim: {
+                        enable: true,
+                        speed: 1,
+                        opacity_min: 0.1,
+                        sync: false
+                    }
+                },
+                size: {
+                    value: 3,
+                    random: true
+                },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: '#667eea',
+                    opacity: 0.2,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 1,
+                    direction: 'none',
+                    random: false,
+                    straight: false,
+                    out_mode: 'out',
+                    bounce: false
+                }
+            },
+            interactivity: {
+                detect_on: 'canvas',
+                events: {
+                    onhover: {
+                        enable: true,
+                        mode: 'repulse'
+                    },
+                    onclick: {
+                        enable: true,
+                        mode: 'push'
+                    },
+                    resize: true
+                },
+                modes: {
+                    repulse: {
+                        distance: 100,
+                        duration: 0.4
+                    },
+                    push: {
+                        particles_nb: 4
+                    }
+                }
+            },
+            retina_detect: true
+        });
+
         // Initialize the map
         const map = L.map('map').setView([-25.0, 30.5], 8);
         
-        // Add tile layer
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© OpenStreetMap contributors'
+        // Add dark tile layer
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+            attribution: '© OpenStreetMap contributors © CARTO'
         }).addTo(map);
 
         // Define locations
@@ -403,17 +828,17 @@
             {name: "Home - Morningside", lat: -26.0927, lng: 28.0568, type: "home", time: "~20:30"}
         ];
 
-        // Custom icons
+        // Custom modern icons
         const lodgeIcon = L.divIcon({
-            html: '<div style="background-color: #FFD700; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 2px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.3);">L</div>',
-            iconSize: [30, 30],
-            iconAnchor: [15, 15]
+            html: '<div style="background: linear-gradient(135deg, #FFD700, #FFA500); border-radius: 50%; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 3px solid white; box-shadow: 0 5px 15px rgba(0,0,0,0.3); color: black;">L</div>',
+            iconSize: [35, 35],
+            iconAnchor: [17.5, 17.5]
         });
 
         const homeIcon = L.divIcon({
-            html: '<div style="background-color: #00FF00; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 2px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.3);">H</div>',
-            iconSize: [30, 30],
-            iconAnchor: [15, 15]
+            html: '<div style="background: linear-gradient(135deg, #13B497, #0F8B71); border-radius: 50%; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 3px solid white; box-shadow: 0 5px 15px rgba(0,0,0,0.3); color: white;">H</div>',
+            iconSize: [35, 35],
+            iconAnchor: [17.5, 17.5]
         });
 
         // Add markers
@@ -425,42 +850,156 @@
                 icon = homeIcon;
             } else {
                 icon = L.divIcon({
-                    html: `<div style="background-color: #764ba2; color: white; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 2px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.3);">${index}</div>`,
-                    iconSize: [30, 30],
-                    iconAnchor: [15, 15]
+                    html: `<div style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; border-radius: 50%; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 3px solid white; box-shadow: 0 5px 15px rgba(0,0,0,0.3);">${index}</div>`,
+                    iconSize: [35, 35],
+                    iconAnchor: [17.5, 17.5]
                 });
             }
             
+            const popup = `
+                <div style="background: #0f0f1e; color: white; padding: 1rem; border-radius: 10px; border: 1px solid rgba(102, 126, 234, 0.5);">
+                    <strong style="color: #667eea;">${loc.name}</strong>
+                    ${loc.time ? '<br><span style="color: rgba(255,255,255,0.8);">Time: ' + loc.time + '</span>' : ''}
+                </div>
+            `;
+            
             L.marker([loc.lat, loc.lng], {icon: icon})
                 .addTo(map)
-                .bindPopup(`<strong>${loc.name}</strong>${loc.time ? '<br>Time: ' + loc.time : ''}`);
+                .bindPopup(popup);
         });
 
-        // Draw route
+        // Draw modern route
         const routeCoordinates = locations.map(loc => [loc.lat, loc.lng]);
         L.polyline(routeCoordinates, {
-            color: '#FF0000',
-            weight: 3,
-            opacity: 0.7,
+            color: '#667eea',
+            weight: 4,
+            opacity: 0.8,
             dashArray: '10, 10',
             smoothFactor: 1
         }).addTo(map);
 
-        // Add direction lines
+        // Add glowing direction lines
         for (let i = 0; i < routeCoordinates.length - 1; i++) {
             const start = routeCoordinates[i];
             const end = routeCoordinates[i + 1];
             
+            // Background glow
             L.polyline([start, end], {
-                color: '#764ba2',
+                color: '#667eea',
+                weight: 8,
+                opacity: 0.3
+            }).addTo(map);
+            
+            // Main line
+            L.polyline([start, end], {
+                color: '#667eea',
                 weight: 4,
-                opacity: 0.6
+                opacity: 0.8
             }).addTo(map);
         }
 
         // Fit map to show all markers
         const group = L.featureGroup(locations.map(loc => L.marker([loc.lat, loc.lng])));
         map.fitBounds(group.getBounds().pad(0.1));
+
+        // GSAP Animations
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar-modern');
+            if (window.scrollY > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Hide loader
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loader').classList.add('hidden');
+            }, 1000);
+        });
+
+        // Animate activity cards on hover
+        document.querySelectorAll('.activity').forEach(activity => {
+            activity.addEventListener('mouseenter', () => {
+                gsap.to(activity, {
+                    scale: 1.02,
+                    duration: 0.3,
+                    ease: "power2.out"
+                });
+            });
+
+            activity.addEventListener('mouseleave', () => {
+                gsap.to(activity, {
+                    scale: 1,
+                    duration: 0.3,
+                    ease: "power2.out"
+                });
+            });
+        });
+
+        // Parallax effect for particles
+        gsap.to('#particles-js', {
+            scrollTrigger: {
+                trigger: 'body',
+                start: 'top top',
+                end: 'bottom bottom',
+                scrub: true
+            },
+            y: -200,
+            ease: 'none'
+        });
+
+        // Stagger animation for activities
+        gsap.fromTo('.activity', 
+            {
+                opacity: 0,
+                x: -50
+            },
+            {
+                opacity: 1,
+                x: 0,
+                duration: 0.6,
+                stagger: 0.1,
+                scrollTrigger: {
+                    trigger: '.schedule',
+                    start: 'top 80%',
+                    end: 'bottom 20%',
+                    toggleActions: 'play none none reverse'
+                }
+            }
+        );
+
+        // Tips animation
+        gsap.fromTo('.tip', 
+            {
+                opacity: 0,
+                y: 30
+            },
+            {
+                opacity: 1,
+                y: 0,
+                duration: 0.6,
+                stagger: 0.1,
+                scrollTrigger: {
+                    trigger: '.tips-grid',
+                    start: 'top 80%',
+                    toggleActions: 'play none none reverse'
+                }
+            }
+        );
+
+        // Update navigation links to match modern theme
+        document.addEventListener('DOMContentLoaded', function() {
+            // Update index links to index_modern.html if available
+            const indexLinks = document.querySelectorAll('a[href="index.html"]');
+            indexLinks.forEach(link => {
+                // Keep the current href for now, can be updated if index_modern.html becomes the main index
+            });
+        });
     </script>
 </body>
 </html>

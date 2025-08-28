@@ -3,663 +3,1324 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <title>Day 3 - Saturday, August 30 | Kruger National Park</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="anonymous" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Day 3 - Saturday, August 30 | Kruger National Park Safari</title>
+    
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome Pro -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@3.0.0-beta.6/dist/aos.css" rel="stylesheet">
+    
+    <!-- Swiper Carousel -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+    
+    <!-- Leaflet Map -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+    
     <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --success-gradient: linear-gradient(135deg, #13B497 0%, #0F8B71 100%);
+            --warning-gradient: linear-gradient(135deg, #FFB75E 0%, #ED8F03 100%);
+            --dark: #1a1a2e;
+            --light: #f8f9fa;
+            --glass: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.08);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+            --shadow-xl: 0 20px 25px rgba(0,0,0,0.1);
+            --shadow-2xl: 0 25px 50px rgba(0,0,0,0.15);
+        }
+        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+        
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            background: #0f0f1e;
+            color: #fff;
             line-height: 1.6;
-            color: #333;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
         }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
+        
+        /* Particle Background */
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
         }
-        .header {
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            text-align: center;
+        
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
         }
-        .header h1 {
-            color: #764ba2;
-            font-size: 2.5em;
-            margin-bottom: 10px;
-        }
-        .header .date {
-            color: #666;
-            font-size: 1.2em;
-        }
-        .header .subtitle {
-            color: #888;
-            margin-top: 10px;
-            font-style: italic;
-        }
-        .navigation {
-            background: white;
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 20px;
+        
+        /* Modern Loader */
+        .loader-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0f0f1e;
+            z-index: 9999;
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: opacity 0.8s ease, visibility 0.8s ease;
         }
+        
+        .loader-container.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        .loader-modern {
+            position: relative;
+            width: 120px;
+            height: 120px;
+        }
+        
+        .loader-modern svg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            animation: rotate 2s linear infinite;
+        }
+        
+        .loader-modern circle {
+            fill: none;
+            stroke-width: 3;
+            stroke-linecap: round;
+            animation: dash 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes rotate {
+            100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes dash {
+            0% {
+                stroke-dasharray: 1, 150;
+                stroke-dashoffset: 0;
+            }
+            50% {
+                stroke-dasharray: 90, 150;
+                stroke-dashoffset: -35;
+            }
+            100% {
+                stroke-dasharray: 90, 150;
+                stroke-dashoffset: -124;
+            }
+        }
+        
+        /* Navigation */
+        .navbar-modern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1rem 0;
+            background: rgba(15, 15, 30, 0.8);
+            backdrop-filter: blur(20px);
+            transition: all 0.3s ease;
+        }
+        
+        .navbar-modern.scrolled {
+            background: rgba(15, 15, 30, 0.95);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        /* Hero Section */
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            padding-top: 80px;
+        }
+        
+        .hero-content {
+            text-align: center;
+            max-width: 900px;
+            padding: 2rem;
+        }
+        
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 900;
+            background: var(--success-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 1s ease;
+        }
+        
+        .hero-subtitle {
+            font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 1rem;
+            font-weight: 300;
+        }
+        
+        .hero-date {
+            display: inline-block;
+            padding: 0.75rem 2rem;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 2rem;
+        }
+        
+        /* Glass Cards */
+        .glass-card {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            margin-bottom: 2rem;
+        }
+        
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.2);
+            border-color: rgba(102, 126, 234, 0.5);
+        }
+        
+        .glass-card h2 {
+            color: #fff;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .glass-card h3 {
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        
+        /* Navigation Buttons */
+        .nav-buttons {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--glass-border);
+        }
+        
         .nav-btn {
-            background: #764ba2;
+            background: var(--primary-gradient);
             color: white;
             border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
+            padding: 12px 24px;
+            border-radius: 50px;
             cursor: pointer;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
             gap: 10px;
-            transition: background 0.3s;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
         }
+        
         .nav-btn:hover {
-            background: #5a3a7e;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+            color: white;
         }
-        .content-wrapper {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            margin-bottom: 30px;
+        
+        .nav-btn:focus {
+            color: white;
         }
-        #map {
+        
+        /* Map Container */
+        .map-container {
+            position: relative;
             height: 700px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: var(--shadow-2xl);
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
         }
-        .schedule {
-            background: white;
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        
+        #map {
+            height: 100%;
+            width: 100%;
+            border-radius: 30px;
+        }
+        
+        /* Schedule Container */
+        .schedule-container {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            padding: 2rem;
+            border: 1px solid var(--glass-border);
             max-height: 700px;
             overflow-y: auto;
         }
-        .schedule h2 {
-            color: #764ba2;
-            margin-bottom: 20px;
+        
+        .schedule-container h2 {
+            color: #fff;
+            margin-bottom: 1.5rem;
             font-size: 1.8em;
-        }
-        .activity {
-            background: #f8f9fa;
-            border-left: 4px solid #764ba2;
-            padding: 15px;
-            margin-bottom: 15px;
-            border-radius: 5px;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        .activity:hover {
-            transform: translateX(5px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-        .activity.highlight {
-            border-left-color: #28a745;
-            background: #e7f5e7;
-        }
-        .activity-time {
-            color: #764ba2;
-            font-weight: bold;
-            font-size: 1.1em;
-            margin-bottom: 5px;
-        }
-        .activity.highlight .activity-time {
-            color: #28a745;
-        }
-        .activity-title {
-            font-weight: bold;
-            color: #333;
-            font-size: 1.2em;
-            margin-bottom: 5px;
-        }
-        .activity-location {
-            color: #666;
-            margin-bottom: 5px;
+            font-weight: 700;
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 10px;
         }
+        
+        /* Activity Cards */
+        .activity {
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 4px solid;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            border-left-color: var(--primary-gradient);
+        }
+        
+        .activity:hover {
+            transform: translateX(10px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
+            background: rgba(255, 255, 255, 0.08);
+        }
+        
+        .activity.highlight {
+            border-left: 4px solid;
+            border-image: var(--success-gradient) 1;
+            background: rgba(19, 180, 151, 0.1);
+        }
+        
+        .activity.highlight:hover {
+            background: rgba(19, 180, 151, 0.15);
+        }
+        
+        .activity-time {
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+            font-size: 1.1em;
+            margin-bottom: 8px;
+        }
+        
+        .activity.highlight .activity-time {
+            background: var(--success-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .activity-title {
+            font-weight: 700;
+            color: #fff;
+            font-size: 1.2em;
+            margin-bottom: 8px;
+        }
+        
+        .activity-location {
+            color: rgba(255,255,255,0.7);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
         .activity-notes {
-            color: #888;
+            color: rgba(255,255,255,0.6);
             font-size: 0.9em;
             font-style: italic;
-            margin-top: 5px;
+            margin-top: 8px;
         }
-        .activity-wildlife {
-            background: #fff3cd;
-            padding: 5px 10px;
-            border-radius: 3px;
-            margin-top: 5px;
-            font-size: 0.9em;
-        }
-        .activity-road {
-            background: #e3f2fd;
-            padding: 5px 10px;
-            border-radius: 3px;
-            margin-top: 5px;
-            font-size: 0.9em;
-            font-weight: bold;
-        }
-        .highlight-card {
-            background: white;
+        
+        .activity-wildlife, .activity-road {
+            display: inline-block;
+            padding: 6px 12px;
             border-radius: 15px;
-            padding: 25px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-top: 8px;
+            font-size: 0.85em;
+            font-weight: 600;
         }
-        .highlight-card h2 {
-            color: #764ba2;
-            margin-bottom: 15px;
+        
+        .activity-wildlife {
+            background: rgba(255, 193, 7, 0.2);
+            color: #ffc107;
+            border: 1px solid rgba(255, 193, 7, 0.3);
         }
-        .tips-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
+        
+        .activity-road {
+            background: rgba(13, 202, 240, 0.2);
+            color: #0dcaf0;
+            border: 1px solid rgba(13, 202, 240, 0.3);
         }
-        .tip {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 8px;
-            border-left: 3px solid #667eea;
+        
+        /* Alert Cards */
+        .alert-card {
+            background: rgba(40, 167, 69, 0.1);
+            border-left: 4px solid #28a745;
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(40, 167, 69, 0.3);
         }
-        .tip-title {
-            font-weight: bold;
-            color: #667eea;
-            margin-bottom: 5px;
+        
+        .alert-card strong {
+            color: #28a745;
+            font-weight: 700;
         }
+        
+        /* Legend */
         .legend {
-            background: white;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            padding: 1.5rem;
+            border-radius: 20px;
+            margin-bottom: 2rem;
+            border: 1px solid var(--glass-border);
         }
+        
         .legend-title {
-            font-weight: bold;
-            color: #764ba2;
-            margin-bottom: 10px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 1rem;
         }
+        
         .legend-item {
             display: inline-flex;
             align-items: center;
             margin-right: 20px;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
+            color: rgba(255,255,255,0.8);
         }
+        
         .legend-marker {
             width: 30px;
             height: 30px;
-            margin-right: 8px;
+            margin-right: 10px;
+            border-radius: 50%;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
         }
-        .safari-alert {
-            background: #d4edda;
-            border-left: 4px solid #28a745;
-            padding: 15px;
-            border-radius: 5px;
-            margin-bottom: 20px;
+        
+        /* Tips Grid */
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
         }
+        
+        .tip {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1.5rem;
+            border-radius: 20px;
+            border-left: 4px solid;
+            border-left-color: #667eea;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .tip:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
+            background: rgba(255, 255, 255, 0.08);
+        }
+        
+        .tip-title {
+            font-weight: 700;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .tip-content {
+            color: rgba(255,255,255,0.8);
+            font-size: 0.9rem;
+        }
+        
+        /* Route Options */
         .route-options {
-            background: #fff8e1;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 20px;
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--glass-border);
         }
+        
         .route-option {
-            margin-bottom: 15px;
-            padding: 15px;
-            background: white;
-            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.05);
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
         }
+        
+        .route-option:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-2px);
+        }
+        
         .route-option h4 {
-            color: #764ba2;
-            margin-bottom: 5px;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            font-weight: 700;
         }
+        
+        .route-option ul {
+            margin: 0;
+            padding-left: 1.2rem;
+        }
+        
+        .route-option li {
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 8px;
+        }
+        
+        .route-option li strong {
+            color: #fff;
+        }
+        
+        /* Wildlife Time Guide */
         .wildlife-time-guide {
-            background: #f0f8ff;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 20px;
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--glass-border);
         }
+        
+        .wildlife-time-guide h3 {
+            color: #fff;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
         .time-slot {
             display: flex;
             align-items: center;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 10px;
+            transition: all 0.3s ease;
         }
+        
+        .time-slot:hover {
+            background: rgba(255, 255, 255, 0.06);
+            transform: translateX(5px);
+        }
+        
         .time-slot-time {
-            font-weight: bold;
-            color: #764ba2;
-            width: 120px;
+            font-weight: 700;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            width: 130px;
+            flex-shrink: 0;
         }
+        
         .time-slot-activity {
+            color: rgba(255,255,255,0.8);
             flex: 1;
         }
+        
+        /* Responsive Design */
         @media (max-width: 768px) {
-            .content-wrapper {
-                grid-template-columns: 1fr;
+            .hero-title {
+                font-size: 2.5rem;
             }
-            #map {
-                height: 350px;
-            }
-            .header h1 {
-                font-size: 1.8em;
-            }
-            .navigation {
-                flex-direction: column;
-                gap: 10px;
-            }
+            
             .tips-grid {
                 grid-template-columns: 1fr;
             }
+            
+            .nav-buttons {
+                text-align: center;
+            }
+            
+            .nav-buttons .d-flex {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .nav-btn {
+                justify-content: center;
+            }
+            
+            .map-container {
+                height: 400px;
+            }
+            
+            .time-slot {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+            
+            .time-slot-time {
+                width: auto;
+            }
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 15, 30, 0.5);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-gradient);
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        }
+        
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        /* Loading animation for images */
+        .loading-shimmer {
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>Day 3 - Kruger Safari Adventure 🦁</h1>
-            <div class="date">Saturday, August 30, 2025</div>
-            <div class="subtitle">Strategic Game Drive Routes for Maximum Wildlife Viewing</div>
+    <!-- Modern Loader -->
+    <div class="loader-container" id="loader">
+        <div class="loader-modern">
+            <svg viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="45" stroke="url(#gradient1)"/>
+                <circle cx="50" cy="50" r="35" stroke="url(#gradient2)"/>
+                <defs>
+                    <linearGradient id="gradient1">
+                        <stop offset="0%" stop-color="#13B497"/>
+                        <stop offset="100%" stop-color="#0F8B71"/>
+                    </linearGradient>
+                    <linearGradient id="gradient2">
+                        <stop offset="0%" stop-color="#667eea"/>
+                        <stop offset="100%" stop-color="#764ba2"/>
+                    </linearGradient>
+                </defs>
+            </svg>
         </div>
+    </div>
 
-        <div class="navigation">
-            <a href="day2_friday_aug29.html" class="nav-btn">
-                <i class="fas fa-chevron-left"></i>
-                Previous Day
-            </a>
-            <a href="index.html" class="nav-btn">
-                <i class="fas fa-home"></i>
-                Overview
-            </a>
-            <a href="day4_sunday_aug31.html" class="nav-btn">
-                Next Day
-                <i class="fas fa-chevron-right"></i>
-            </a>
-        </div>
+    <!-- Particle Background -->
+    <div id="particles-js"></div>
 
-        <div class="safari-alert">
-            <strong>⏰ Early Start Essential!</strong> Wake at 04:45. Coffee and rusks at lodge. Gates open at 06:00 sharp. Download "Latest Sightings" app before entering for real-time animal locations!
-        </div>
-
-        <div class="legend">
-            <div class="legend-title">Map Legend:</div>
-            <div class="legend-item">
-                <img class="legend-marker" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='10' fill='%23FFD700'/%3E%3Ctext x='12' y='16' text-anchor='middle' fill='black' font-size='12' font-weight='bold'%3EL%3C/text%3E%3C/svg%3E" alt="Lodge">
-                Lodge (Starting Point)
-            </div>
-            <div class="legend-item">
-                <img class="legend-marker" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='10' fill='%2328a745'/%3E%3Ctext x='12' y='16' text-anchor='middle' fill='white' font-size='12' font-weight='bold'%3EG%3C/text%3E%3C/svg%3E" alt="Gate">
-                Park Gates
-            </div>
-            <div class="legend-item">
-                <img class="legend-marker" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='10' fill='%23764ba2'/%3E%3Ctext x='12' y='16' text-anchor='middle' fill='white' font-size='12' font-weight='bold'%3E1%3C/text%3E%3C/svg%3E" alt="Stop">
-                Key Stops
-            </div>
-            <div class="legend-item">
-                <img class="legend-marker" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='10' fill='%23FF6B35'/%3E%3Ctext x='12' y='16' text-anchor='middle' fill='white' font-size='10' font-weight='bold'%3E🦁%3C/text%3E%3C/svg%3E" alt="Wildlife">
-                Prime Wildlife Spots
+    <!-- Navigation -->
+    <nav class="navbar-modern">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-6">
+                    <h4 class="mb-0" style="background: var(--success-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700;">
+                        <i class="fas fa-paw me-2"></i>Kruger Safari
+                    </h4>
+                </div>
+                <div class="col-6 text-end">
+                    <a href="index_modern.html" class="btn btn-sm" style="background: var(--success-gradient); color: white; border-radius: 50px; padding: 0.5rem 1.5rem; text-decoration: none;">
+                        <i class="fas fa-home me-2"></i>Overview
+                    </a>
+                </div>
             </div>
         </div>
+    </nav>
 
-        <div class="wildlife-time-guide">
-            <h3 style="color: #764ba2; margin-bottom: 15px;">🕐 Wildlife Activity by Time</h3>
-            <div class="time-slot">
-                <span class="time-slot-time">06:00 - 08:00</span>
-                <span class="time-slot-activity">🦁 Predators still active from night hunts - BEST TIME!</span>
+    <!-- Content Wrapper -->
+    <div class="content-wrapper">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="hero-content">
+                <h1 class="hero-title" data-aos="fade-up">
+                    Day 3: Kruger Safari Adventure
+                </h1>
+                <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="200">
+                    Strategic Game Drive Routes for Maximum Wildlife Viewing
+                </p>
+                <div class="hero-date" data-aos="fade-up" data-aos-delay="400">
+                    <i class="fas fa-calendar-day me-2"></i>
+                    Saturday, August 30, 2025
+                </div>
             </div>
-            <div class="time-slot">
-                <span class="time-slot-time">08:00 - 10:00</span>
-                <span class="time-slot-activity">🦒 General game most active - excellent visibility</span>
-            </div>
-            <div class="time-slot">
-                <span class="time-slot-time">10:00 - 14:00</span>
-                <span class="time-slot-activity">💧 Animals at water sources - check dams and rivers</span>
-            </div>
-            <div class="time-slot">
-                <span class="time-slot-time">14:00 - 17:00</span>
-                <span class="time-slot-activity">🐘 Animals become active again as temperature drops</span>
-            </div>
-        </div>
+        </section>
 
-        <div class="content-wrapper">
-            <div id="map"></div>
-            <div class="schedule">
-                <h2>🦒 Detailed Safari Route</h2>
+        <div class="container">
+            <!-- Navigation Buttons -->
+            <div class="nav-buttons" data-aos="fade-up">
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                    <a href="day2_friday_aug29.html" class="nav-btn">
+                        <i class="fas fa-chevron-left"></i>
+                        Previous Day
+                    </a>
+                    <a href="index_modern.html" class="nav-btn">
+                        <i class="fas fa-home"></i>
+                        Overview
+                    </a>
+                    <a href="day4_sunday_aug31.html" class="nav-btn">
+                        Next Day
+                        <i class="fas fa-chevron-right"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Early Start Alert -->
+            <div class="alert-card" data-aos="fade-up">
+                <strong>⏰ Early Start Essential!</strong> Wake at 04:45. Coffee and rusks at lodge. Gates open at 06:00 sharp. Download "Latest Sightings" app before entering for real-time animal locations!
+            </div>
+
+            <!-- Map Legend -->
+            <div class="legend" data-aos="fade-up">
+                <div class="legend-title">🗺️ Map Legend:</div>
+                <div class="d-flex flex-wrap">
+                    <div class="legend-item">
+                        <div class="legend-marker" style="background: #FFD700; display: flex; align-items: center; justify-content: center; font-weight: bold; color: black;">L</div>
+                        Lodge (Starting Point)
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-marker" style="background: #28a745; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white;">G</div>
+                        Park Gates
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-marker" style="background: var(--primary-gradient); display: flex; align-items: center; justify-content: center; font-weight: bold; color: white;">S</div>
+                        Key Stops
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-marker" style="background: #FF6B35; display: flex; align-items: center; justify-content: center; font-size: 12px;">🦁</div>
+                        Prime Wildlife Spots
+                    </div>
+                </div>
+            </div>
+
+            <!-- Wildlife Activity Time Guide -->
+            <div class="wildlife-time-guide" data-aos="fade-up">
+                <h3>🕐 Wildlife Activity by Time</h3>
+                <div class="time-slot">
+                    <span class="time-slot-time">06:00 - 08:00</span>
+                    <span class="time-slot-activity">🦁 Predators still active from night hunts - BEST TIME!</span>
+                </div>
+                <div class="time-slot">
+                    <span class="time-slot-time">08:00 - 10:00</span>
+                    <span class="time-slot-activity">🦒 General game most active - excellent visibility</span>
+                </div>
+                <div class="time-slot">
+                    <span class="time-slot-time">10:00 - 14:00</span>
+                    <span class="time-slot-activity">💧 Animals at water sources - check dams and rivers</span>
+                </div>
+                <div class="time-slot">
+                    <span class="time-slot-time">14:00 - 17:00</span>
+                    <span class="time-slot-activity">🐘 Animals become active again as temperature drops</span>
+                </div>
+            </div>
+
+            <!-- Map and Schedule Layout -->
+            <div class="row g-4 mb-4">
+                <!-- Map -->
+                <div class="col-lg-6" data-aos="fade-right">
+                    <div class="map-container">
+                        <div id="map"></div>
+                    </div>
+                </div>
                 
-                <div class="activity">
-                    <div class="activity-time">05:15 - 05:45</div>
-                    <div class="activity-title">Drive to Malelane Gate</div>
-                    <div class="activity-location">
-                        <i class="fas fa-map-marker-alt"></i>
-                        Lodge → Malelane Gate (~20 km)
+                <!-- Schedule -->
+                <div class="col-lg-6" data-aos="fade-left">
+                    <div class="schedule-container">
+                        <h2>
+                            <i class="fas fa-route me-2"></i>
+                            Detailed Safari Route
+                        </h2>
+                        
+                        <div class="activity">
+                            <div class="activity-time">05:15 - 05:45</div>
+                            <div class="activity-title">Drive to Malelane Gate</div>
+                            <div class="activity-location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                Lodge → Malelane Gate (~20 km)
+                            </div>
+                            <div class="activity-notes">Arrive early to be first in line at gate</div>
+                        </div>
+
+                        <div class="activity highlight">
+                            <div class="activity-time">06:00 - 08:30</div>
+                            <div class="activity-title">Prime Predator Time - S114 & S110</div>
+                            <div class="activity-location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                Malelane to Afsaal via strategic routes
+                            </div>
+                            <div class="activity-road">Road S114: Malelane to Berg-en-Dal</div>
+                            <div class="activity-wildlife">🦏 Excellent for rhinos & elephants along riverbed</div>
+                            <div class="activity-road">Matjulu Loop (S110)</div>
+                            <div class="activity-wildlife">🦁 Prime lion territory - drive SLOWLY!</div>
+                            <div class="activity-road">Mathekenyane Viewpoint</div>
+                            <div class="activity-wildlife">🦛 Guaranteed hippos and crocodiles</div>
+                        </div>
+
+                        <div class="activity">
+                            <div class="activity-time">08:30 - 09:15</div>
+                            <div class="activity-title">Breakfast at Afsaal</div>
+                            <div class="activity-location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                Afsaal Picnic Spot
+                            </div>
+                            <div class="activity-notes">Shop, restrooms, often elephants nearby</div>
+                            <div class="activity-wildlife">Check sightings board for recent activity!</div>
+                        </div>
+
+                        <div class="activity highlight">
+                            <div class="activity-time">09:30 - 11:00</div>
+                            <div class="activity-title">H3 Road - The Famous Cat Road</div>
+                            <div class="activity-location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                Afsaal to Lower Sabie
+                            </div>
+                            <div class="activity-road">H3 Road (Main Route)</div>
+                            <div class="activity-wildlife">🐆 Famous for leopards and lions - scan trees!</div>
+                            <div class="activity-road">Sunset Dam Detour</div>
+                            <div class="activity-wildlife">🦛 Hippos, birds, often big cats drinking</div>
+                            <div class="activity-road">S28 Nhlanguleni Road</div>
+                            <div class="activity-wildlife">🐕 Less crowded, excellent for wild dogs</div>
+                        </div>
+
+                        <div class="activity">
+                            <div class="activity-time">11:30 - 13:00</div>
+                            <div class="activity-title">Lunch at Lower Sabie</div>
+                            <div class="activity-location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                Lower Sabie Rest Camp
+                            </div>
+                            <div class="activity-notes">Better restaurant than Skukuza, great deck views</div>
+                            <div class="activity-road">Lower Sabie Bridge</div>
+                            <div class="activity-wildlife">🐊 Always has hippos, crocs, and birds</div>
+                            <div class="activity-notes">CHECK SIGHTINGS BOARD for afternoon route!</div>
+                        </div>
+
+                        <div class="activity highlight">
+                            <div class="activity-time">13:00 - 17:15</div>
+                            <div class="activity-title">Afternoon Strategic Routes</div>
+                            <div class="activity-location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                Choose based on morning sightings
+                            </div>
+                            <div class="activity-notes">TWO OPTIONS - Choose based on what you haven't seen:</div>
+                        </div>
+
+                        <div class="activity">
+                            <div class="activity-time">Option A</div>
+                            <div class="activity-title">Big Cat Focus Route</div>
+                            <div class="activity-road">S28 to S29 Loop</div>
+                            <div class="activity-wildlife">🐆 Leopard hotspot - check all large trees</div>
+                            <div class="activity-road">Mlondozi Dam</div>
+                            <div class="activity-wildlife">🐘 Late afternoon elephant gathering spot</div>
+                            <div class="activity-road">Return via S25</div>
+                            <div class="activity-wildlife">🦁 Often lions in late afternoon</div>
+                        </div>
+
+                        <div class="activity">
+                            <div class="activity-time">Option B</div>
+                            <div class="activity-title">Diverse Wildlife Route</div>
+                            <div class="activity-road">H10 Road East</div>
+                            <div class="activity-wildlife">🦒 Good general game viewing</div>
+                            <div class="activity-road">Transport Dam (S126)</div>
+                            <div class="activity-wildlife">🦏 Quieter spot, often white rhinos</div>
+                            <div class="activity-road">Biyamiti Loop (S129)</div>
+                            <div class="activity-wildlife">⭐ If time permits - excellent for everything!</div>
+                        </div>
+
+                        <div class="activity">
+                            <div class="activity-time">17:15 - 18:00</div>
+                            <div class="activity-title">Exit Park & Return</div>
+                            <div class="activity-location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                Malelane Gate → Lodge
+                            </div>
+                            <div class="activity-notes">MUST exit by 18:00 - fines for late exit!</div>
+                            <div class="activity-wildlife">Often see animals heading to water on exit drive</div>
+                        </div>
+
+                        <div class="activity">
+                            <div class="activity-time">19:00 - 20:30</div>
+                            <div class="activity-title">Dinner at Lodge</div>
+                            <div class="activity-location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                Lodge Restaurant
+                            </div>
+                            <div class="activity-notes">Share safari stories, review photos</div>
+                            <div class="activity-wildlife">Book spa for tired muscles!</div>
+                        </div>
                     </div>
-                    <div class="activity-notes">Arrive early to be first in line at gate</div>
-                </div>
-
-                <div class="activity highlight">
-                    <div class="activity-time">06:00 - 08:30</div>
-                    <div class="activity-title">Prime Predator Time - S114 & S110</div>
-                    <div class="activity-location">
-                        <i class="fas fa-map-marker-alt"></i>
-                        Malelane to Afsaal via strategic routes
-                    </div>
-                    <div class="activity-road">Road S114: Malelane to Berg-en-Dal</div>
-                    <div class="activity-wildlife">🦏 Excellent for rhinos & elephants along riverbed</div>
-                    <div class="activity-road">Matjulu Loop (S110)</div>
-                    <div class="activity-wildlife">🦁 Prime lion territory - drive SLOWLY!</div>
-                    <div class="activity-road">Mathekenyane Viewpoint</div>
-                    <div class="activity-wildlife">🦛 Guaranteed hippos and crocodiles</div>
-                </div>
-
-                <div class="activity">
-                    <div class="activity-time">08:30 - 09:15</div>
-                    <div class="activity-title">Breakfast at Afsaal</div>
-                    <div class="activity-location">
-                        <i class="fas fa-map-marker-alt"></i>
-                        Afsaal Picnic Spot
-                    </div>
-                    <div class="activity-notes">Shop, restrooms, often elephants nearby</div>
-                    <div class="activity-wildlife">Check sightings board for recent activity!</div>
-                </div>
-
-                <div class="activity highlight">
-                    <div class="activity-time">09:30 - 11:00</div>
-                    <div class="activity-title">H3 Road - The Famous Cat Road</div>
-                    <div class="activity-location">
-                        <i class="fas fa-map-marker-alt"></i>
-                        Afsaal to Lower Sabie
-                    </div>
-                    <div class="activity-road">H3 Road (Main Route)</div>
-                    <div class="activity-wildlife">🐆 Famous for leopards and lions - scan trees!</div>
-                    <div class="activity-road">Sunset Dam Detour</div>
-                    <div class="activity-wildlife">🦛 Hippos, birds, often big cats drinking</div>
-                    <div class="activity-road">S28 Nhlanguleni Road</div>
-                    <div class="activity-wildlife">🐕 Less crowded, excellent for wild dogs</div>
-                </div>
-
-                <div class="activity">
-                    <div class="activity-time">11:30 - 13:00</div>
-                    <div class="activity-title">Lunch at Lower Sabie</div>
-                    <div class="activity-location">
-                        <i class="fas fa-map-marker-alt"></i>
-                        Lower Sabie Rest Camp
-                    </div>
-                    <div class="activity-notes">Better restaurant than Skukuza, great deck views</div>
-                    <div class="activity-road">Lower Sabie Bridge</div>
-                    <div class="activity-wildlife">🐊 Always has hippos, crocs, and birds</div>
-                    <div class="activity-notes">CHECK SIGHTINGS BOARD for afternoon route!</div>
-                </div>
-
-                <div class="activity highlight">
-                    <div class="activity-time">13:00 - 17:15</div>
-                    <div class="activity-title">Afternoon Strategic Routes</div>
-                    <div class="activity-location">
-                        <i class="fas fa-map-marker-alt"></i>
-                        Choose based on morning sightings
-                    </div>
-                    <div class="activity-notes">TWO OPTIONS - Choose based on what you haven't seen:</div>
-                </div>
-
-                <div class="activity">
-                    <div class="activity-time">Option A</div>
-                    <div class="activity-title">Big Cat Focus Route</div>
-                    <div class="activity-road">S28 to S29 Loop</div>
-                    <div class="activity-wildlife">🐆 Leopard hotspot - check all large trees</div>
-                    <div class="activity-road">Mlondozi Dam</div>
-                    <div class="activity-wildlife">🐘 Late afternoon elephant gathering spot</div>
-                    <div class="activity-road">Return via S25</div>
-                    <div class="activity-wildlife">🦁 Often lions in late afternoon</div>
-                </div>
-
-                <div class="activity">
-                    <div class="activity-time">Option B</div>
-                    <div class="activity-title">Diverse Wildlife Route</div>
-                    <div class="activity-road">H10 Road East</div>
-                    <div class="activity-wildlife">🦒 Good general game viewing</div>
-                    <div class="activity-road">Transport Dam (S126)</div>
-                    <div class="activity-wildlife">🦏 Quieter spot, often white rhinos</div>
-                    <div class="activity-road">Biyamiti Loop (S129)</div>
-                    <div class="activity-wildlife">⭐ If time permits - excellent for everything!</div>
-                </div>
-
-                <div class="activity">
-                    <div class="activity-time">17:15 - 18:00</div>
-                    <div class="activity-title">Exit Park & Return</div>
-                    <div class="activity-location">
-                        <i class="fas fa-map-marker-alt"></i>
-                        Malelane Gate → Lodge
-                    </div>
-                    <div class="activity-notes">MUST exit by 18:00 - fines for late exit!</div>
-                    <div class="activity-wildlife">Often see animals heading to water on exit drive</div>
-                </div>
-
-                <div class="activity">
-                    <div class="activity-time">19:00 - 20:30</div>
-                    <div class="activity-title">Dinner at Lodge</div>
-                    <div class="activity-location">
-                        <i class="fas fa-map-marker-alt"></i>
-                        Lodge Restaurant
-                    </div>
-                    <div class="activity-notes">Share safari stories, review photos</div>
-                    <div class="activity-wildlife">Book spa for tired muscles!</div>
                 </div>
             </div>
-        </div>
 
-        <div class="route-options">
-            <h3 style="color: #764ba2; margin-bottom: 15px;">🗺️ Pro Route Tips</h3>
-            <div class="route-option">
-                <h4>🌟 Must-Do Roads</h4>
-                <ul>
-                    <li><strong>S114:</strong> The rhino road - drive slowly along dry riverbed</li>
-                    <li><strong>H3:</strong> The legendary cat road - everyone sees something here</li>
-                    <li><strong>S28:</strong> Less busy but incredibly productive for rare sightings</li>
-                </ul>
+            <!-- Route Options -->
+            <div class="route-options" data-aos="fade-up">
+                <h3 style="color: #fff; margin-bottom: 1.5rem; font-weight: 700;">
+                    <i class="fas fa-route me-2"></i>Pro Route Tips
+                </h3>
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <div class="route-option">
+                            <h4><i class="fas fa-star me-2"></i>Must-Do Roads</h4>
+                            <ul>
+                                <li><strong>S114:</strong> The rhino road - drive slowly along dry riverbed</li>
+                                <li><strong>H3:</strong> The legendary cat road - everyone sees something here</li>
+                                <li><strong>S28:</strong> Less busy but incredibly productive for rare sightings</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="route-option">
+                            <h4><i class="fas fa-eye me-2"></i>Secret Spots</h4>
+                            <ul>
+                                <li><strong>Vurhami Loop:</strong> If you have 30 extra minutes - often cheetahs</li>
+                                <li><strong>Duke's Water Hole:</strong> Turn-off on S114 - usually quiet with good sightings</li>
+                                <li><strong>Nkumbe View Site:</strong> On H3 - panoramic views, often raptors</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="route-option">
-                <h4>🔍 Secret Spots</h4>
-                <ul>
-                    <li><strong>Vurhami Loop:</strong> If you have 30 extra minutes - often cheetahs</li>
-                    <li><strong>Duke's Water Hole:</strong> Turn-off on S114 - usually quiet with good sightings</li>
-                    <li><strong>Nkumbe View Site:</strong> On H3 - panoramic views, often raptors</li>
-                </ul>
-            </div>
-        </div>
 
-        <div class="highlight-card">
-            <h2>🌟 Expert Safari Tips</h2>
-            <div class="tips-grid">
-                <div class="tip">
-                    <div class="tip-title">📱 Technology</div>
-                    <div>Download "Latest Sightings" app before entering. No signal in most of park. Take car charger.</div>
-                </div>
-                <div class="tip">
-                    <div class="tip-title">👀 Spotting Tricks</div>
-                    <div>Look for: Birds circling (kill), cars stopped (sighting), animals looking in one direction (predator nearby).</div>
-                </div>
-                <div class="tip">
-                    <div class="tip-title">🚗 Driving Strategy</div>
-                    <div>20-30 km/h on S roads for best sightings. Stop at every water source. Turn engine off at sightings.</div>
-                </div>
-                <div class="tip">
-                    <div class="tip-title">📸 Photography</div>
-                    <div>Bean bag for camera stability. Shoot from driver's side when alone. Binoculars essential!</div>
-                </div>
-                <div class="tip">
-                    <div class="tip-title">🦁 Big 5 Timing</div>
-                    <div>Lions: 06:00-08:00. Leopards: Check trees on H3. Elephants: Afternoon at water. Rhinos: S114 early. Buffalo: Anywhere!</div>
-                </div>
-                <div class="tip">
-                    <div class="tip-title">💡 Golden Rule</div>
-                    <div>First 2 hours = 50% of sightings. Be at gate at 06:00! Every minute after sunrise reduces cat sightings.</div>
+            <!-- Expert Safari Tips -->
+            <div class="glass-card" data-aos="fade-up">
+                <h2>
+                    <i class="fas fa-lightbulb me-2"></i>
+                    Expert Safari Tips
+                </h2>
+                <div class="tips-grid">
+                    <div class="tip">
+                        <div class="tip-title">
+                            <i class="fas fa-mobile-alt"></i>
+                            Technology
+                        </div>
+                        <div class="tip-content">Download "Latest Sightings" app before entering. No signal in most of park. Take car charger.</div>
+                    </div>
+                    <div class="tip">
+                        <div class="tip-title">
+                            <i class="fas fa-eye"></i>
+                            Spotting Tricks
+                        </div>
+                        <div class="tip-content">Look for: Birds circling (kill), cars stopped (sighting), animals looking in one direction (predator nearby).</div>
+                    </div>
+                    <div class="tip">
+                        <div class="tip-title">
+                            <i class="fas fa-car"></i>
+                            Driving Strategy
+                        </div>
+                        <div class="tip-content">20-30 km/h on S roads for best sightings. Stop at every water source. Turn engine off at sightings.</div>
+                    </div>
+                    <div class="tip">
+                        <div class="tip-title">
+                            <i class="fas fa-camera"></i>
+                            Photography
+                        </div>
+                        <div class="tip-content">Bean bag for camera stability. Shoot from driver's side when alone. Binoculars essential!</div>
+                    </div>
+                    <div class="tip">
+                        <div class="tip-title">
+                            <i class="fas fa-paw"></i>
+                            Big 5 Timing
+                        </div>
+                        <div class="tip-content">Lions: 06:00-08:00. Leopards: Check trees on H3. Elephants: Afternoon at water. Rhinos: S114 early. Buffalo: Anywhere!</div>
+                    </div>
+                    <div class="tip">
+                        <div class="tip-title">
+                            <i class="fas fa-crown"></i>
+                            Golden Rule
+                        </div>
+                        <div class="tip-content">First 2 hours = 50% of sightings. Be at gate at 06:00! Every minute after sunrise reduces cat sightings.</div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@3.0.0-beta.6/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/ScrollTrigger.min.js"></script>
+
     <script>
-        // Initialize the map centered on southern Kruger
-        const map = L.map('map').setView([-25.3, 31.5], 11);
-        
-        // Add tile layer
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© OpenStreetMap contributors'
-        }).addTo(map);
-
-        // Define detailed locations
-        const locations = [
-            {name: "Nkomazi Lodge", lat: -25.4731, lng: 31.2056, type: "lodge"},
-            {name: "1. Malelane Gate", lat: -25.4608, lng: 31.5450, type: "gate", time: "06:00"},
-            {name: "2. Matjulu Loop (S110)", lat: -25.4200, lng: 31.5200, type: "wildlife", highlight: "Lions"},
-            {name: "3. Mathekenyane Viewpoint", lat: -25.3900, lng: 31.4900, type: "wildlife", highlight: "Hippos"},
-            {name: "4. Afsaal Picnic Spot", lat: -25.3167, lng: 31.4333, type: "stop", time: "08:30"},
-            {name: "5. Sunset Dam", lat: -25.1500, lng: 31.6000, type: "wildlife", highlight: "Cats"},
-            {name: "6. Lower Sabie Camp", lat: -25.1200, lng: 31.9153, type: "stop", time: "11:30"},
-            {name: "7. S28 Road", lat: -25.2000, lng: 31.7500, type: "wildlife", highlight: "Leopards"},
-            {name: "8. Transport Dam", lat: -25.3500, lng: 31.6500, type: "wildlife", highlight: "Rhinos"},
-            {name: "9. Return to Malelane", lat: -25.4608, lng: 31.5450, type: "gate", time: "17:15"}
-        ];
-
-        // Custom icons
-        const lodgeIcon = L.divIcon({
-            html: '<div style="background-color: #FFD700; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 2px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.3);">L</div>',
-            iconSize: [30, 30],
-            iconAnchor: [15, 15]
+        // Initialize AOS
+        AOS.init({
+            duration: 1000,
+            once: false,
+            mirror: true,
+            offset: 120
         });
 
-        const gateIcon = L.divIcon({
-            html: '<div style="background-color: #28a745; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; border: 2px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.3);">G</div>',
-            iconSize: [30, 30],
-            iconAnchor: [15, 15]
+        // Initialize Particles
+        particlesJS('particles-js', {
+            particles: {
+                number: {
+                    value: 60,
+                    density: {
+                        enable: true,
+                        value_area: 800
+                    }
+                },
+                color: {
+                    value: '#13B497'
+                },
+                shape: {
+                    type: 'circle'
+                },
+                opacity: {
+                    value: 0.4,
+                    random: true,
+                    anim: {
+                        enable: true,
+                        speed: 1,
+                        opacity_min: 0.1,
+                        sync: false
+                    }
+                },
+                size: {
+                    value: 3,
+                    random: true
+                },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: '#13B497',
+                    opacity: 0.3,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 1.5,
+                    direction: 'none',
+                    random: false,
+                    straight: false,
+                    out_mode: 'out',
+                    bounce: false
+                }
+            },
+            interactivity: {
+                detect_on: 'canvas',
+                events: {
+                    onhover: {
+                        enable: true,
+                        mode: 'repulse'
+                    },
+                    onclick: {
+                        enable: true,
+                        mode: 'push'
+                    },
+                    resize: true
+                },
+                modes: {
+                    repulse: {
+                        distance: 80,
+                        duration: 0.4
+                    },
+                    push: {
+                        particles_nb: 3
+                    }
+                }
+            },
+            retina_detect: true
         });
 
-        const wildlifeIcon = (emoji) => L.divIcon({
-            html: `<div style="background-color: #FF6B35; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; font-size: 16px; border: 2px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.3);">${emoji}</div>`,
-            iconSize: [30, 30],
-            iconAnchor: [15, 15]
-        });
+        // GSAP Animations
+        gsap.registerPlugin(ScrollTrigger);
 
-        // Wildlife emojis for different spots
-        const wildlifeEmojis = {
-            "Lions": "🦁",
-            "Hippos": "🦛", 
-            "Cats": "🐆",
-            "Leopards": "🐆",
-            "Rhinos": "🦏"
-        };
-
-        // Add markers
-        locations.forEach((loc, index) => {
-            let icon;
-            if (loc.type === "lodge") {
-                icon = lodgeIcon;
-            } else if (loc.type === "gate") {
-                icon = gateIcon;
-            } else if (loc.type === "wildlife") {
-                icon = wildlifeIcon(wildlifeEmojis[loc.highlight] || "🦒");
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar-modern');
+            if (window.scrollY > 100) {
+                navbar.classList.add('scrolled');
             } else {
-                icon = L.divIcon({
-                    html: `<div style="background-color: #764ba2; color: white; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 2px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.3);">${index}</div>`,
-                    iconSize: [30, 30],
-                    iconAnchor: [15, 15]
-                });
+                navbar.classList.remove('scrolled');
             }
+        });
+
+        // Hide loader
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loader').classList.add('hidden');
+            }, 1200);
+        });
+
+        // GSAP Timeline animations
+        gsap.timeline()
+            .from('.hero-title', {
+                y: 50,
+                opacity: 0,
+                duration: 1,
+                delay: 0.5
+            })
+            .from('.hero-subtitle', {
+                y: 30,
+                opacity: 0,
+                duration: 0.8
+            }, '-=0.5')
+            .from('.hero-date', {
+                scale: 0,
+                opacity: 0,
+                duration: 0.6
+            }, '-=0.3');
+
+        // Parallax effect
+        gsap.to('#particles-js', {
+            scrollTrigger: {
+                trigger: 'body',
+                start: 'top top',
+                end: 'bottom bottom',
+                scrub: true
+            },
+            y: -150,
+            ease: 'none'
+        });
+
+        // Activity cards scroll animations
+        gsap.utils.toArray('.activity').forEach((card, i) => {
+            gsap.from(card, {
+                scrollTrigger: {
+                    trigger: card,
+                    start: 'top bottom-=100',
+                    end: 'bottom top+=100',
+                    toggleActions: 'play none none reverse'
+                },
+                x: -50,
+                opacity: 0,
+                duration: 0.6,
+                delay: i * 0.1
+            });
+        });
+
+        // Tips grid animations
+        gsap.utils.toArray('.tip').forEach((tip, i) => {
+            gsap.from(tip, {
+                scrollTrigger: {
+                    trigger: tip,
+                    start: 'top bottom-=100',
+                    toggleActions: 'play none none reverse'
+                },
+                y: 30,
+                opacity: 0,
+                duration: 0.5,
+                delay: i * 0.1
+            });
+        });
+
+        // Initialize the map centered on southern Kruger
+        document.addEventListener('DOMContentLoaded', function() {
+            const map = L.map('map').setView([-25.3, 31.5], 11);
             
-            L.marker([loc.lat, loc.lng], {icon: icon})
-                .addTo(map)
-                .bindPopup(`<strong>${loc.name}</strong>${loc.time ? '<br>Time: ' + loc.time : ''}${loc.highlight ? '<br>Known for: ' + loc.highlight : ''}`);
+            // Dark tile layer for modern theme
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+                attribution: '© OpenStreetMap contributors © CARTO'
+            }).addTo(map);
+
+            // Define detailed locations
+            const locations = [
+                {name: "Nkomazi Lodge", lat: -25.4731, lng: 31.2056, type: "lodge"},
+                {name: "1. Malelane Gate", lat: -25.4608, lng: 31.5450, type: "gate", time: "06:00"},
+                {name: "2. Matjulu Loop (S110)", lat: -25.4200, lng: 31.5200, type: "wildlife", highlight: "Lions"},
+                {name: "3. Mathekenyane Viewpoint", lat: -25.3900, lng: 31.4900, type: "wildlife", highlight: "Hippos"},
+                {name: "4. Afsaal Picnic Spot", lat: -25.3167, lng: 31.4333, type: "stop", time: "08:30"},
+                {name: "5. Sunset Dam", lat: -25.1500, lng: 31.6000, type: "wildlife", highlight: "Cats"},
+                {name: "6. Lower Sabie Camp", lat: -25.1200, lng: 31.9153, type: "stop", time: "11:30"},
+                {name: "7. S28 Road", lat: -25.2000, lng: 31.7500, type: "wildlife", highlight: "Leopards"},
+                {name: "8. Transport Dam", lat: -25.3500, lng: 31.6500, type: "wildlife", highlight: "Rhinos"},
+                {name: "9. Return to Malelane", lat: -25.4608, lng: 31.5450, type: "gate", time: "17:15"}
+            ];
+
+            // Custom icons with modern styling
+            const createIcon = (color, text, textColor = 'white') => L.divIcon({
+                html: `<div style="background: ${color}; border-radius: 50%; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; font-weight: bold; color: ${textColor}; border: 3px solid white; box-shadow: 0 4px 15px rgba(0,0,0,0.3); font-size: ${text.length > 1 ? '10px' : '14px'};">${text}</div>`,
+                iconSize: [35, 35],
+                iconAnchor: [17.5, 17.5]
+            });
+
+            const lodgeIcon = createIcon('#FFD700', 'L', 'black');
+            const gateIcon = createIcon('#28a745', 'G');
+            const stopIcon = createIcon('linear-gradient(135deg, #667eea, #764ba2)', 'S');
+
+            // Wildlife emojis for different spots
+            const wildlifeEmojis = {
+                "Lions": "🦁",
+                "Hippos": "🦛", 
+                "Cats": "🐆",
+                "Leopards": "🐆",
+                "Rhinos": "🦏"
+            };
+
+            // Add markers
+            locations.forEach((loc, index) => {
+                let icon;
+                if (loc.type === "lodge") {
+                    icon = lodgeIcon;
+                } else if (loc.type === "gate") {
+                    icon = gateIcon;
+                } else if (loc.type === "wildlife") {
+                    icon = createIcon('#FF6B35', wildlifeEmojis[loc.highlight] || "🦒");
+                } else {
+                    icon = createIcon('linear-gradient(135deg, #667eea, #764ba2)', index.toString());
+                }
+                
+                const marker = L.marker([loc.lat, loc.lng], {icon: icon}).addTo(map);
+                
+                const popupContent = `
+                    <div style="background: rgba(15, 15, 30, 0.9); color: white; padding: 10px; border-radius: 8px; min-width: 200px;">
+                        <strong style="color: #13B497; font-size: 14px;">${loc.name}</strong>
+                        ${loc.time ? `<br><small style="color: #ccc;"><i class="fas fa-clock"></i> Time: ${loc.time}</small>` : ''}
+                        ${loc.highlight ? `<br><small style="color: #ffc107;"><i class="fas fa-star"></i> Known for: ${loc.highlight}</small>` : ''}
+                    </div>
+                `;
+                
+                marker.bindPopup(popupContent);
+            });
+
+            // Draw main safari route with modern styling
+            const safariRoute = [
+                [locations[0].lat, locations[0].lng], // Lodge
+                [locations[1].lat, locations[1].lng], // Malelane Gate
+                [locations[2].lat, locations[2].lng], // Matjulu Loop
+                [locations[3].lat, locations[3].lng], // Mathekenyane
+                [locations[4].lat, locations[4].lng], // Afsaal
+                [locations[5].lat, locations[5].lng], // Sunset Dam
+                [locations[6].lat, locations[6].lng], // Lower Sabie
+                [locations[7].lat, locations[7].lng], // S28 Road
+                [locations[8].lat, locations[8].lng], // Transport Dam
+                [locations[9].lat, locations[9].lng], // Back to Malelane
+                [locations[0].lat, locations[0].lng]  // Lodge
+            ];
+
+            // Main route line with modern styling
+            L.polyline(safariRoute, {
+                color: '#13B497',
+                weight: 4,
+                opacity: 0.8,
+                dashArray: '10, 15',
+                smoothFactor: 1
+            }).addTo(map);
+
+            // Add specific road highlights with modern colors
+            // S114 Road (Rhino Road)
+            L.polyline([[-25.4608, 31.5450], [-25.4000, 31.5000]], {
+                color: '#4CAF50',
+                weight: 6,
+                opacity: 0.6
+            }).addTo(map).bindPopup('<div style="color: white; background: rgba(0,0,0,0.8); padding: 5px; border-radius: 5px;">S114 - Rhino Road</div>');
+
+            // H3 Road (Cat Road)
+            L.polyline([[-25.3167, 31.4333], [-25.1200, 31.9153]], {
+                color: '#FFC107',
+                weight: 6,
+                opacity: 0.6
+            }).addTo(map).bindPopup('<div style="color: white; background: rgba(0,0,0,0.8); padding: 5px; border-radius: 5px;">H3 - Famous Cat Road</div>');
+
+            // Add Kruger boundary indication with modern styling
+            const krugerBoundary = [
+                [-25.5, 31.4],
+                [-24.9, 31.4],
+                [-24.9, 32.0],
+                [-25.5, 32.0],
+                [-25.5, 31.4]
+            ];
+
+            L.polygon(krugerBoundary, {
+                color: '#13B497',
+                weight: 2,
+                opacity: 0.7,
+                fillColor: '#13B497',
+                fillOpacity: 0.1
+            }).addTo(map);
+
+            // Add water sources as modern blue circles
+            const waterSources = [
+                {name: "Sunset Dam", lat: -25.1500, lng: 31.6000},
+                {name: "Transport Dam", lat: -25.3500, lng: 31.6500},
+                {name: "Mlondozi Dam", lat: -25.2800, lng: 31.7200},
+                {name: "Duke's Water Hole", lat: -25.4300, lng: 31.5300}
+            ];
+
+            waterSources.forEach(water => {
+                L.circle([water.lat, water.lng], {
+                    color: '#0dcaf0',
+                    fillColor: '#0dcaf0',
+                    fillOpacity: 0.3,
+                    radius: 500,
+                    weight: 2
+                }).addTo(map).bindPopup(`<div style="color: white; background: rgba(0,0,0,0.8); padding: 5px; border-radius: 5px;"><i class="fas fa-tint"></i> ${water.name}</div>`);
+            });
+
+            // Fit map to show all markers with padding
+            const group = L.featureGroup(locations.map(loc => L.marker([loc.lat, loc.lng])));
+            map.fitBounds(group.getBounds().pad(0.1));
         });
-
-        // Draw main safari route
-        const safariRoute = [
-            [locations[0].lat, locations[0].lng], // Lodge
-            [locations[1].lat, locations[1].lng], // Malelane Gate
-            [locations[2].lat, locations[2].lng], // Matjulu Loop
-            [locations[3].lat, locations[3].lng], // Mathekenyane
-            [locations[4].lat, locations[4].lng], // Afsaal
-            [locations[5].lat, locations[5].lng], // Sunset Dam
-            [locations[6].lat, locations[6].lng], // Lower Sabie
-            [locations[7].lat, locations[7].lng], // S28 Road
-            [locations[8].lat, locations[8].lng], // Transport Dam
-            [locations[9].lat, locations[9].lng], // Back to Malelane
-            [locations[0].lat, locations[0].lng]  // Lodge
-        ];
-
-        // Main route line
-        L.polyline(safariRoute, {
-            color: '#FF6B35',
-            weight: 4,
-            opacity: 0.7,
-            dashArray: '10, 10',
-            smoothFactor: 1
-        }).addTo(map);
-
-        // Add specific road highlights
-        // S114 Road (Rhino Road)
-        L.polyline([[-25.4608, 31.5450], [-25.4000, 31.5000]], {
-            color: '#4CAF50',
-            weight: 6,
-            opacity: 0.4
-        }).addTo(map).bindPopup('S114 - Rhino Road');
-
-        // H3 Road (Cat Road)
-        L.polyline([[-25.3167, 31.4333], [-25.1200, 31.9153]], {
-            color: '#FFC107',
-            weight: 6,
-            opacity: 0.4
-        }).addTo(map).bindPopup('H3 - Famous Cat Road');
-
-        // Add Kruger boundary indication (simplified)
-        const krugerBoundary = [
-            [-25.5, 31.4],
-            [-24.9, 31.4],
-            [-24.9, 32.0],
-            [-25.5, 32.0],
-            [-25.5, 31.4]
-        ];
-
-        L.polygon(krugerBoundary, {
-            color: 'green',
-            weight: 2,
-            opacity: 0.5,
-            fillColor: '#90EE90',
-            fillOpacity: 0.1
-        }).addTo(map);
-
-        // Add water sources as blue circles
-        const waterSources = [
-            {name: "Sunset Dam", lat: -25.1500, lng: 31.6000},
-            {name: "Transport Dam", lat: -25.3500, lng: 31.6500},
-            {name: "Mlondozi Dam", lat: -25.2800, lng: 31.7200},
-            {name: "Duke's Water Hole", lat: -25.4300, lng: 31.5300}
-        ];
-
-        waterSources.forEach(water => {
-            L.circle([water.lat, water.lng], {
-                color: 'blue',
-                fillColor: '#30B0FF',
-                fillOpacity: 0.3,
-                radius: 500
-            }).addTo(map).bindPopup(water.name);
-        });
-
-        // Fit map to show all markers
-        const group = L.featureGroup(locations.map(loc => L.marker([loc.lat, loc.lng])));
-        map.fitBounds(group.getBounds().pad(0.1));
     </script>
 </body>
 </html>
