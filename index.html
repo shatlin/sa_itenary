@@ -8,52 +8,147 @@
           integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" 
           crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        @keyframes slideInFromTop {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes shimmer {
+            0% { background-position: -1000px 0; }
+            100% { background-position: 1000px 0; }
+        }
+        
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
             line-height: 1.6;
             color: #333;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(270deg, #667eea, #764ba2, #f093fb, #f5576c);
+            background-size: 600% 600%;
+            animation: gradientShift 15s ease infinite;
             min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 1;
         }
         .container {
             max-width: 1400px;
             margin: 0 auto;
             padding: 20px;
+            position: relative;
+            z-index: 2;
         }
         .header {
-            background: white;
-            border-radius: 15px;
-            padding: 40px;
-            margin-bottom: 40px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 50px;
+            margin-bottom: 50px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
             text-align: center;
+            animation: slideInFromTop 0.8s ease-out;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            animation: shimmer 3s infinite;
         }
         .header h1 {
-            color: #764ba2;
-            font-size: 3em;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 3.5em;
             margin-bottom: 15px;
+            font-weight: 800;
+            letter-spacing: -1px;
+            animation: pulse 3s ease-in-out infinite;
         }
         .header .subtitle {
             color: #666;
             font-size: 1.3em;
             margin-bottom: 10px;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out 0.3s forwards;
+        }
+        
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
         }
         .header .dates {
             color: #888;
             font-size: 1.1em;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out 0.5s forwards;
         }
         .overview-section {
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
-            margin-bottom: 40px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 50px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
         .overview-section h2 {
             color: #764ba2;
@@ -67,10 +162,35 @@
             margin-bottom: 30px;
         }
         .fact-card {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 10px;
-            border-left: 4px solid #667eea;
+            background: linear-gradient(135deg, rgba(248,249,250,0.9), rgba(255,255,255,0.9));
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 4px solid transparent;
+            background-clip: padding-box;
+            position: relative;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .fact-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 15px;
+            padding: 0;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask-composite: exclude;
+            border-left: 4px solid transparent;
+        }
+        
+        .fact-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.2);
         }
         .fact-card h3 {
             color: #667eea;
@@ -86,28 +206,70 @@
             margin-bottom: 40px;
         }
         .day-card {
-            background: white;
-            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 20px;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             text-decoration: none;
             color: inherit;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            position: relative;
         }
+        
+        .day-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
         .day-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+            transform: translateY(-10px) rotateX(5deg);
+            box-shadow: 0 30px 60px rgba(118, 75, 162, 0.25);
+        }
+        
+        .day-card:hover::after {
+            opacity: 1;
         }
         .day-header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 20px;
+            padding: 25px;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .day-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
         .day-number {
             font-size: 3em;
             font-weight: bold;
             margin-bottom: 5px;
+            position: relative;
+            z-index: 1;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
         }
         .day-date {
             font-size: 1.1em;
@@ -131,53 +293,153 @@
             display: flex;
             align-items: center;
         }
+        .day-highlights li {
+            position: relative;
+            padding-left: 25px;
+            transition: transform 0.3s ease;
+        }
+        
+        .day-highlights li:hover {
+            transform: translateX(5px);
+        }
+        
         .day-highlights li:before {
             content: "→";
             color: #764ba2;
             font-weight: bold;
-            margin-right: 10px;
+            position: absolute;
+            left: 0;
+            transition: transform 0.3s ease;
+        }
+        
+        .day-highlights li:hover:before {
+            transform: translateX(5px);
         }
         .special-badge {
             display: inline-block;
-            background: #ffc107;
-            color: #333;
-            padding: 3px 8px;
-            border-radius: 3px;
-            font-size: 0.8em;
+            background: linear-gradient(135deg, #ffc107, #ff9800);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75em;
             margin-left: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            animation: pulse 2s ease-in-out infinite;
+            box-shadow: 0 4px 15px rgba(255, 193, 7, 0.4);
         }
         #overview-map {
             height: 500px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
             margin-bottom: 30px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        #overview-map::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, transparent, rgba(102, 126, 234, 0.05));
+            pointer-events: none;
         }
         .download-section {
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
-            margin-bottom: 40px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 50px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
             text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
         .download-btn {
             display: inline-block;
-            background: #764ba2;
+            background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
-            padding: 15px 30px;
-            border-radius: 5px;
+            padding: 18px 40px;
+            border-radius: 50px;
             text-decoration: none;
             font-size: 1.1em;
             margin: 10px;
-            transition: background 0.3s;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 10px 30px rgba(118, 75, 162, 0.3);
+            position: relative;
+            overflow: hidden;
+            font-weight: 600;
         }
+        
+        .download-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+        
         .download-btn:hover {
-            background: #5a3a7e;
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(118, 75, 162, 0.4);
+        }
+        
+        .download-btn:hover::before {
+            left: 100%;
         }
         .footer {
             text-align: center;
-            padding: 30px;
+            padding: 40px;
             color: white;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .footer p {
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .scroll-indicator {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 50px;
+            border: 2px solid rgba(255,255,255,0.5);
+            border-radius: 25px;
+            display: flex;
+            justify-content: center;
+            padding: 10px 0;
+            opacity: 0;
+            animation: fadeIn 1s ease-out 2s forwards;
+            z-index: 10;
+        }
+        
+        .scroll-indicator::before {
+            content: '';
+            width: 4px;
+            height: 10px;
+            background: white;
+            border-radius: 2px;
+            animation: scroll 1.5s infinite;
+        }
+        
+        @keyframes scroll {
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(20px); opacity: 0; }
+        }
+        
+        @keyframes fadeIn {
+            to { opacity: 1; }
         }
         @media (max-width: 768px) {
             .header h1 {
@@ -191,8 +453,56 @@
             }
         }
     </style>
+    <style>
+        .loader-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(270deg, #667eea, #764ba2, #f093fb, #f5576c);
+            background-size: 600% 600%;
+            animation: gradientShift 15s ease infinite;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+        }
+        
+        .loader-wrapper.loaded {
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        .loader {
+            width: 60px;
+            height: 60px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .loader-text {
+            color: white;
+            margin-top: 20px;
+            font-size: 1.2em;
+            font-weight: 600;
+            position: absolute;
+            bottom: 45%;
+        }
+    </style>
 </head>
 <body>
+    <div class="loader-wrapper">
+        <div class="loader"></div>
+        <div class="loader-text">Loading your adventure...</div>
+    </div>
     <div class="container">
         <div class="header">
             <h1>🇿🇦 South Africa Adventure</h1>
@@ -200,22 +510,22 @@
             <div class="dates">August 28 - September 3, 2025</div>
         </div>
 
-        <div class="overview-section">
+        <div class="overview-section" data-aos="fade-up" data-aos-duration="1000">
             <h2>Trip Overview</h2>
             <div class="quick-facts">
-                <div class="fact-card">
+                <div class="fact-card" data-aos="zoom-in" data-aos-delay="100">
                     <h3>📍 Starting Point</h3>
                     <p>Morningside, Sandton, Johannesburg</p>
                 </div>
-                <div class="fact-card">
+                <div class="fact-card" data-aos="zoom-in" data-aos-delay="200">
                     <h3>🏨 Accommodation</h3>
                     <p>Home base in Sandton + 2 nights at Nkomazi Kruger Lodge</p>
                 </div>
-                <div class="fact-card">
+                <div class="fact-card" data-aos="zoom-in" data-aos-delay="300">
                     <h3>🚗 Total Distance</h3>
                     <p>Approximately 1,500 km of scenic driving</p>
                 </div>
-                <div class="fact-card">
+                <div class="fact-card" data-aos="zoom-in" data-aos-delay="400">
                     <h3>🌟 Highlights</h3>
                     <p>Kruger Safari, Panorama Route, Cultural Sites, Lion Park</p>
                 </div>
@@ -224,7 +534,7 @@
         </div>
 
         <div class="days-grid">
-            <a href="day1_thursday_aug28.html" class="day-card">
+            <a href="day1_thursday_aug28.html" class="day-card" data-aos="fade-up" data-aos-delay="100">
                 <div class="day-header">
                     <div class="day-number">Day 1</div>
                     <div class="day-date">Thursday, Aug 28</div>
@@ -240,7 +550,7 @@
                 </div>
             </a>
 
-            <a href="day2_friday_aug29.html" class="day-card">
+            <a href="day2_friday_aug29.html" class="day-card" data-aos="fade-up" data-aos-delay="200">
                 <div class="day-header">
                     <div class="day-number">Day 2</div>
                     <div class="day-date">Friday, Aug 29</div>
@@ -256,7 +566,7 @@
                 </div>
             </a>
 
-            <a href="day3_saturday_aug30.html" class="day-card">
+            <a href="day3_saturday_aug30.html" class="day-card" data-aos="fade-up" data-aos-delay="300">
                 <div class="day-header">
                     <div class="day-number">Day 3</div>
                     <div class="day-date">Saturday, Aug 30</div>
@@ -272,7 +582,7 @@
                 </div>
             </a>
 
-            <a href="day4_sunday_aug31.html" class="day-card">
+            <a href="day4_sunday_aug31.html" class="day-card" data-aos="fade-up" data-aos-delay="100">
                 <div class="day-header">
                     <div class="day-number">Day 4</div>
                     <div class="day-date">Sunday, Aug 31</div>
@@ -288,7 +598,7 @@
                 </div>
             </a>
 
-            <a href="day5_monday_sep01.html" class="day-card">
+            <a href="day5_monday_sep01.html" class="day-card" data-aos="fade-up" data-aos-delay="200">
                 <div class="day-header">
                     <div class="day-number">Day 5</div>
                     <div class="day-date">Monday, Sep 1</div>
@@ -304,7 +614,7 @@
                 </div>
             </a>
 
-            <a href="day6_tuesday_sep02.html" class="day-card">
+            <a href="day6_tuesday_sep02.html" class="day-card" data-aos="fade-up" data-aos-delay="300">
                 <div class="day-header">
                     <div class="day-number">Day 6</div>
                     <div class="day-date">Tuesday, Sep 2</div>
@@ -320,7 +630,7 @@
                 </div>
             </a>
 
-            <a href="day7_wednesday_sep03.html" class="day-card">
+            <a href="day7_wednesday_sep03.html" class="day-card" data-aos="fade-up" data-aos-delay="400">
                 <div class="day-header">
                     <div class="day-number">Day 7</div>
                     <div class="day-date">Wednesday, Sep 3</div>
@@ -337,7 +647,7 @@
             </a>
         </div>
 
-        <div class="download-section">
+        <div class="download-section" data-aos="fade-up" data-aos-duration="1000">
             <h2>📥 Download Resources</h2>
             <p style="margin-bottom: 20px;">Access your complete itinerary and travel resources</p>
             <a href="south_africa_itinerary.csv" class="download-btn" download>
@@ -350,11 +660,62 @@
             <p style="margin-top: 10px; opacity: 0.8;">Remember to check weather forecasts and confirm all bookings before travel</p>
         </div>
     </div>
+    
+    <div class="scroll-indicator"></div>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" 
             integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" 
             crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
     <script>
+        // Handle page loader
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                document.querySelector('.loader-wrapper').classList.add('loaded');
+            }, 800);
+        });
+        
+        // Initialize AOS (Animate On Scroll)
+        AOS.init({
+            duration: 800,
+            easing: 'ease-out-cubic',
+            once: false,
+            mirror: true,
+            anchorPlacement: 'top-bottom'
+        });
+        
+        // Smooth scrolling for all links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Hide scroll indicator when scrolling
+        let scrollIndicator = document.querySelector('.scroll-indicator');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                scrollIndicator.style.opacity = '0';
+            } else {
+                scrollIndicator.style.opacity = '1';
+            }
+        });
+        
+        // Add parallax effect to header
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const parallax = document.querySelector('.header');
+            if (parallax) {
+                parallax.style.transform = `translateY(${scrolled * 0.3}px)`;
+            }
+        });
+        
         // Wait for DOM to be fully loaded
         document.addEventListener('DOMContentLoaded', function() {
             // Initialize the overview map with mobile-friendly settings
