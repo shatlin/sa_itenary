@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trip Summary - South Africa Adventure</title>
+    
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Leaflet for Map -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f8f9ff 0%, #e6edff 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        
+        .navbar-modern {
+            padding: 1rem 0;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .page-header {
+            padding: 60px 20px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .page-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 900;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+        
+        .page-subtitle {
+            font-size: 1.3rem;
+            color: #666;
+        }
+        
+        .quick-stats {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 40px;
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #667eea;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .day-timeline {
+            position: relative;
+            padding: 0 20px;
+        }
+        
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, #667eea, #764ba2);
+            transform: translateX(-50%);
+        }
+        
+        .day-summary-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+        
+        .day-summary-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.2);
+        }
+        
+        .day-summary-card.left {
+            margin-right: 50%;
+            margin-left: 0;
+        }
+        
+        .day-summary-card.right {
+            margin-left: 50%;
+            margin-right: 0;
+        }
+        
+        .timeline-marker {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: white;
+            border: 3px solid #667eea;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #667eea;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        .day-summary-card.left .timeline-marker {
+            right: -60px;
+            top: 30px;
+        }
+        
+        .day-summary-card.right .timeline-marker {
+            left: -60px;
+            top: 30px;
+        }
+        
+        .day-header {
+            border-bottom: 2px solid #f0f2f5;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .day-number-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-right: 10px;
+        }
+        
+        .day-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .day-date {
+            color: #888;
+            font-size: 0.95rem;
+        }
+        
+        .day-highlights {
+            margin: 20px 0;
+        }
+        
+        .highlight-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+        
+        .highlight-icon {
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        
+        .highlight-icon i {
+            color: #667eea;
+            font-size: 0.9rem;
+        }
+        
+        .key-info {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .info-row:last-child {
+            margin-bottom: 0;
+        }
+        
+        .info-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .info-value {
+            font-weight: 600;
+            color: #333;
+            font-size: 0.9rem;
+        }
+        
+        .special-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-left: 10px;
+        }
+        
+        .badge-highlight {
+            background: linear-gradient(135deg, #13B497, #0F8B71);
+            color: white;
+        }
+        
+        .badge-scenic {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            color: white;
+        }
+        
+        .badge-special {
+            background: linear-gradient(135deg, #FFB75E, #ED8F03);
+            color: white;
+        }
+        
+        .view-details-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 25px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 500;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            font-size: 0.9rem;
+        }
+        
+        .view-details-btn:hover {
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+        
+        .map-section {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin: 40px 0;
+        }
+        
+        .map-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        #route-map {
+            height: 500px;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+        
+        .download-section {
+            text-align: center;
+            padding: 60px 20px;
+            background: white;
+            margin-top: 40px;
+        }
+        
+        .footer {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            padding: 40px 20px;
+            text-align: center;
+            color: #666;
+        }
+        
+        @media (max-width: 768px) {
+            .timeline-line {
+                left: 20px;
+            }
+            
+            .day-summary-card.left,
+            .day-summary-card.right {
+                margin-left: 40px;
+                margin-right: 0;
+            }
+            
+            .day-summary-card.left .timeline-marker,
+            .day-summary-card.right .timeline-marker {
+                left: -50px;
+                right: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar-modern">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-6">
+                    <h3 class="mb-0" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">
+                        SA Adventure
+                    </h3>
+                </div>
+                <div class="col-6 text-end">
+                    <a href="index.html" class="btn btn-sm me-2" style="border: 2px solid #667eea; color: #667eea; border-radius: 50px; padding: 0.5rem 1.5rem;">
+                        <i class="fas fa-home me-2"></i>Home
+                    </a>
+                    <a href="south_africa_itinerary.csv" download class="btn btn-sm" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 50px; padding: 0.5rem 1.5rem;">
+                        <i class="fas fa-download me-2"></i>Download
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="container">
+            <h1 class="page-title">Complete Journey Summary</h1>
+            <p class="page-subtitle">Your 7-Day South African Adventure at a Glance</p>
+        </div>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="container">
+        <div class="quick-stats">
+            <div class="row">
+                <div class="col-md-3 col-6">
+                    <div class="stat-item">
+                        <div class="stat-value">7</div>
+                        <div class="stat-label">Days</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-item">
+                        <div class="stat-value">1,500</div>
+                        <div class="stat-label">Kilometers</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-item">
+                        <div class="stat-value">10+</div>
+                        <div class="stat-label">Locations</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-item">
+                        <div class="stat-value">∞</div>
+                        <div class="stat-label">Memories</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Day Timeline -->
+    <div class="container day-timeline">
+        <div class="timeline-line"></div>
+        
+        <!-- Day 1 -->
+        <div class="day-summary-card left">
+            <div class="timeline-marker">1</div>
+            <div class="day-header">
+                <span class="day-number-badge">Day 1</span>
+                <h2 class="day-title">Arrival & Montecasino</h2>
+                <p class="day-date">Thursday, August 28, 2025</p>
+            </div>
+            <div class="day-highlights">
+                <div class="highlight-item">
+                    <div class="highlight-icon"><i class="fas fa-plane-arrival"></i></div>
+                    <div>Arrival in Johannesburg</div>
+                </div>
+                <div class="highlight-item">
+                    <div class="highlight-icon"><i class="fas fa-utensils"></i></div>
+                    <div>Welcome breakfast in Morningside</div>
+                </div>
+                <div class="highlight-item">
+                    <div class="highlight-icon"><i class="fas fa-dice"></i></div>
+                    <div>Montecasino entertainment complex visit</div>
+                </div>
+                <div class="highlight-item">
+                    <div class="highlight-icon"><i class="fas fa-shopping-bag"></i></div>
+                    <div>Shopping and Bird Gardens exploration</div>
+                </div>
+            </div>
+            <div class="key-info">
+                <div class="info-row">
+                    <span class="info-label">Distance:</span>
+                    <span class="info-value">~50 km</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Accommodation:</span>
+                    <span class="info-value">Morningside, Sandton</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Dinner:</span>
+                    <span class="info-value">Fireroom or Col'Cacchio</span>
+                </div>
+            </div>
+            <a href="day1_thursday_aug28.html" class="view-details-btn">View Full Details <i class="fas fa-arrow-right ms-2"></i></a>
+        </div>
+
+        <!-- Day 2 -->
+        <div class="day-summary-card right">
+            <div class="timeline-marker">2</div>
+            <div class="day-header">
+                <span class="day-number-badge">Day 2</span>
+                <h2 class="day-title">Journey to the Lowveld</h2>
+                <p class="day-date">Friday, August 29, 2025</p>
+            </div>
+            <div class="day-highlights">
+                <div class="highlight-item">
+                    <div class="highlight-icon"><i class="fas fa-car"></i></div>
+                    <div>Scenic 4-hour drive to Sabie</div>
+                </div>
+                <div class="highlight-item">
+                    <div class="highlight-icon"><i class="fas fa-water"></i></div>
+                    <div>Lone Creek Falls visit</div>
+                </div>
+                <div class="highlight-item">
+                    <div class="highlight-icon"><i class="fas fa-mountain"></i></div>
+                    <div>Mac-Mac Falls exploration</div>
+                </div>
+                <div class="highlight-item">
+                    <div class="highlight-icon"><i class="fas fa-bed"></i></div>
+                    <div>Check-in at Nkomazi Kruger Lodge</div>
+                </div>
+            </div>
+            <div class="key-info">
+                <div class="info-row">
+                    <span class="info-label">Distance:</span>
+                    <span class="info-value">~380 km</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Drive Time:</span>
+                    <span class="info-value">4 hours</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Accommodation:</span>
+                    <span class="info-value">Nkomazi Lodge</span>
+                </div>
+            </div>
+            <a href="day2_friday_aug29.html" class="view-details-btn">View Full Details <i class="fas fa-arrow-right ms-2"></i></a>
+        </div>
+
+        <!-- Day 3 -->
+        <div class="day-summary-card left">
+            <div class="timeline-marker">3</div>
+            <div class="day-header">
+                <span class="day-number-badge">Day 3</span>
+                <h2 class="day-title">Kruger National Park Safari
+                    <span class="special-badge badge-highlight">Highlight</span>
+                </h2>
+                <p class="day-date">Saturday, August 30, 2025</p>
+            </div>
+            <div class="day-highlights">
+                <div class="highlight-item">
+                    <div class="highlight-icon"><i class="fas fa-sun"></i></div>
+                    <div>Early morning start (6:00 AM)</div>
+                </div>
+                <div class="highlight-item">
+                    <div class="highlight-icon"><i class="fas fa-paw"></i></div>
+                    <div>Big 5 wildlife viewing</div>
+                </div>
+                <div class="highlight-item">
+                    <div class="highlight-icon"><i class="fas fa-binoculars"></i></div>
+                    <div>Full day game drive</div>
+                </div>
+                <div class="highlight-item">
+                    <div class="highlight-icon"><i class="fas fa-camera"></i></div>
+                    <div>Photography at waterholes</div>
+                </div>
+            </div>
+            <div class="key-info">
+                <div class="info-row">
+                    <span class="info-label">Park Entry:</span>
+                    <span class="info-value">Malelane Gate</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Duration:</span>
+                    <span class="info-value">12 hours</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Wildlife:</span>
+                    <span class="info-value">Big 5 & more</span>
+                </div>
+            </div>
+            <a href="day3_saturday_aug30.html" class="view-details-btn">View Full Details <i class="fas fa-arrow-right ms-2"></i></a>
+        </div>
+
+        <!-- Day 4 -->
+        <div class="day-summary-card right">
+            <div class="timeline-marker">4</div>
+            <div class="day-header">
+                <span class="day-number-badge">Day 4</span>
+                <h2 class="day-title">Panorama Route
+                    <span class="special-badge badge-scenic">Scenic</span>
+                </h2>
+                <p class="day-date">Sunday, August 31, 2025</p>
+            </div>
+            <div class="day-highlights">
+                <div class="highlight-item">
+                    <div class="highlight-icon"><i class="fas fa-mountain"></i></div>
+                    <div>Graskop Gorge Lift Experience</div>
+                </div>
+                <div class="highlight-item">
+                    <div class="highlight-icon"><i class="fas fa-eye"></i></div>
+                    <div>God's Window viewpoint</div>
+                </div>
+                <div class="highlight-item">
+                    <div class="highlight-icon"><i class="fas fa-water"></i></div>
+                    <div>Bourke's Luck Potholes</div>
+                </div>
+                <div class="highlight-item">
+                    <div class="highlight-icon"><i class="fas fa-landmark"></i></div>
+                    <div>Three Rondavels & Blyde River Canyon</div>
+                </div>
+            </div>
+            <div class="key-info">
+                <div class="info-row">
+                    <span class="info-label">Distance:</span>
+                    <span class="info-value">~480 km total</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Return:</span>
+                    <span class="info-value">Johannesburg</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Highlights:</span>
+                    <span class="info-value">5 major viewpoints</span>
+                </div>
+            </div>
+            <a href="day4_sunday_aug31.html" class="view-details-btn">View Full Details <i class="fas fa-arrow-right ms-2"></i></a>
+        </div>
+
+        <!-- Day 5 -->
+        <div class="day-summary-card left">
+            <div class="timeline-marker">5</div>
+            <div class="day-header">
+                <span class="day-number-badge">Day 5</span>
+                <h2 class="day-title">Lion Park & City Exploration</h2>
+                <p class="day-date">Monday, September 1, 2025</p>
+            </div>
+            <div class="day-highlights">
+                <div class="highlight-item">
+                    <div class="highlight-icon"><i class="fas fa-lion"></i></div>
+                    <div>Lion & Safari Park visit</div>
+                </div>
+                <div class="highlight-item">
+                    <div class="highlight-icon"><i class="fas fa-user-md"></i></div>
+                    <div>Physio appointment (15:30)</div>
+                </div>
+                <div class="highlight-item">
+                    <div class="highlight-icon"><i class="fas fa-shopping-cart"></i></div>
+                    <div>Sandton City & Nelson Mandela Square</div>
+                </div>
+                <div class="highlight-item">
+                    <div class="highlight-icon"><i class="fas fa-utensils"></i></div>
+                    <div>Dinner at The Grillhouse Rosebank</div>
+                </div>
+            </div>
+            <div class="key-info">
+                <div class="info-row">
+                    <span class="info-label">Morning:</span>
+                    <span class="info-value">Wildlife interaction</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Afternoon:</span>
+                    <span class="info-value">City exploration</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Fixed Time:</span>
+                    <span class="info-value">15:30 Physio</span>
+                </div>
+            </div>
+            <a href="day5_monday_sep01.html" class="view-details-btn">View Full Details <i class="fas fa-arrow-right ms-2"></i></a>
+        </div>
+
+        <!-- Day 6 -->
+        <div class="day-summary-card right">
+            <div class="timeline-marker">6</div>
+            <div class="day-header">
+                <span class="day-number-badge">Day 6</span>
+                <h2 class="day-title">Culture & Farewell
+                    <span class="special-badge badge-special">Special</span>
+                </h2>
+                <p class="day-date">Tuesday, September 2, 2025</p>
+            </div>
+            <div class="day-highlights">
+                <div class="highlight-item">
+                    <div class="highlight-icon"><i class="fas fa-monument"></i></div>
+                    <div>Constitution Hill historical tour</div>
+                </div>
+                <div class="highlight-item">
+                    <div class="highlight-icon"><i class="fas fa-palette"></i></div>
+                    <div>Rosebank Art & Craft Market</div>
+                </div>
+                <div class="highlight-item">
+                    <div class="highlight-icon"><i class="fas fa-glass-cheers"></i></div>
+                    <div>Farewell dinner at Marble Restaurant</div>
+                </div>
+                <div class="highlight-item">
+                    <div class="highlight-icon"><i class="fas fa-sun"></i></div>
+                    <div>Sunset views celebration</div>
+                </div>
+            </div>
+            <div class="key-info">
+                <div class="info-row">
+                    <span class="info-label">Morning:</span>
+                    <span class="info-value">Cultural sites</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Afternoon:</span>
+                    <span class="info-value">Art markets</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Evening:</span>
+                    <span class="info-value">Special farewell</span>
+                </div>
+            </div>
+            <a href="day6_tuesday_sep02.html" class="view-details-btn">View Full Details <i class="fas fa-arrow-right ms-2"></i></a>
+        </div>
+
+        <!-- Day 7 -->
+        <div class="day-summary-card left">
+            <div class="timeline-marker">7</div>
+            <div class="day-header">
+                <span class="day-number-badge">Day 7</span>
+                <h2 class="day-title">Departure Day</h2>
+                <p class="day-date">Wednesday, September 3, 2025</p>
+            </div>
+            <div class="day-highlights">
+                <div class="highlight-item">
+                    <div class="highlight-icon"><i class="fas fa-coffee"></i></div>
+                    <div>Leisurely morning breakfast</div>
+                </div>
+                <div class="highlight-item">
+                    <div class="highlight-icon"><i class="fas fa-gift"></i></div>
+                    <div>Final souvenir shopping</div>
+                </div>
+                <div class="highlight-item">
+                    <div class="highlight-icon"><i class="fas fa-suitcase"></i></div>
+                    <div>Pack and prepare for departure</div>
+                </div>
+                <div class="highlight-item">
+                    <div class="highlight-icon"><i class="fas fa-plane-departure"></i></div>
+                    <div>Airport transfer to OR Tambo</div>
+                </div>
+            </div>
+            <div class="key-info">
+                <div class="info-row">
+                    <span class="info-label">Check-out:</span>
+                    <span class="info-value">Flexible timing</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Airport:</span>
+                    <span class="info-value">OR Tambo International</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Distance:</span>
+                    <span class="info-value">~35 km to airport</span>
+                </div>
+            </div>
+            <a href="day7_wednesday_sep03.html" class="view-details-btn">View Full Details <i class="fas fa-arrow-right ms-2"></i></a>
+        </div>
+    </div>
+
+    <!-- Route Map Section -->
+    <div class="container">
+        <div class="map-section">
+            <h2 class="map-title">Complete Journey Route</h2>
+            <div id="route-map"></div>
+        </div>
+    </div>
+
+    <!-- Download Section -->
+    <div class="download-section">
+        <div class="container">
+            <h2 class="display-5 fw-bold mb-4" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">
+                Ready to Begin Your Adventure?
+            </h2>
+            <p class="text-muted fs-5 mb-4">
+                Download the complete itinerary or explore each day in detail
+            </p>
+            <div>
+                <a href="index.html" class="btn btn-lg me-3" style="border: 2px solid #667eea; color: #667eea; border-radius: 50px; padding: 1rem 2rem;">
+                    <i class="fas fa-home me-2"></i> Back to Home
+                </a>
+                <a href="south_africa_itinerary.csv" download class="btn btn-lg" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 50px; padding: 1rem 2rem;">
+                    <i class="fas fa-download me-2"></i> Download Itinerary
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p class="mb-2">Have an amazing trip to South Africa! 🌍</p>
+            <p class="text-muted">Remember to check weather forecasts and confirm all bookings</p>
+        </div>
+    </footer>
+
+    <!-- Leaflet Map Script -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // Initialize the map
+        document.addEventListener('DOMContentLoaded', function() {
+            const map = L.map('route-map').setView([-25.5, 29.5], 7);
+            
+            // Add OpenStreetMap tiles
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+            
+            // Create numbered icons
+            const createNumberedIcon = (number, color = '#667eea') => {
+                return L.divIcon({
+                    className: 'numbered-marker',
+                    html: `<div style="background: ${color}; width: 36px; height: 36px; border-radius: 50%; border: 3px solid white; box-shadow: 0 3px 10px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 14px;">${number}</div>`,
+                    iconSize: [36, 36],
+                    iconAnchor: [18, 18]
+                });
+            };
+            
+            // Define all locations with days
+            const locations = [
+                {name: "Johannesburg (Start)", lat: -26.0927, lng: 28.0568, day: 1, color: '#667eea'},
+                {name: "Montecasino", lat: -26.0211, lng: 28.0072, day: 1, color: '#667eea'},
+                {name: "Sabie", lat: -25.0951, lng: 30.7804, day: 2, color: '#764ba2'},
+                {name: "Nkomazi Lodge", lat: -25.4731, lng: 31.2056, day: 2, color: '#764ba2'},
+                {name: "Kruger (Malelane)", lat: -25.4608, lng: 31.5450, day: 3, color: '#13B497'},
+                {name: "Graskop", lat: -24.9333, lng: 30.8417, day: 4, color: '#f093fb'},
+                {name: "God's Window", lat: -24.8731, lng: 30.8944, day: 4, color: '#f093fb'},
+                {name: "Three Rondavels", lat: -24.5486, lng: 30.8147, day: 4, color: '#f093fb'},
+                {name: "Lion Park", lat: -25.9900, lng: 27.9294, day: 5, color: '#667eea'},
+                {name: "Constitution Hill", lat: -26.1886, lng: 28.0424, day: 6, color: '#FFB75E'},
+                {name: "OR Tambo Airport", lat: -26.1392, lng: 28.2460, day: 7, color: '#667eea'}
+            ];
+            
+            // Add numbered markers
+            locations.forEach((loc, index) => {
+                const marker = L.marker([loc.lat, loc.lng], {
+                    icon: createNumberedIcon(loc.day, loc.color)
+                }).addTo(map);
+                
+                marker.bindPopup(`
+                    <strong>Day ${loc.day}: ${loc.name}</strong>
+                `);
+            });
+            
+            // Draw route lines
+            const routeCoords = [
+                [-26.0927, 28.0568], // Johannesburg
+                [-26.0211, 28.0072], // Montecasino
+                [-25.0951, 30.7804], // Sabie
+                [-25.4731, 31.2056], // Nkomazi
+                [-25.4608, 31.5450], // Kruger
+                [-24.9333, 30.8417], // Graskop
+                [-24.8731, 30.8944], // God's Window
+                [-24.5486, 30.8147], // Three Rondavels
+                [-26.0927, 28.0568], // Back to JHB
+                [-25.9900, 27.9294], // Lion Park
+                [-26.1886, 28.0424], // Constitution Hill
+                [-26.1392, 28.2460]  // Airport
+            ];
+            
+            L.polyline(routeCoords, {
+                color: '#667eea',
+                weight: 3,
+                opacity: 0.7,
+                dashArray: '10, 10'
+            }).addTo(map);
+            
+            // Fit map to show all markers
+            const group = L.featureGroup(locations.map(loc => L.marker([loc.lat, loc.lng])));
+            map.fitBounds(group.getBounds().pad(0.1));
+        });
+        
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
