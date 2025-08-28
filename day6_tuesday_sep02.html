@@ -984,8 +984,9 @@
         });
 
         // Hide loader
-        window.addEventListener('load', () => {
+        window.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
+setTimeout(function() { var l = document.getElementById('loader'); if(l) l.classList.add('hidden'); }, 3000);
                 document.getElementById('loader').classList.add('hidden');
             }, 1500);
         });
