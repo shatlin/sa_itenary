@@ -7,40 +7,12 @@
     
     <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    
-    <!-- Font Awesome Pro -->
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
-    <!-- AOS Animation -->
-    <link href="https://unpkg.com/aos@3.0.0-beta.6/dist/aos.css" rel="stylesheet">
-    
-    <!-- Swiper Carousel -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
-    
-    <!-- Leaflet Map -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-    
     <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
     
     <style>
-        :root {
-            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            --success-gradient: linear-gradient(135deg, #13B497 0%, #0F8B71 100%);
-            --dark: #333333;
-            --light: #ffffff;
-            --glass: rgba(255, 255, 255, 0.8);
-            --glass-border: rgba(0, 0, 0, 0.1);
-            --shadow-sm: 0 2px 4px rgba(0,0,0,0.08);
-            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
-            --shadow-lg: 0 10px 15px rgba(0,0,0,0.15);
-            --shadow-xl: 0 20px 25px rgba(0,0,0,0.2);
-            --shadow-2xl: 0 25px 50px rgba(0,0,0,0.25);
-        }
-        
         * {
             margin: 0;
             padding: 0;
@@ -49,143 +21,55 @@
         
         body {
             font-family: 'Inter', sans-serif;
-            overflow-x: hidden;
             background: linear-gradient(135deg, #f8f9ff 0%, #e6edff 100%);
-            color: #333333;
-        }
-        
-        /* Particle Background */
-        #particles-js {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            z-index: 0;
-        }
-        
-        .content-wrapper {
-            position: relative;
-            z-index: 1;
-        }
-        
-        /* Modern Loader */
-        .loader-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #ffffff;
-            z-index: 9999;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: opacity 0.8s ease, visibility 0.8s ease;
-        }
-        
-        .loader-container.hidden {
-            opacity: 0;
-            visibility: hidden;
-        }
-        
-        .loader-modern {
-            position: relative;
-            width: 200px;
-            height: 200px;
-        }
-        
-        .loader-modern svg {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            animation: rotate 2s linear infinite;
-        }
-        
-        .loader-modern circle {
-            fill: none;
-            stroke-width: 3;
-            stroke-linecap: round;
-            animation: dash 1.5s ease-in-out infinite;
-        }
-        
-        @keyframes rotate {
-            100% { transform: rotate(360deg); }
-        }
-        
-        @keyframes dash {
-            0% {
-                stroke-dasharray: 1, 150;
-                stroke-dashoffset: 0;
-            }
-            50% {
-                stroke-dasharray: 90, 150;
-                stroke-dashoffset: -35;
-            }
-            100% {
-                stroke-dasharray: 90, 150;
-                stroke-dashoffset: -124;
-            }
-        }
-        
-        /* Hero Section */
-        .hero-section {
             min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+            color: #333;
         }
         
-        .hero-content {
+        .hero-section {
+            padding: 100px 20px;
             text-align: center;
-            max-width: 900px;
-            padding: 2rem;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
         }
         
         .hero-title {
             font-family: 'Playfair Display', serif;
-            font-size: clamp(3rem, 8vw, 6rem);
+            font-size: clamp(3rem, 8vw, 5rem);
             font-weight: 900;
-            background: var(--primary-gradient);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 1.5rem;
-            animation: fadeInUp 1s ease;
         }
         
         .hero-subtitle {
-            font-size: clamp(1.2rem, 3vw, 1.8rem);
-            color: rgba(51, 51, 51, 0.7);
-            margin-bottom: 1rem;
-            font-weight: 300;
+            font-size: 1.5rem;
+            color: #666;
+            margin-bottom: 2rem;
         }
         
         .hero-date {
             display: inline-block;
             padding: 0.75rem 2rem;
-            background: var(--glass);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
+            background: white;
             border-radius: 50px;
             font-size: 1.1rem;
-            color: rgba(51, 51, 51, 0.9);
+            color: #333;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             margin-bottom: 3rem;
-            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.1);
         }
         
         .hero-cta {
             display: inline-block;
             padding: 1.2rem 3rem;
-            background: var(--primary-gradient);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             text-decoration: none;
             border-radius: 50px;
             font-weight: 600;
             font-size: 1.1rem;
-            transition: all 0.3s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
             box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
         }
         
@@ -195,68 +79,28 @@
             color: white;
         }
         
-        /* Navigation */
-        .navbar-modern {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            padding: 1rem 0;
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(20px);
-            transition: all 0.3s ease;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-        }
-        
-        .navbar-modern.scrolled {
-            background: rgba(255, 255, 255, 0.95);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
-        
-        /* Glass Cards */
-        .glass-card {
-            background: var(--glass);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 2rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-        }
-        
-        .glass-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.15);
-            border-color: rgba(102, 126, 234, 0.3);
-        }
-        
-        /* Stats Section */
         .stats-section {
-            padding: 100px 0;
-            background: linear-gradient(180deg, transparent, rgba(102, 126, 234, 0.03));
+            padding: 80px 20px;
+            background: white;
         }
         
         .stat-card {
             text-align: center;
             padding: 2rem;
-            background: var(--glass);
-            backdrop-filter: blur(20px);
+            background: #f8f9fa;
             border-radius: 20px;
-            border: 1px solid var(--glass-border);
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
         }
         
         .stat-card:hover {
             transform: translateY(-10px);
-            background: rgba(255, 255, 255, 0.95);
-            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 15px 30px rgba(102, 126, 234, 0.15);
         }
         
         .stat-icon {
             font-size: 3rem;
-            background: var(--primary-gradient);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -266,164 +110,46 @@
         .stat-number {
             font-size: 2.5rem;
             font-weight: 700;
-            color: #333333;
+            color: #333;
             margin-bottom: 0.5rem;
         }
         
         .stat-label {
-            color: rgba(51, 51, 51, 0.7);
+            color: #666;
             font-size: 1rem;
         }
         
-        /* Itinerary Timeline */
-        .timeline {
-            position: relative;
-            padding: 50px 0;
-        }
-        
-        .timeline::before {
-            content: '';
-            position: absolute;
-            left: 50%;
-            top: 0;
-            bottom: 0;
-            width: 2px;
-            background: var(--primary-gradient);
-            transform: translateX(-50%);
-        }
-        
-        .timeline-item {
-            position: relative;
-            width: 50%;
-            padding: 50px;
-        }
-        
-        .timeline-item:nth-child(odd) {
-            left: 0;
-            padding-right: 100px;
-        }
-        
-        .timeline-item:nth-child(even) {
-            left: 50%;
-            padding-left: 100px;
-        }
-        
-        .timeline-marker {
-            position: absolute;
-            top: 50px;
-            width: 30px;
-            height: 30px;
-            background: var(--primary-gradient);
-            border-radius: 50%;
-            box-shadow: 0 0 20px rgba(102, 126, 234, 0.5);
-        }
-        
-        .timeline-item:nth-child(odd) .timeline-marker {
-            right: -15px;
-        }
-        
-        .timeline-item:nth-child(even) .timeline-marker {
-            left: -15px;
-        }
-        
-        .timeline-content {
-            background: var(--glass);
-            backdrop-filter: blur(20px);
-            padding: 2rem;
-            border-radius: 20px;
-            border: 1px solid var(--glass-border);
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-        }
-        
-        .timeline-content:hover {
-            transform: scale(1.05);
-            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.15);
-        }
-        
-        .timeline-day {
-            display: inline-block;
-            padding: 0.5rem 1rem;
-            background: var(--primary-gradient);
-            border-radius: 50px;
-            color: white;
-            font-weight: 600;
-            margin-bottom: 1rem;
-        }
-        
-        /* Modern Map Container */
-        .map-container {
-            position: relative;
-            height: 600px;
-            border-radius: 30px;
-            overflow: hidden;
-            margin: 50px 0;
-            box-shadow: var(--shadow-2xl);
-        }
-        
-        .map-overlay {
-            position: absolute;
-            top: 30px;
-            left: 30px;
-            z-index: 1000;
-            background: var(--glass);
-            backdrop-filter: blur(20px);
-            padding: 1.5rem;
-            border-radius: 20px;
-            border: 1px solid var(--glass-border);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-        }
-        
-        /* Day Cards Carousel */
         .day-carousel-container {
-            padding: 100px 0;
-            background: linear-gradient(180deg, rgba(102, 126, 234, 0.03), transparent);
-        }
-        
-        .swiper {
-            padding: 50px 0;
+            padding: 80px 20px;
+            background: linear-gradient(180deg, rgba(102, 126, 234, 0.05), transparent);
         }
         
         .day-card-modern {
-            background: var(--glass);
-            backdrop-filter: blur(20px);
+            background: white;
             border-radius: 30px;
             overflow: hidden;
-            border: 1px solid var(--glass-border);
-            transition: all 0.3s ease;
-            height: 450px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            margin: 20px;
+            text-decoration: none;
+            display: block;
         }
         
         .day-card-modern:hover {
             transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 30px 60px rgba(102, 126, 234, 0.15);
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.2);
         }
         
         .day-card-header {
-            background: var(--primary-gradient);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             padding: 2rem;
             text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .day-card-header::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-            animation: rotate 20s linear infinite;
         }
         
         .day-number {
             font-size: 3rem;
             font-weight: 900;
             color: white;
-            position: relative;
         }
         
         .day-date {
@@ -440,7 +166,7 @@
             font-size: 1.5rem;
             font-weight: 700;
             margin-bottom: 1rem;
-            color: #333333;
+            color: #333;
         }
         
         .day-activities {
@@ -450,7 +176,7 @@
         
         .day-activities li {
             padding: 0.75rem 0;
-            color: rgba(51, 51, 51, 0.8);
+            color: #666;
             display: flex;
             align-items: center;
         }
@@ -463,786 +189,296 @@
             font-size: 1.2rem;
         }
         
-        /* CTA Section */
         .cta-section {
-            padding: 100px 0;
+            padding: 80px 20px;
             text-align: center;
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(118, 75, 162, 0.05));
+            background: white;
         }
         
-        .cta-title {
-            font-size: 3rem;
-            font-weight: 800;
-            margin-bottom: 1.5rem;
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .cta-buttons {
-            display: flex;
-            gap: 1.5rem;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 2rem;
-        }
-        
-        .btn-modern {
-            padding: 1.2rem 3rem;
-            border-radius: 50px;
-            font-weight: 600;
-            text-decoration: none;
-            display: inline-block;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .btn-primary-modern {
-            background: var(--primary-gradient);
-            color: white;
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
-        }
-        
-        .btn-primary-modern:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.5);
-            color: white;
-        }
-        
-        .btn-outline-modern {
-            background: transparent;
-            color: #667eea;
-            border: 2px solid #667eea;
-        }
-        
-        .btn-outline-modern:hover {
-            background: var(--primary-gradient);
-            color: white;
-            border-color: transparent;
-            transform: translateY(-3px);
-        }
-        
-        /* Footer */
         .footer-modern {
-            padding: 50px 0;
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(20px);
+            padding: 50px 20px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
             text-align: center;
-            border-top: 1px solid rgba(0, 0, 0, 0.05);
+            color: #666;
         }
         
-        /* Animations */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-        }
-        
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-        
-        /* Responsive */
-        @media (max-width: 768px) {
-            .timeline::before {
-                left: 30px;
-            }
-            
-            .timeline-item {
-                width: 100%;
-                padding-left: 80px;
-                padding-right: 20px;
-            }
-            
-            .timeline-item:nth-child(even) {
-                left: 0;
-                padding-left: 80px;
-            }
-            
-            .timeline-marker {
-                left: 15px !important;
-            }
-            
-            .hero-title {
-                font-size: 3rem;
-            }
-            
-            .cta-title {
-                font-size: 2rem;
-            }
-        }
-        
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 12px;
-        }
-        
-        ::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.05);
-        }
-        
-        ::-webkit-scrollbar-thumb {
-            background: var(--primary-gradient);
-            border-radius: 10px;
-        }
-        
-        ::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        .navbar-modern {
+            padding: 1rem 0;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
     </style>
 </head>
 <body>
-    <!-- Modern Loader -->
-    <div class="loader-container" id="loader">
-        <div class="loader-modern">
-            <svg viewBox="0 0 100 100">
-                <circle cx="50" cy="50" r="45" stroke="url(#gradient1)"/>
-                <circle cx="50" cy="50" r="35" stroke="url(#gradient2)"/>
-                <defs>
-                    <linearGradient id="gradient1">
-                        <stop offset="0%" stop-color="#667eea"/>
-                        <stop offset="100%" stop-color="#764ba2"/>
-                    </linearGradient>
-                    <linearGradient id="gradient2">
-                        <stop offset="0%" stop-color="#f093fb"/>
-                        <stop offset="100%" stop-color="#f5576c"/>
-                    </linearGradient>
-                </defs>
-            </svg>
-        </div>
-    </div>
-
-    <!-- Particle Background -->
-    <div id="particles-js"></div>
-
     <!-- Navigation -->
     <nav class="navbar-modern">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-6">
-                    <h3 class="mb-0" style="background: var(--primary-gradient); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">
+                    <h3 class="mb-0" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">
                         SA Adventure
                     </h3>
                 </div>
                 <div class="col-6 text-end">
-                    <button class="btn btn-sm" style="background: var(--primary-gradient); color: white; border-radius: 50px; padding: 0.5rem 1.5rem;">
+                    <a href="south_africa_itinerary.csv" download class="btn" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 50px; padding: 0.5rem 1.5rem;">
                         <i class="fas fa-download me-2"></i>Download
-                    </button>
+                    </a>
                 </div>
             </div>
         </div>
     </nav>
 
-    <!-- Content Wrapper -->
-    <div class="content-wrapper">
-        <!-- Hero Section -->
-        <section class="hero-section">
-            <div class="hero-content">
-                <h1 class="hero-title" data-aos="fade-up">
-                    <span id="typed-text"></span>
-                </h1>
-                <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="200">
-                    7-Day Journey Through Johannesburg, Kruger & Panorama Route
-                </p>
-                <div class="hero-date" data-aos="fade-up" data-aos-delay="400">
-                    <i class="far fa-calendar-alt me-2"></i>
-                    August 28 - September 3, 2025
-                </div>
-                <div data-aos="fade-up" data-aos-delay="600">
-                    <a href="#itinerary" class="hero-cta">
-                        Explore Journey <i class="fas fa-arrow-right ms-2"></i>
-                    </a>
-                </div>
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <h1 class="hero-title">South Africa Adventure</h1>
+            <p class="hero-subtitle">7-Day Journey Through Johannesburg, Kruger & Panorama Route</p>
+            <div class="hero-date">
+                <i class="far fa-calendar-alt me-2"></i>
+                August 28 - September 3, 2025
             </div>
-        </section>
+            <div>
+                <a href="#itinerary" class="hero-cta">
+                    Explore Journey <i class="fas fa-arrow-right ms-2"></i>
+                </a>
+            </div>
+        </div>
+    </section>
 
-        <!-- Stats Section -->
-        <section class="stats-section">
-            <div class="container">
-                <div class="row g-4">
-                    <div class="col-md-3 col-6" data-aos="fade-up">
-                        <div class="stat-card">
-                            <div class="stat-icon">
-                                <i class="fas fa-map-marked-alt"></i>
-                            </div>
-                            <div class="stat-number" data-counter="1500">0</div>
-                            <div class="stat-label">Kilometers</div>
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-3 col-6">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-map-marked-alt"></i>
                         </div>
+                        <div class="stat-number">1500</div>
+                        <div class="stat-label">Kilometers</div>
                     </div>
-                    <div class="col-md-3 col-6" data-aos="fade-up" data-aos-delay="100">
-                        <div class="stat-card">
-                            <div class="stat-icon">
-                                <i class="fas fa-calendar-days"></i>
-                            </div>
-                            <div class="stat-number" data-counter="7">0</div>
-                            <div class="stat-label">Amazing Days</div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-calendar-days"></i>
                         </div>
+                        <div class="stat-number">7</div>
+                        <div class="stat-label">Amazing Days</div>
                     </div>
-                    <div class="col-md-3 col-6" data-aos="fade-up" data-aos-delay="200">
-                        <div class="stat-card">
-                            <div class="stat-icon">
-                                <i class="fas fa-location-dot"></i>
-                            </div>
-                            <div class="stat-number" data-counter="10">0</div>
-                            <div class="stat-label">Destinations</div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-location-dot"></i>
                         </div>
+                        <div class="stat-number">10</div>
+                        <div class="stat-label">Destinations</div>
                     </div>
-                    <div class="col-md-3 col-6" data-aos="fade-up" data-aos-delay="300">
-                        <div class="stat-card">
-                            <div class="stat-icon">
-                                <i class="fas fa-camera"></i>
-                            </div>
-                            <div class="stat-number">∞</div>
-                            <div class="stat-label">Photo Ops</div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-camera"></i>
                         </div>
+                        <div class="stat-number">∞</div>
+                        <div class="stat-label">Photo Ops</div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Interactive Map Section -->
-        <section class="container my-5">
+    <!-- Day Cards -->
+    <section class="day-carousel-container" id="itinerary">
+        <div class="container">
             <div class="text-center mb-5">
-                <h2 class="display-4 fw-bold" style="background: var(--primary-gradient); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">
-                    Journey Overview
+                <h2 class="display-4 fw-bold" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">
+                    Daily Adventures
                 </h2>
-                <p class="fs-5" style="color: rgba(51, 51, 51, 0.6);">Track your complete adventure across South Africa</p>
+                <p class="fs-5 text-muted">Your 7-day itinerary</p>
             </div>
-            <div class="map-container" data-aos="fade-up">
-                <div class="map-overlay">
-                    <h4 class="text-dark mb-3">Key Highlights</h4>
-                    <ul class="list-unstyled" style="color: rgba(51, 51, 51, 0.7);">
-                        <li><i class="fas fa-check-circle text-success me-2"></i>Kruger National Park</li>
-                        <li><i class="fas fa-check-circle text-success me-2"></i>Panorama Route</li>
-                        <li><i class="fas fa-check-circle text-success me-2"></i>Cultural Experiences</li>
-                    </ul>
-                </div>
-                <div id="modern-map" style="height: 100%; width: 100%;"></div>
-            </div>
-        </section>
-
-        <!-- Day Cards Carousel -->
-        <section class="day-carousel-container" id="itinerary">
-            <div class="container">
-                <div class="text-center mb-5">
-                    <h2 class="display-4 fw-bold" style="background: var(--primary-gradient); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">
-                        Daily Adventures
-                    </h2>
-                    <p class="fs-5" style="color: rgba(51, 51, 51, 0.6);">Swipe through your 7-day itinerary</p>
-                </div>
-                
-                <!-- Swiper -->
-                <div class="swiper daySwiper">
-                    <div class="swiper-wrapper">
-                        <!-- Day 1 -->
-                        <div class="swiper-slide">
-                            <div class="day-card-modern">
-                                <div class="day-card-header">
-                                    <div class="day-number">01</div>
-                                    <div class="day-date">Thursday, Aug 28</div>
-                                </div>
-                                <div class="day-card-body">
-                                    <h3 class="day-title">Arrival & Montecasino</h3>
-                                    <ul class="day-activities">
-                                        <li>Relaxed morning breakfast</li>
-                                        <li>Montecasino entertainment</li>
-                                        <li>Shopping and Bird Gardens</li>
-                                        <li>Dinner at Fireroom</li>
-                                    </ul>
-                                </div>
-                            </div>
+            
+            <div class="row">
+                <!-- Day 1 -->
+                <div class="col-lg-4 col-md-6">
+                    <a href="day1_thursday_aug28.html" class="day-card-modern">
+                        <div class="day-card-header">
+                            <div class="day-number">01</div>
+                            <div class="day-date">Thursday, Aug 28</div>
                         </div>
-
-                        <!-- Day 2 -->
-                        <div class="swiper-slide">
-                            <div class="day-card-modern">
-                                <div class="day-card-header">
-                                    <div class="day-number">02</div>
-                                    <div class="day-date">Friday, Aug 29</div>
-                                </div>
-                                <div class="day-card-body">
-                                    <h3 class="day-title">Journey to the Lowveld</h3>
-                                    <ul class="day-activities">
-                                        <li>Scenic drive to Sabie</li>
-                                        <li>Lone Creek waterfalls</li>
-                                        <li>Nkomazi Lodge check-in</li>
-                                        <li>Lodge dinner & rest</li>
-                                    </ul>
-                                </div>
-                            </div>
+                        <div class="day-card-body">
+                            <h3 class="day-title">Arrival & Montecasino</h3>
+                            <ul class="day-activities">
+                                <li>Relaxed morning breakfast</li>
+                                <li>Montecasino entertainment</li>
+                                <li>Shopping and Bird Gardens</li>
+                                <li>Dinner at Fireroom</li>
+                            </ul>
                         </div>
-
-                        <!-- Day 3 -->
-                        <div class="swiper-slide">
-                            <div class="day-card-modern">
-                                <div class="day-card-header" style="background: var(--success-gradient);">
-                                    <div class="day-number">03</div>
-                                    <div class="day-date">Saturday, Aug 30</div>
-                                </div>
-                                <div class="day-card-body">
-                                    <h3 class="day-title">Kruger National Park 
-                                        <span class="badge bg-success ms-2">HIGHLIGHT</span>
-                                    </h3>
-                                    <ul class="day-activities">
-                                        <li>Early morning safari</li>
-                                        <li>Malelane Gate entry</li>
-                                        <li>Full day game viewing</li>
-                                        <li>Big 5 wildlife spotting</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Day 4 -->
-                        <div class="swiper-slide">
-                            <div class="day-card-modern">
-                                <div class="day-card-header" style="background: var(--secondary-gradient);">
-                                    <div class="day-number">04</div>
-                                    <div class="day-date">Sunday, Aug 31</div>
-                                </div>
-                                <div class="day-card-body">
-                                    <h3 class="day-title">Panorama Route
-                                        <span class="badge bg-warning ms-2">SCENIC</span>
-                                    </h3>
-                                    <ul class="day-activities">
-                                        <li>Graskop Gorge Lift Co</li>
-                                        <li>God's Window viewpoint</li>
-                                        <li>Bourke's Luck Potholes</li>
-                                        <li>Three Rondavels</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Day 5 -->
-                        <div class="swiper-slide">
-                            <div class="day-card-modern">
-                                <div class="day-card-header">
-                                    <div class="day-number">05</div>
-                                    <div class="day-date">Monday, Sep 1</div>
-                                </div>
-                                <div class="day-card-body">
-                                    <h3 class="day-title">Lion Park & City</h3>
-                                    <ul class="day-activities">
-                                        <li>Lion & Safari Park</li>
-                                        <li>Physio appointment</li>
-                                        <li>Sandton shopping</li>
-                                        <li>The Grillhouse dinner</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Day 6 -->
-                        <div class="swiper-slide">
-                            <div class="day-card-modern">
-                                <div class="day-card-header">
-                                    <div class="day-number">06</div>
-                                    <div class="day-date">Tuesday, Sep 2</div>
-                                </div>
-                                <div class="day-card-body">
-                                    <h3 class="day-title">Culture & Farewell</h3>
-                                    <ul class="day-activities">
-                                        <li>Constitution Hill tour</li>
-                                        <li>Rosebank Art Market</li>
-                                        <li>Farewell at Marble</li>
-                                        <li>Sunset celebration</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Day 7 -->
-                        <div class="swiper-slide">
-                            <div class="day-card-modern">
-                                <div class="day-card-header">
-                                    <div class="day-number">07</div>
-                                    <div class="day-date">Wednesday, Sep 3</div>
-                                </div>
-                                <div class="day-card-body">
-                                    <h3 class="day-title">Departure Day</h3>
-                                    <ul class="day-activities">
-                                        <li>Final shopping</li>
-                                        <li>Pack and prepare</li>
-                                        <li>Airport transfer</li>
-                                        <li>Safe journey home</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Add Pagination -->
-                    <div class="swiper-pagination"></div>
-                    <!-- Add Navigation -->
-                    <div class="swiper-button-next"></div>
-                    <div class="swiper-button-prev"></div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Timeline Section -->
-        <section class="container my-5">
-            <div class="text-center mb-5">
-                <h2 class="display-4 fw-bold" style="background: var(--primary-gradient); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">
-                    Journey Timeline
-                </h2>
-            </div>
-            <div class="timeline">
-                <div class="timeline-item" data-aos="fade-right">
-                    <div class="timeline-marker"></div>
-                    <div class="timeline-content">
-                        <span class="timeline-day">Day 1-2</span>
-                        <h4 class="text-dark mt-3">Arrival & Journey East</h4>
-                        <p style="color: rgba(51, 51, 51, 0.7);">Start your adventure in Johannesburg, then journey to the beautiful Lowveld region.</p>
-                    </div>
-                </div>
-                <div class="timeline-item" data-aos="fade-left">
-                    <div class="timeline-marker"></div>
-                    <div class="timeline-content">
-                        <span class="timeline-day">Day 3</span>
-                        <h4 class="text-dark mt-3">Kruger Safari</h4>
-                        <p style="color: rgba(51, 51, 51, 0.7);">Experience the thrill of African wildlife in their natural habitat.</p>
-                    </div>
-                </div>
-                <div class="timeline-item" data-aos="fade-right">
-                    <div class="timeline-marker"></div>
-                    <div class="timeline-content">
-                        <span class="timeline-day">Day 4</span>
-                        <h4 class="text-dark mt-3">Panorama Route</h4>
-                        <p style="color: rgba(51, 51, 51, 0.7);">Marvel at some of South Africa's most spectacular scenery.</p>
-                    </div>
-                </div>
-                <div class="timeline-item" data-aos="fade-left">
-                    <div class="timeline-marker"></div>
-                    <div class="timeline-content">
-                        <span class="timeline-day">Day 5-7</span>
-                        <h4 class="text-dark mt-3">City & Culture</h4>
-                        <p style="color: rgba(51, 51, 51, 0.7);">Explore Johannesburg's rich culture, history, and modern attractions.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- CTA Section -->
-        <section class="cta-section">
-            <div class="container">
-                <h2 class="cta-title" data-aos="fade-up">Ready for Your Adventure?</h2>
-                <p class="fs-5 mb-4" style="color: rgba(51, 51, 51, 0.7);" data-aos="fade-up" data-aos-delay="200">
-                    Download your complete itinerary and start planning your dream trip
-                </p>
-                <div class="cta-buttons" data-aos="fade-up" data-aos-delay="400">
-                    <a href="south_africa_itinerary.csv" download class="btn-modern btn-primary-modern">
-                        <i class="fas fa-download me-2"></i> Download Itinerary
                     </a>
-                    <a href="#" class="btn-modern btn-outline-modern">
-                        <i class="fas fa-share-alt me-2"></i> Share Journey
+                </div>
+
+                <!-- Day 2 -->
+                <div class="col-lg-4 col-md-6">
+                    <a href="day2_friday_aug29.html" class="day-card-modern">
+                        <div class="day-card-header">
+                            <div class="day-number">02</div>
+                            <div class="day-date">Friday, Aug 29</div>
+                        </div>
+                        <div class="day-card-body">
+                            <h3 class="day-title">Journey to the Lowveld</h3>
+                            <ul class="day-activities">
+                                <li>Scenic drive to Sabie</li>
+                                <li>Lone Creek waterfalls</li>
+                                <li>Nkomazi Lodge check-in</li>
+                                <li>Lodge dinner & rest</li>
+                            </ul>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Day 3 -->
+                <div class="col-lg-4 col-md-6">
+                    <a href="day3_saturday_aug30.html" class="day-card-modern">
+                        <div class="day-card-header" style="background: linear-gradient(135deg, #13B497 0%, #0F8B71 100%);">
+                            <div class="day-number">03</div>
+                            <div class="day-date">Saturday, Aug 30</div>
+                        </div>
+                        <div class="day-card-body">
+                            <h3 class="day-title">Kruger National Park 
+                                <span class="badge bg-success ms-2">HIGHLIGHT</span>
+                            </h3>
+                            <ul class="day-activities">
+                                <li>Early morning safari</li>
+                                <li>Malelane Gate entry</li>
+                                <li>Full day game viewing</li>
+                                <li>Big 5 wildlife spotting</li>
+                            </ul>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Day 4 -->
+                <div class="col-lg-4 col-md-6">
+                    <a href="day4_sunday_aug31.html" class="day-card-modern">
+                        <div class="day-card-header" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                            <div class="day-number">04</div>
+                            <div class="day-date">Sunday, Aug 31</div>
+                        </div>
+                        <div class="day-card-body">
+                            <h3 class="day-title">Panorama Route
+                                <span class="badge bg-warning ms-2">SCENIC</span>
+                            </h3>
+                            <ul class="day-activities">
+                                <li>Graskop Gorge Lift Co</li>
+                                <li>God's Window viewpoint</li>
+                                <li>Bourke's Luck Potholes</li>
+                                <li>Three Rondavels</li>
+                            </ul>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Day 5 -->
+                <div class="col-lg-4 col-md-6">
+                    <a href="day5_monday_sep01.html" class="day-card-modern">
+                        <div class="day-card-header">
+                            <div class="day-number">05</div>
+                            <div class="day-date">Monday, Sep 1</div>
+                        </div>
+                        <div class="day-card-body">
+                            <h3 class="day-title">Lion Park & City</h3>
+                            <ul class="day-activities">
+                                <li>Lion & Safari Park</li>
+                                <li>Physio appointment</li>
+                                <li>Sandton shopping</li>
+                                <li>The Grillhouse dinner</li>
+                            </ul>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Day 6 -->
+                <div class="col-lg-4 col-md-6">
+                    <a href="day6_tuesday_sep02.html" class="day-card-modern">
+                        <div class="day-card-header">
+                            <div class="day-number">06</div>
+                            <div class="day-date">Tuesday, Sep 2</div>
+                        </div>
+                        <div class="day-card-body">
+                            <h3 class="day-title">Culture & Farewell</h3>
+                            <ul class="day-activities">
+                                <li>Constitution Hill tour</li>
+                                <li>Rosebank Art Market</li>
+                                <li>Farewell at Marble</li>
+                                <li>Sunset celebration</li>
+                            </ul>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Day 7 -->
+                <div class="col-lg-4 col-md-6">
+                    <a href="day7_wednesday_sep03.html" class="day-card-modern">
+                        <div class="day-card-header">
+                            <div class="day-number">07</div>
+                            <div class="day-date">Wednesday, Sep 3</div>
+                        </div>
+                        <div class="day-card-body">
+                            <h3 class="day-title">Departure Day</h3>
+                            <ul class="day-activities">
+                                <li>Final shopping</li>
+                                <li>Pack and prepare</li>
+                                <li>Airport transfer</li>
+                                <li>Safe journey home</li>
+                            </ul>
+                        </div>
                     </a>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Footer -->
-        <footer class="footer-modern">
-            <div class="container">
-                <p class="mb-2" style="color: #333333;">Have an amazing trip to South Africa! 🌍</p>
-                <p style="color: rgba(51, 51, 51, 0.6);">Remember to check weather forecasts and confirm all bookings</p>
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2 class="display-4 fw-bold mb-4" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">
+                Ready for Your Adventure?
+            </h2>
+            <p class="text-muted fs-5 mb-4">
+                Download your complete itinerary and start planning your dream trip
+            </p>
+            <div>
+                <a href="south_africa_itinerary.csv" download class="btn btn-lg me-3" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 50px; padding: 1rem 2rem;">
+                    <i class="fas fa-download me-2"></i> Download Itinerary
+                </a>
             </div>
-        </footer>
-    </div>
+        </div>
+    </section>
 
-    <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://unpkg.com/aos@3.0.0-beta.6/dist/aos.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.16"></script>
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/ScrollTrigger.min.js"></script>
+    <!-- Footer -->
+    <footer class="footer-modern">
+        <div class="container">
+            <p class="mb-2">Have an amazing trip to South Africa! 🌍</p>
+            <p class="text-muted">Remember to check weather forecasts and confirm all bookings</p>
+        </div>
+    </footer>
 
     <script>
-        // Initialize AOS with error handling
-        if (typeof AOS !== 'undefined') {
-            AOS.init({
-                duration: 1000,
-                once: false,
-                mirror: true
-            });
-        }
-
-        // Initialize Particles with error handling
-        if (typeof particlesJS !== 'undefined') {
-            particlesJS('particles-js', {
-            particles: {
-                number: {
-                    value: 80,
-                    density: {
-                        enable: true,
-                        value_area: 800
-                    }
-                },
-                color: {
-                    value: '#c5d3f7'
-                },
-                shape: {
-                    type: 'circle'
-                },
-                opacity: {
-                    value: 0.3,
-                    random: true,
-                    anim: {
-                        enable: true,
-                        speed: 1,
-                        opacity_min: 0.05,
-                        sync: false
-                    }
-                },
-                size: {
-                    value: 3,
-                    random: true
-                },
-                line_linked: {
-                    enable: true,
-                    distance: 150,
-                    color: '#c5d3f7',
-                    opacity: 0.2,
-                    width: 1
-                },
-                move: {
-                    enable: true,
-                    speed: 2,
-                    direction: 'none',
-                    random: false,
-                    straight: false,
-                    out_mode: 'out',
-                    bounce: false
-                }
-            },
-            interactivity: {
-                detect_on: 'canvas',
-                events: {
-                    onhover: {
-                        enable: true,
-                        mode: 'repulse'
-                    },
-                    onclick: {
-                        enable: true,
-                        mode: 'push'
-                    },
-                    resize: true
-                },
-                modes: {
-                    repulse: {
-                        distance: 100,
-                        duration: 0.4
-                    },
-                    push: {
-                        particles_nb: 4
-                    }
-                }
-            },
-            retina_detect: true
-            });
-        } else {
-            console.warn('Particles.js not loaded');
-        }
-
-        // Initialize Typed.js
-        new Typed('#typed-text', {
-            strings: ['South Africa Adventure', 'Your Dream Journey', 'Unforgettable Memories'],
-            typeSpeed: 50,
-            backSpeed: 30,
-            loop: true,
-            backDelay: 2000
-        });
-
-        // Initialize Swiper
-        const swiper = new Swiper('.daySwiper', {
-            slidesPerView: 1,
-            spaceBetween: 30,
-            loop: true,
-            autoplay: {
-                delay: 3000,
-                disableOnInteraction: false,
-            },
-            pagination: {
-                el: '.swiper-pagination',
-                clickable: true,
-            },
-            navigation: {
-                nextEl: '.swiper-button-next',
-                prevEl: '.swiper-button-prev',
-            },
-            breakpoints: {
-                640: {
-                    slidesPerView: 2,
-                },
-                1024: {
-                    slidesPerView: 3,
-                },
-                1400: {
-                    slidesPerView: 4,
-                }
-            }
-        });
-
-        // Counter Animation
-        const counters = document.querySelectorAll('[data-counter]');
-        const observerOptions = {
-            threshold: 0.5
-        };
-
-        const counterObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const counter = entry.target;
-                    const target = parseInt(counter.getAttribute('data-counter'));
-                    let count = 0;
-                    const increment = target / 100;
-                    
-                    const updateCounter = () => {
-                        if (count < target) {
-                            count += increment;
-                            counter.textContent = Math.ceil(count);
-                            setTimeout(updateCounter, 20);
-                        } else {
-                            counter.textContent = target;
-                        }
-                    };
-                    
-                    updateCounter();
-                    counterObserver.unobserve(counter);
+        // Simple smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
                 }
             });
-        }, observerOptions);
-
-        counters.forEach(counter => {
-            counterObserver.observe(counter);
         });
-
-        // Initialize Map
-        document.addEventListener('DOMContentLoaded', function() {
-            const map = L.map('modern-map').setView([-25.5, 29.5], 7);
-            
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap contributors'
-            }).addTo(map);
-
-            // Custom icon
-            const customIcon = L.divIcon({
-                className: 'custom-marker',
-                html: '<div style="background: linear-gradient(135deg, #667eea, #764ba2); width: 30px; height: 30px; border-radius: 50%; border: 3px solid white; box-shadow: 0 3px 10px rgba(0,0,0,0.3);"></div>',
-                iconSize: [30, 30],
-                iconAnchor: [15, 15]
-            });
-
-            // Key locations
-            const locations = [
-                {name: "Johannesburg", lat: -26.0927, lng: 28.0568},
-                {name: "Kruger National Park", lat: -25.4608, lng: 31.5450},
-                {name: "Panorama Route", lat: -24.9333, lng: 30.8417},
-                {name: "Three Rondavels", lat: -24.5486, lng: 30.8147}
-            ];
-
-            locations.forEach(loc => {
-                L.marker([loc.lat, loc.lng], {icon: customIcon})
-                    .addTo(map)
-                    .bindPopup(`<strong>${loc.name}</strong>`);
-            });
-
-            // Route polyline
-            const routeCoords = locations.map(loc => [loc.lat, loc.lng]);
-            L.polyline(routeCoords, {
-                color: '#667eea',
-                weight: 3,
-                opacity: 0.7
-            }).addTo(map);
-        });
-
-        // GSAP Animations with error handling
-        if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
-            gsap.registerPlugin(ScrollTrigger);
-
-        // Navbar scroll effect
-        window.addEventListener('scroll', () => {
-            const navbar = document.querySelector('.navbar-modern');
-            if (window.scrollY > 100) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
-        });
-
-        // Hide loader with fallback
-        function hideLoader() {
-            const loader = document.getElementById('loader');
-            if (loader) {
-                loader.classList.add('hidden');
-            }
-        }
-        
-        // Hide loader when page loads
-        window.addEventListener('load', () => {
-            setTimeout(hideLoader, 1500);
-        });
-        
-        // Fallback: Hide loader after 3 seconds regardless
-        setTimeout(hideLoader, 3000);
-        
-        // Also hide on DOM ready as backup
-        document.addEventListener('DOMContentLoaded', () => {
-            setTimeout(hideLoader, 2000);
-        });
-
-            // GSAP Timeline animations
-            gsap.timeline()
-            .from('.hero-title', {
-                y: 50,
-                opacity: 0,
-                duration: 1,
-                delay: 0.5
-            })
-            .from('.hero-subtitle', {
-                y: 30,
-                opacity: 0,
-                duration: 0.8
-            }, '-=0.5')
-            .from('.hero-date', {
-                scale: 0,
-                opacity: 0,
-                duration: 0.6
-            }, '-=0.3')
-            .from('.hero-cta', {
-                y: 20,
-                opacity: 0,
-                duration: 0.6
-            }, '-=0.2');
-
-            // Parallax effect
-            gsap.to('#particles-js', {
-            scrollTrigger: {
-                trigger: 'body',
-                start: 'top top',
-                end: 'bottom bottom',
-                scrub: true
-            },
-                y: -200,
-                ease: 'none'
-            });
-        }
     </script>
 </body>
 </html>
